@@ -14,6 +14,10 @@
 		8F0D599824369DFC004D4438 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F0D599724369DFC004D4438 /* Assets.xcassets */; };
 		8F0D599B24369DFC004D4438 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F0D599924369DFC004D4438 /* LaunchScreen.storyboard */; };
 		8F0D59A624369DFC004D4438 /* MetaeoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D59A524369DFC004D4438 /* MetaeoTests.swift */; };
+		8F0D59B1243D66C0004D4438 /* Notes in Resources */ = {isa = PBXBuildFile; fileRef = 8F0D59B0243D66C0004D4438 /* Notes */; };
+		8F0D59B5243E91FD004D4438 /* Utilitaires.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D59B4243E91FD004D4438 /* Utilitaires.swift */; };
+		8F0D59C22440C49F004D4438 /* Prevision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D59C12440C49F004D4438 /* Prevision.swift */; };
+		8F0D59C4244936AF004D4438 /* To-do list in Resources */ = {isa = PBXBuildFile; fileRef = 8F0D59C3244936AF004D4438 /* To-do list */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +42,10 @@
 		8F0D59A124369DFC004D4438 /* MetaeoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MetaeoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F0D59A524369DFC004D4438 /* MetaeoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaeoTests.swift; sourceTree = "<group>"; };
 		8F0D59A724369DFC004D4438 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8F0D59B0243D66C0004D4438 /* Notes */ = {isa = PBXFileReference; lastKnownFileType = text; path = Notes; sourceTree = "<group>"; };
+		8F0D59B4243E91FD004D4438 /* Utilitaires.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilitaires.swift; sourceTree = "<group>"; };
+		8F0D59C12440C49F004D4438 /* Prevision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prevision.swift; sourceTree = "<group>"; };
+		8F0D59C3244936AF004D4438 /* To-do list */ = {isa = PBXFileReference; lastKnownFileType = text; path = "To-do list"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +69,8 @@
 		8F0D598224369DFA004D4438 = {
 			isa = PBXGroup;
 			children = (
+				8F0D59B0243D66C0004D4438 /* Notes */,
+				8F0D59C3244936AF004D4438 /* To-do list */,
 				8F0D598D24369DFA004D4438 /* Metaeo */,
 				8F0D59A424369DFC004D4438 /* MetaeoTests */,
 				8F0D598C24369DFA004D4438 /* Products */,
@@ -82,6 +92,8 @@
 				8F0D598E24369DFA004D4438 /* AppDelegate.swift */,
 				8F0D599024369DFA004D4438 /* FirstViewController.swift */,
 				8F0D599224369DFA004D4438 /* SecondViewController.swift */,
+				8F0D59B8243F6D14004D4438 /* Modèles */,
+				8F0D59B4243E91FD004D4438 /* Utilitaires.swift */,
 				8F0D599424369DFA004D4438 /* Main.storyboard */,
 				8F0D599724369DFC004D4438 /* Assets.xcassets */,
 				8F0D599924369DFC004D4438 /* LaunchScreen.storyboard */,
@@ -97,6 +109,15 @@
 				8F0D59A724369DFC004D4438 /* Info.plist */,
 			);
 			path = MetaeoTests;
+			sourceTree = "<group>";
+		};
+		8F0D59B8243F6D14004D4438 /* Modèles */ = {
+			isa = PBXGroup;
+			children = (
+				8F0D59C12440C49F004D4438 /* Prevision.swift */,
+			);
+			name = "Modèles";
+			path = "Modèle";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -182,6 +203,8 @@
 			files = (
 				8F0D599B24369DFC004D4438 /* LaunchScreen.storyboard in Resources */,
 				8F0D599824369DFC004D4438 /* Assets.xcassets in Resources */,
+				8F0D59B1243D66C0004D4438 /* Notes in Resources */,
+				8F0D59C4244936AF004D4438 /* To-do list in Resources */,
 				8F0D599624369DFA004D4438 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -201,7 +224,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F0D599324369DFA004D4438 /* SecondViewController.swift in Sources */,
+				8F0D59B5243E91FD004D4438 /* Utilitaires.swift in Sources */,
 				8F0D598F24369DFA004D4438 /* AppDelegate.swift in Sources */,
+				8F0D59C22440C49F004D4438 /* Prevision.swift in Sources */,
 				8F0D599124369DFA004D4438 /* FirstViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

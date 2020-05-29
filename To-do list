@@ -1,0 +1,19 @@
+IMPORTATION DES DONNÉES
+
+[x] Trouver comment accéder aux données d'EC
+[x] Créer des Prévisions à partir des données d'EC
+[ ] Créer des Prévisions à partir du XML de yr.no
+[ ] Explorer d'autres sources de données :
+  [ ] Météomédia
+  [ ] NOAA
+
+AFFICHAGE DES DONNÉES
+
+[ ] Placer les différentes données d'une Prévision dans une CustomView pour mettre dans le TableView
+[ ] Créer le TableView en suivant le modèle de l'app MealTracker
+[ ] Créer une CustomView pour les données des observations actuelles
+
+GÉOGRAPHIE
+
+[ ] Permettre de choisir un lieu
+[ ] Faire un mapping entre les lieux choisis par l'utilisateurs et les lieux disponibles selon les sources
