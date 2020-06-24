@@ -1,5 +1,5 @@
 //
-//  FirstViewController.swift
+//  ParametresViewController.swift
 //  Metaeo
 //
 //  Created by Étienne Fortier-Dubois on 20-04-02.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FirstViewController: UIViewController {
+class ParametresViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()

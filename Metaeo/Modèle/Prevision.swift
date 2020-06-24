@@ -13,8 +13,9 @@ struct Prevision: CustomDebugStringConvertible {
   //MARK: Propriétés
   
   var lieu: String! // ex : Montréal
-  var heureDebut: Date!
-  var heureFin: Date!
+  var heureDebut: Date?
+  var heureFin: Date?
+  var periode: String? // ex : Vendredi
   
   var condition: Condition? // ex : nuageux, ensoleillé, pluie
   var detailsCondition: String? // texte pour donner plus de détails
@@ -43,6 +44,9 @@ struct Prevision: CustomDebugStringConvertible {
   var visibilite: Double?
   var indiceUV: Int?
   
+  var humidex: Int?
+  var refroidissementEolien: Int?
+  
   var source: String! // ex : yr.no, Environnement Canada
   var heureEmission: Date? // moment où la prévision a été émise par la source
   var certitude: Int?
@@ -63,6 +67,17 @@ struct Prevision: CustomDebugStringConvertible {
     
   }
   
+  //MARK: Utilitaires
+  
+  // À faire : considérer les fahrenheit
+  func donneTemperature() -> Double {
+    return self.temperature ?? self.temperatureMax ?? self.temperatureMin ?? 99.9
+  }
+  func chaineTemperature() -> String {
+    return "\(self.donneTemperature()) °C"
+  }
+  
+  //MARK: Description
 
   var debugDescription: String {
     return "Prévision pour \(lieu ?? "[erreur lieu]") à \(heureDebut ?? Date()) : \(temperature ?? temperatureMax ?? temperatureMin ?? -999) °C. "
