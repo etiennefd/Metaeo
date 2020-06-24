@@ -16,11 +16,6 @@ class ImportateurPrevisions {
   var previsionsParPeriode = [SourcePrevision : [String : Prevision]]()// changer String pour Date?
   var previsionsParHeure = [SourcePrevision : [String : Prevision]]() // changer String pour Date?
   
-//  init() {
-//    self.previsionsParPeriode = [SourcePrevision : [String : Prevision]]()
-//    self.previsionsParHeure = [SourcePrevision : [String : Prevision]]()
-//  }
-  
   func importePrevisions() {
     // 1. appeler une fonction pour déterminer la localisation (ou alors mettre ça en paramètre?)
     let localisation = "Montreal"

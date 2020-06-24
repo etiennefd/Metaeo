@@ -9,11 +9,11 @@
 import Foundation
 
 enum SourcePrevision: String {
-  case EnvironnementCanada, YrNo, Meteomedia
+  case environnementCanada, yrNo, meteomedia
 }
 
 enum Condition: String {
-  case Clear, PartlyCloudy, Sunny
+  case clear, partlyCloudy, sunny
 }
 
 enum PointCardinal: String {
