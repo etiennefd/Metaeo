@@ -8,9 +8,14 @@
 
 import Foundation
 
+enum SourcePrevision: String {
+  case EnvironnementCanada, YrNo, Meteomedia
+}
+
 enum Condition: String {
   case Clear, PartlyCloudy, Sunny
 }
+
 enum PointCardinal: String {
   case N, NNE, NE, ENE, E, ESE, SE, SSE, S, SSW, SW, WSW, W, WNW, NW, NNW
 }
