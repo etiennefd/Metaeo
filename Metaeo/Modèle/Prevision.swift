@@ -73,8 +73,11 @@ struct Prevision: CustomDebugStringConvertible {
   func donneTemperature() -> Double {
     return self.temperature ?? self.temperatureMax ?? self.temperatureMin ?? 99.9
   }
+  func donneTemperatureArrondie() -> Int {
+    return Int(self.donneTemperature().rounded())
+  }
   func chaineTemperature() -> String {
-    return "\(self.donneTemperature()) °C"
+    return "\(self.donneTemperatureArrondie()) °C"
   }
   
   //MARK: Description

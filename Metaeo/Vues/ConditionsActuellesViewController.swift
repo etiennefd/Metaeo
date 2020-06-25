@@ -36,9 +36,7 @@ class ConditionsActuellesViewController: UIViewController {
   
   func rechargeDonnees() {
     if let conditionsActuelles = ImportateurPrevisions.global.conditionsActuelles {
-      if let temperature = conditionsActuelles.temperature {
-        self.etiquetteTemperature.text = "\(temperature) °C"
-      }
+      self.etiquetteTemperature.text = "\(conditionsActuelles.donneTemperatureArrondie()) °C"
       if let condition = conditionsActuelles.condition {
         self.etiquetteTemperature.text = "\(condition)"
       }
@@ -60,7 +58,10 @@ class ConditionsActuellesViewController: UIViewController {
         self.etiquettePointDeRosee.text = "\(pointDeRosee) °C"
       }
       if let indiceUV = conditionsActuelles.indiceUV {
+        self.etiquetteIndiceUV.isHidden = false
         self.etiquetteIndiceUV.text = "\(indiceUV) (???)"
+      } else {
+        self.etiquetteIndiceUV.isHidden = true
       }
       if let visibilite = conditionsActuelles.visibilite {
         self.etiquetteVisibilite.text = "\(visibilite) km"
