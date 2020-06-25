@@ -14,7 +14,7 @@
 		8F0D599824369DFC004D4438 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F0D599724369DFC004D4438 /* Assets.xcassets */; };
 		8F0D599B24369DFC004D4438 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F0D599924369DFC004D4438 /* LaunchScreen.storyboard */; };
 		8F0D59A624369DFC004D4438 /* MetaeoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D59A524369DFC004D4438 /* MetaeoTests.swift */; };
-		8F0D59B1243D66C0004D4438 /* Notes in Resources */ = {isa = PBXBuildFile; fileRef = 8F0D59B0243D66C0004D4438 /* Notes */; };
+		8F0D59B1243D66C0004D4438 /* Notes générales in Resources */ = {isa = PBXBuildFile; fileRef = 8F0D59B0243D66C0004D4438 /* Notes générales */; };
 		8F0D59B5243E91FD004D4438 /* Utilitaires.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D59B4243E91FD004D4438 /* Utilitaires.swift */; };
 		8F0D59C22440C49F004D4438 /* Prevision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D59C12440C49F004D4438 /* Prevision.swift */; };
 		8F0D59C4244936AF004D4438 /* To-do list in Resources */ = {isa = PBXBuildFile; fileRef = 8F0D59C3244936AF004D4438 /* To-do list */; };
@@ -22,6 +22,8 @@
 		8F0D59C8248B3233004D4438 /* PrevisionSourceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D59C7248B3233004D4438 /* PrevisionSourceTableViewCell.swift */; };
 		8F0D59CA249E654F004D4438 /* DelegueParseurXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D59C9249E654F004D4438 /* DelegueParseurXML.swift */; };
 		8F0D59CC24A2A4A8004D4438 /* ImportateurPrevisions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D59CB24A2A4A8004D4438 /* ImportateurPrevisions.swift */; };
+		8F0D59D024A3CEDF004D4438 /* PrevisionPeriodeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D59CF24A3CEDF004D4438 /* PrevisionPeriodeCollectionViewCell.swift */; };
+		8F0D59D224A3E6BB004D4438 /* Achievements in Resources */ = {isa = PBXBuildFile; fileRef = 8F0D59D124A3E6BB004D4438 /* Achievements */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +48,7 @@
 		8F0D59A124369DFC004D4438 /* MetaeoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MetaeoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F0D59A524369DFC004D4438 /* MetaeoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaeoTests.swift; sourceTree = "<group>"; };
 		8F0D59A724369DFC004D4438 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8F0D59B0243D66C0004D4438 /* Notes */ = {isa = PBXFileReference; lastKnownFileType = text; path = Notes; sourceTree = "<group>"; };
+		8F0D59B0243D66C0004D4438 /* Notes générales */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Notes générales"; sourceTree = "<group>"; };
 		8F0D59B4243E91FD004D4438 /* Utilitaires.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilitaires.swift; sourceTree = "<group>"; };
 		8F0D59C12440C49F004D4438 /* Prevision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prevision.swift; sourceTree = "<group>"; };
 		8F0D59C3244936AF004D4438 /* To-do list */ = {isa = PBXFileReference; lastKnownFileType = text; path = "To-do list"; sourceTree = "<group>"; };
@@ -54,6 +56,8 @@
 		8F0D59C7248B3233004D4438 /* PrevisionSourceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrevisionSourceTableViewCell.swift; sourceTree = "<group>"; };
 		8F0D59C9249E654F004D4438 /* DelegueParseurXML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelegueParseurXML.swift; sourceTree = "<group>"; };
 		8F0D59CB24A2A4A8004D4438 /* ImportateurPrevisions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportateurPrevisions.swift; sourceTree = "<group>"; };
+		8F0D59CF24A3CEDF004D4438 /* PrevisionPeriodeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrevisionPeriodeCollectionViewCell.swift; sourceTree = "<group>"; };
+		8F0D59D124A3E6BB004D4438 /* Achievements */ = {isa = PBXFileReference; lastKnownFileType = text; path = Achievements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,8 +81,9 @@
 		8F0D598224369DFA004D4438 = {
 			isa = PBXGroup;
 			children = (
-				8F0D59B0243D66C0004D4438 /* Notes */,
 				8F0D59C3244936AF004D4438 /* To-do list */,
+				8F0D59B0243D66C0004D4438 /* Notes générales */,
+				8F0D59D124A3E6BB004D4438 /* Achievements */,
 				8F0D598D24369DFA004D4438 /* Metaeo */,
 				8F0D59A424369DFC004D4438 /* MetaeoTests */,
 				8F0D598C24369DFA004D4438 /* Products */,
@@ -134,6 +139,7 @@
 				8F0D599224369DFA004D4438 /* ConditionsActuellesViewController.swift */,
 				8F0D599024369DFA004D4438 /* ListePrevisionsViewController.swift */,
 				8F0D59C7248B3233004D4438 /* PrevisionSourceTableViewCell.swift */,
+				8F0D59CF24A3CEDF004D4438 /* PrevisionPeriodeCollectionViewCell.swift */,
 				8F0D59C524832179004D4438 /* ParametresViewController.swift */,
 			);
 			path = Vues;
@@ -229,9 +235,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F0D59D224A3E6BB004D4438 /* Achievements in Resources */,
 				8F0D599B24369DFC004D4438 /* LaunchScreen.storyboard in Resources */,
 				8F0D599824369DFC004D4438 /* Assets.xcassets in Resources */,
-				8F0D59B1243D66C0004D4438 /* Notes in Resources */,
+				8F0D59B1243D66C0004D4438 /* Notes générales in Resources */,
 				8F0D59C4244936AF004D4438 /* To-do list in Resources */,
 				8F0D599624369DFA004D4438 /* Main.storyboard in Resources */,
 			);
@@ -260,6 +267,7 @@
 				8F0D599124369DFA004D4438 /* ListePrevisionsViewController.swift in Sources */,
 				8F0D59CC24A2A4A8004D4438 /* ImportateurPrevisions.swift in Sources */,
 				8F0D59C8248B3233004D4438 /* PrevisionSourceTableViewCell.swift in Sources */,
+				8F0D59D024A3CEDF004D4438 /* PrevisionPeriodeCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
