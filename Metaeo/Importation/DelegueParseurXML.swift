@@ -19,7 +19,7 @@ class DelegueParseurXML: NSObject, XMLParserDelegate {
   //Pour le parsage XML :
   var elementXMLEnEdition: ElementXML? // pour savoir ce qu'on est en train d'éditer
   var conditionsActuelles: Prevision!
-  var previsionsParPeriode: [String : Prevision]! // changer String pour Date?
+  var previsionsParJour: [String : Prevision]! // changer String pour Date?
   var previsionsParHeure: [String : Prevision]! // changer String pour Date?
   var previsionEnEdition: Prevision!
   
@@ -40,7 +40,7 @@ class DelegueParseurXML: NSObject, XMLParserDelegate {
     // créer les objets si l'on est au début d'une nouvelle prévision dans le XML
     switch elementName {
     case "forecastGroup":
-      previsionsParPeriode = [String : Prevision]()
+      previsionsParJour = [String : Prevision]()
     case "hourlyForecastGroup":
       previsionsParHeure = [String : Prevision]()
     case "currentConditions", "forecast", "hourlyForecast":
@@ -90,27 +90,25 @@ class DelegueParseurXML: NSObject, XMLParserDelegate {
   }
   
   func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-    if let parent = self.elementXMLEnEdition?.parent {
-      self.elementXMLEnEdition = parent
-    }
     if self.previsionEnEdition != nil {
-      self.previsionEnEdition.source = "Environnement Canada" // à déplacer et ajuster à la source
+      self.previsionEnEdition.source = "Environnement Canada" // à déplacer et ajuster selon la source
     }
     switch elementName {
     case "currentConditions":
       self.conditionsActuelles = self.previsionEnEdition
     case "forecast":
-      if let periode = self.previsionEnEdition.periode {
-        self.previsionsParPeriode![periode] = self.previsionEnEdition
+      if let jour = self.previsionEnEdition.periode {
+        self.previsionsParJour![jour] = self.previsionEnEdition
       }
-      // self.previsions.append(self.previsionEnEdition)
     case "hourlyForecast":
       if let heure = self.elementXMLEnEdition?.attributs["dateTimeUTC"] {
         self.previsionEnEdition.periode = heure
         self.previsionsParHeure![heure] = self.previsionEnEdition
       }
-      //self.previsionsParHeure.append(self.previsionEnEdition)
     default: break
+    }
+    if let parent = self.elementXMLEnEdition?.parent {
+      self.elementXMLEnEdition = parent
     }
   }
 }

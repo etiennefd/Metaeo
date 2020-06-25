@@ -13,17 +13,17 @@ class ImportateurPrevisions {
   
   // Données importées qui peuvent être utilisées partout dans l'app
   var conditionsActuelles: Prevision!
-  var previsionsParPeriode = [SourcePrevision : [String : Prevision]]()// changer String pour Date?
+  var previsionsParJour = [SourcePrevision : [String : Prevision]]()// changer String pour Date?
   var previsionsParHeure = [SourcePrevision : [String : Prevision]]() // changer String pour Date?
   
   func importePrevisions() {
-    // 1. appeler une fonction pour déterminer la localisation (ou alors mettre ça en paramètre?)
+    // 1. appeler une fonction pour déterminer la localisation (ou alors mettre ça en paramètre de importePrevisions()?)
     let localisation = "Montreal"
     
     // 2. obtenir les services météo pertinents pour cette localisation
     let sources = sourcesPourLocalisation(localisation)
     
-    // 3. boucle pour importer les données pour chaque
+    // 3. boucle pour importer les données de chaque source
     for source in sources {
       guard let url = urlPourSource(source, localisation: localisation) else {
         continue
@@ -45,7 +45,7 @@ class ImportateurPrevisions {
         let parser = XMLParser(data: data)
         parser.delegate = delegueParseurXML
         if parser.parse() {
-          print(delegueParseurXML.previsionsParPeriode ?? "No results")
+          //print(delegueParseurXML.previsionsParPeriode ?? "No results")
         }
         
         // Mettre à jour l'affichage
@@ -53,13 +53,13 @@ class ImportateurPrevisions {
           if let conditionsActuelles = delegueParseurXML.conditionsActuelles {
             self.conditionsActuelles = conditionsActuelles
           }
-          if let previsionsParPeriode = delegueParseurXML.previsionsParPeriode {
-            self.previsionsParPeriode[source] = previsionsParPeriode
+          if let previsionsParJour = delegueParseurXML.previsionsParJour {
+            self.previsionsParJour[source] = previsionsParJour
           }
           if let previsionsParHeure = delegueParseurXML.previsionsParHeure {
             self.previsionsParHeure[source] = previsionsParHeure
           }
-          self.previsionsParPeriode[source] = delegueParseurXML.previsionsParPeriode
+          self.previsionsParJour[source] = delegueParseurXML.previsionsParJour
           self.previsionsParHeure[source] = delegueParseurXML.previsionsParHeure
         }
       }
@@ -70,7 +70,7 @@ class ImportateurPrevisions {
   // Donne les services météo qui s'appliquent à une localisation donnée
   private func sourcesPourLocalisation(_ localisation: String) -> [SourcePrevision] {
     if localisation == "Montreal" {
-      return [.EnvironnementCanada, .YrNo]
+      return [.environnementCanada, .yrNo]
     }
     return []
   }
@@ -79,9 +79,9 @@ class ImportateurPrevisions {
   // À mettre à jour avec divers services, la localisation, etc.
   private func urlPourSource(_ source: SourcePrevision, localisation: String?) -> URL? {
     switch source {
-    case .EnvironnementCanada:
+    case .environnementCanada:
       return URL(string: "https://dd.meteo.gc.ca/citypage_weather/xml/QC/s0000635_e.xml")!
-    case .YrNo:
+    case .yrNo:
       return URL(string: "https://www.yr.no/place/Canada/Quebec/Montreal/forecast.xml")!
     default:
       return nil
