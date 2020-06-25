@@ -13,8 +13,8 @@ class ImportateurPrevisions {
   
   // Données importées qui peuvent être utilisées partout dans l'app
   var conditionsActuelles: Prevision!
-  var previsionsParJour = [SourcePrevision : [String : Prevision]]()// changer String pour Date?
-  var previsionsParHeure = [SourcePrevision : [String : Prevision]]() // changer String pour Date?
+  var previsionsParJour = [SourcePrevision : [Date : Prevision]]()
+  var previsionsParHeure = [SourcePrevision : [Date : Prevision]]()
   
   func importePrevisions() {
     // 1. appeler une fonction pour déterminer la localisation (ou alors mettre ça en paramètre de importePrevisions()?)

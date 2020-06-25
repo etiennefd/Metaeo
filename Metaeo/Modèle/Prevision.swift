@@ -13,9 +13,9 @@ struct Prevision: CustomDebugStringConvertible {
   //MARK: Propriétés
   
   var lieu: String! // ex : Montréal
-  var heureDebut: Date?
-  var heureFin: Date?
-  var periode: String? // ex : Vendredi
+  var heureDebut: Date! // doit toujours être utilisé
+  var heureFin: Date? // pas utilisé pour l'instant
+  var chainePeriode: String? // ex : Vendredi
   
   var condition: Condition? // ex : nuageux, ensoleillé, pluie
   var detailsCondition: String? // texte pour donner plus de détails
@@ -78,6 +78,10 @@ struct Prevision: CustomDebugStringConvertible {
   }
   func chaineTemperature() -> String {
     return "\(self.donneTemperatureArrondie()) °C"
+  }
+  
+  func donneHeure() -> Date {
+    return self.heureDebut
   }
   
   //MARK: Description

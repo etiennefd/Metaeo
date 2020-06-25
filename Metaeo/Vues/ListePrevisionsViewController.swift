@@ -12,7 +12,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
 
   //MARK: Properties
   var montrerPrevisionsParHeure = false
-  var periodeEnSelection: String! // plus tard : Date?
+  var periodeEnSelection: Date!
   var sourceEnSelection: SourcePrevision!
   var previsionsParSourceAffichees = [Prevision]() // dans la table view
   var previsionsParPeriodeAffichees = [Prevision]() // dans la collection view
@@ -26,6 +26,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     rechargeDonnees()
   }
   
+  // à séparer pour pouvoir recharger indépendamment le table view et le collection view
   func rechargeDonnees() {
     previsionsParSourceAffichees.removeAll()
     previsionsParPeriodeAffichees.removeAll()
@@ -35,7 +36,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
       ImportateurPrevisions.global.previsionsParJour
     
     // temporaire (à remplacer par une sélection de l'utilisateur, et décider quoi utiliser par défaut) :
-    self.periodeEnSelection = previsions.values.first?.first?.value.periode
+    self.periodeEnSelection = previsions.values.first?.first?.value.donneHeure()
     self.sourceEnSelection = previsions.keys.first
     
     // remplir le tableau des prévisions à afficher
@@ -51,6 +52,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
         }
       }
     }
+    previsionsParPeriodeAffichees.sort(by: { $0.heureDebut.compare($1.heureDebut) == .orderedAscending })
     
     // recharger les données
     self.listePrevisionsTableView.reloadData()
@@ -97,7 +99,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     
     let prevision = previsionsParPeriodeAffichees[indexPath.row]
     
-    cellule.etiquettePeriode.text = prevision.periode
+    cellule.etiquettePeriode.text = prevision.chainePeriode // à faire : localize
     cellule.etiquetteTemperature.text = prevision.chaineTemperature()
     //cellule.vueIconeMeteo.image = ?
     //cellule.backgroundColor = .black
@@ -111,9 +113,9 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     montrerPrevisionsParHeure = !montrerPrevisionsParHeure
     let bouton = sender as? UIButton
     if montrerPrevisionsParHeure {
-      bouton?.setTitle("Par heure", for: .normal)
-    } else {
       bouton?.setTitle("Par jour", for: .normal)
+    } else {
+      bouton?.setTitle("Par heure", for: .normal)
     }
     self.rechargeDonnees()
   }
