@@ -27,6 +27,9 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
   }
   
   func rechargeDonnees() {
+    previsionsParSourceAffichees.removeAll()
+    previsionsParPeriodeAffichees.removeAll()
+    
     let previsions = montrerPrevisionsParHeure ?
       ImportateurPrevisions.global.previsionsParHeure :
       ImportateurPrevisions.global.previsionsParJour
