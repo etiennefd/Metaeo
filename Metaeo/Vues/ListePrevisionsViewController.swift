@@ -11,9 +11,14 @@ import UIKit
 class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
 
   //MARK: Properties
-  var montrerPrevisionsParHeure = false
+  var montrerPrevisionsParHeure = false // pour alterner entre prévisions par jour et prévisions horaires
   var periodeEnSelection: Date!
   var sourceEnSelection: SourcePrevision!
+  var previsionsStockees: [SourcePrevision : [Date : Prevision]] {
+    return montrerPrevisionsParHeure ?
+      ImportateurPrevisions.global.previsionsParHeure :
+      ImportateurPrevisions.global.previsionsParJour
+  }
   var previsionsParSourceAffichees = [Prevision]() // dans la table view
   var previsionsParPeriodeAffichees = [Prevision]() // dans la collection view
   @IBOutlet weak var listePrevisionsTableView: UITableView!
@@ -23,28 +28,42 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
-    rechargeDonnees()
+    
+    // choisir la 1re cellule dans chaque vue
+    self.periodeEnSelection = self.previsionsStockees.values.first?.first?.value.donneHeure()
+    self.sourceEnSelection = self.previsionsStockees.keys.first
+    
+    self.rechargeDonnees()
+    self.periodesCollectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .left)
   }
   
-  // à séparer pour pouvoir recharger indépendamment le table view et le collection view
   func rechargeDonnees() {
+    self.rechargeDonneesTableView()
+    self.rechargeDonneesCollectionView()
+  }
+  
+  func rechargeDonneesTableView() {
     previsionsParSourceAffichees.removeAll()
-    previsionsParPeriodeAffichees.removeAll()
     
-    let previsions = montrerPrevisionsParHeure ?
-      ImportateurPrevisions.global.previsionsParHeure :
-      ImportateurPrevisions.global.previsionsParJour
+    self.sourceEnSelection = self.previsionsStockees.keys.first
     
-    // temporaire (à remplacer par une sélection de l'utilisateur, et décider quoi utiliser par défaut) :
-    self.periodeEnSelection = previsions.values.first?.first?.value.donneHeure()
-    self.sourceEnSelection = previsions.keys.first
-    
-    // remplir le tableau des prévisions à afficher
-    for (source, previsionsParPeriode) in previsions {
+    for (_, previsionsParPeriode) in self.previsionsStockees {
       // remplir le tableau des prévisions par source selon la période choisie (table view)
       if let previsionPourPeriodeEnSelection = previsionsParPeriode[periodeEnSelection] {
         previsionsParSourceAffichees.append(previsionPourPeriodeEnSelection)
       }
+    }
+    self.listePrevisionsTableView.reloadData()
+  }
+  
+  func rechargeDonneesCollectionView() {
+    previsionsParPeriodeAffichees.removeAll()
+    
+    // temporaire (à remplacer par une sélection de l'utilisateur, et décider quoi utiliser par défaut) :
+    self.periodeEnSelection = self.previsionsStockees.values.first?.first?.value.donneHeure()
+    
+    // remplir le tableau des prévisions à afficher
+    for (source, previsionsParPeriode) in self.previsionsStockees {
       // remplir le tableau des prévisions par période selon la source choisie (collection view)
       if source == self.sourceEnSelection {
         for (_, prevision) in previsionsParPeriode {
@@ -55,7 +74,6 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     previsionsParPeriodeAffichees.sort(by: { $0.heureDebut.compare($1.heureDebut) == .orderedAscending })
     
     // recharger les données
-    self.listePrevisionsTableView.reloadData()
     self.periodesCollectionView.reloadData()
   }
   
@@ -105,6 +123,14 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     //cellule.backgroundColor = .black
     
     return cellule
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
+  {
+    let index = indexPath.row
+    let previsionSelectionnee = self.previsionsParPeriodeAffichees[index]
+    self.periodeEnSelection = previsionSelectionnee.heureDebut
+    self.rechargeDonneesTableView()
   }
   
   //MARK: Actions

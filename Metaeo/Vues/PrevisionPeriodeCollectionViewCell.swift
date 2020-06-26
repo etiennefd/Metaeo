@@ -16,8 +16,22 @@ class PrevisionPeriodeCollectionViewCell: UICollectionViewCell {
   @IBOutlet weak var etiquettePeriode: UILabel!
   @IBOutlet weak var etiquetteTemperature: UILabel!
   
+  override var isSelected: Bool {
+    didSet {
+      if self.isSelected {
+        super.isSelected = true
+        self.contentView.backgroundColor = UIColor(red:0.92, green:0.92, blue:0.92, alpha:0.7)
+      } else {
+        super.isSelected = false
+        self.contentView.backgroundColor = UIColor.white
+      }
+    }
+  }
+  
   override func awakeFromNib() {
     super.awakeFromNib()
     // Initialization code
   }
+  
+  
 }
