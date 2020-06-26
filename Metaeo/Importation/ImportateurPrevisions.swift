@@ -48,7 +48,7 @@ class ImportateurPrevisions {
           //print(delegueParseurXML.previsionsParPeriode ?? "No results")
         }
         
-        // Mettre à jour l'affichage
+        // Mettre à jour
         DispatchQueue.main.async {
           if let conditionsActuelles = delegueParseurXML.conditionsActuelles {
             self.conditionsActuelles = conditionsActuelles

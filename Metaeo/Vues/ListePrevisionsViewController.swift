@@ -28,18 +28,18 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
-    
-    // choisir la 1re cellule dans chaque vue
-    self.periodeEnSelection = self.previsionsStockees.values.first?.first?.value.donneHeure()
-    self.sourceEnSelection = self.previsionsStockees.keys.first
-    
     self.rechargeDonnees()
-    self.periodesCollectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .left)
   }
   
   func rechargeDonnees() {
+    // choisir la 1re cellule dans chaque vue
+    self.periodeEnSelection = self.previsionsStockees.values.first?.keys.sorted().first
+    self.sourceEnSelection = self.previsionsStockees.keys.first
+    
     self.rechargeDonneesTableView()
     self.rechargeDonneesCollectionView()
+    
+    self.periodesCollectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .left)
   }
   
   func rechargeDonneesTableView() {
