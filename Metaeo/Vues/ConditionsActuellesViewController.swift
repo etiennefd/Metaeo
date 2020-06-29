@@ -37,8 +37,9 @@ class ConditionsActuellesViewController: UIViewController {
   func rechargeDonnees() {
     if let conditionsActuelles = ImportateurPrevisions.global.conditionsActuelles {
       self.etiquetteTemperature.text = "\(conditionsActuelles.donneTemperatureArrondie()) °C"
+      self.iconeCondition.image = conditionsActuelles.donneIcone()
       if let condition = conditionsActuelles.condition {
-        self.etiquetteTemperature.text = "\(condition)"
+        self.etiquetteCondition.text = condition.rawValue
       }
       if let pression = conditionsActuelles.pression,
         let tendancePression = conditionsActuelles.tendancePression {
@@ -49,7 +50,10 @@ class ConditionsActuellesViewController: UIViewController {
         self.etiquetteVent.text = "\(vitesseVent) km/h \(directionVent)"
       }
       if let vitesseRafales = conditionsActuelles.vitesseRafales {
+        self.etiquetteRafales.isHidden = false
         self.etiquetteRafales.text = "\(vitesseRafales) km/h"
+      } else {
+        self.etiquetteRafales.isHidden = true
       }
       if let humidite = conditionsActuelles.humidite {
         self.etiquetteHumidite.text = "\(humidite) %"

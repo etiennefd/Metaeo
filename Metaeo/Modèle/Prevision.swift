@@ -84,6 +84,24 @@ struct Prevision: CustomDebugStringConvertible {
     return self.heureDebut
   }
   
+  func donneIcone() -> UIImage? {
+    guard let condition = self.condition else {
+      return UIImage(named: "na")
+    }
+    switch condition {
+    case .sunny:
+      return UIImage(named: "sunny")
+    case .cloudy:
+      return UIImage(named: "cloudy")
+    case .lightRain:
+      return UIImage(named: "light rain")
+    case .thunderstorm, .thunderstormWithLightRain:
+      return UIImage(named: "thunderstorm")
+    default:
+      return UIImage(named: "na")
+    }
+  }
+  
   //MARK: Description
 
   var debugDescription: String {

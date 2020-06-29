@@ -13,7 +13,13 @@ enum SourcePrevision: String {
 }
 
 enum Condition: String {
-  case clear, partlyCloudy, sunny
+  case clear = "Clear"
+  case cloudy = "Cloudy"
+  case lightRain = "Light Rain"
+  case partlyCloudy = "Partly Cloudy"
+  case sunny = "Sunny"
+  case thunderstorm = "Thunderstorm"
+  case thunderstormWithLightRain = "Thunderstorm with Light Rain"
 }
 
 enum PointCardinal: String {

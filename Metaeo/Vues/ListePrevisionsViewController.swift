@@ -98,7 +98,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     
     cellule.etiquetteSource.text = prevision.source
     cellule.etiquetteTemperature.text = prevision.chaineTemperature()
-    //cell.vueIconeMeteo.image = ?
+    cellule.vueIconeMeteo.image = prevision.donneIcone()
     
     return cellule
   }
@@ -119,7 +119,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     
     cellule.etiquettePeriode.text = prevision.chainePeriode // à faire : localize
     cellule.etiquetteTemperature.text = prevision.chaineTemperature()
-    //cellule.vueIconeMeteo.image = ?
+    cellule.vueIconeMeteo.image = prevision.donneIcone()
     //cellule.backgroundColor = .black
     
     return cellule
