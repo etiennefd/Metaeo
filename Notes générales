@@ -29,3 +29,10 @@ Ou bien un dict en 2D?
 [(EnvironnementCanada, 13h) : Prévision, (EnvironnementCanada, 14h) : Prévision, (Yr.no, 13h) : Prévision, ...]
 
 Est-ce que l'importateur devrait être un protocole? Avec des classes spécifiques à chaque service météo
+
+
+
+
+CRÉDITS
+Erik Flowers pour les icônes (https://erikflowers.github.io/weather-icons/)
+Gregory pour les idées, le feedback et le soutien

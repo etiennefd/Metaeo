@@ -16,6 +16,7 @@ enum Condition: String {
   case clear = "Clear"
   case cloudy = "Cloudy"
   case lightRain = "Light Rain"
+  case mostlyCloudy = "Mostly Cloudy"
   case partlyCloudy = "Partly Cloudy"
   case sunny = "Sunny"
   case thunderstorm = "Thunderstorm"

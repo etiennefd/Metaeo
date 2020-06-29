@@ -13,13 +13,15 @@ struct Prevision: CustomDebugStringConvertible {
   //MARK: Propriétés
   
   var lieu: String! // ex : Montréal
+  var source: String! // ex : yr.no, Environnement Canada
+
+  var heureEmission: Date? // moment où la prévision a été émise par la source
+  var chainePeriode: String? // ex : Vendredi
   var heureDebut: Date! // doit toujours être utilisé
   var heureFin: Date? // pas utilisé pour l'instant
-  var chainePeriode: String? // ex : Vendredi
   
   var condition: Condition? // ex : nuageux, ensoleillé, pluie
   var detailsCondition: String? // texte pour donner plus de détails
-  //  var icone: UIImage
 
   // En général, seule l'une de ces trois variables est requise.
   // Dans de rares cas (tendance inverse de la température), on a besoin de Min et Max
@@ -47,8 +49,6 @@ struct Prevision: CustomDebugStringConvertible {
   var humidex: Int?
   var refroidissementEolien: Int?
   
-  var source: String! // ex : yr.no, Environnement Canada
-  var heureEmission: Date? // moment où la prévision a été émise par la source
   var certitude: Int?
   
   //MARK: Initialisation
@@ -95,11 +95,28 @@ struct Prevision: CustomDebugStringConvertible {
       return UIImage(named: "cloudy")
     case .lightRain:
       return UIImage(named: "light rain")
+    case .mostlyCloudy:
+      return self.estNuit() ? UIImage(named: "mostly cloudy night") : UIImage(named: "mostly cloudy")
     case .thunderstorm, .thunderstormWithLightRain:
       return UIImage(named: "thunderstorm")
     default:
       return UIImage(named: "na")
     }
+  }
+  
+  // À raffiner selon les heures, et selon les autres sources de données, mais ceci devrait suffire pour Environnement Canada
+  func estNuit() -> Bool {
+    if chainePeriode?.contains("night") ?? false {
+      return true
+    }
+    if let heureLeverDuSoleil = ImportateurPrevisions.global.heureLeverDuSoleil,
+      let heureCoucherDuSoleil = ImportateurPrevisions.global.heureCoucherDuSoleil {
+      if self.heureDebut.compare(heureLeverDuSoleil) == .orderedAscending
+        || self.heureDebut.compare(heureCoucherDuSoleil) == .orderedDescending {
+        return true
+      }
+    }
+    return false
   }
   
   //MARK: Description

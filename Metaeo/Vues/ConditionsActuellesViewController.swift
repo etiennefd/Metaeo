@@ -75,6 +75,10 @@ class ConditionsActuellesViewController: UIViewController {
   
   //MARK: Actions
   
+  @IBAction func reimporterDonnees(_ sender: Any) {
+    ImportateurPrevisions.global.importePrevisions()
+    self.rechargeDonnees()
+  }
   
 }
 

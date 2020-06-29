@@ -12,9 +12,12 @@ class ImportateurPrevisions {
   static let global: ImportateurPrevisions = ImportateurPrevisions()
   
   // Données importées qui peuvent être utilisées partout dans l'app
+  // POUR L'INSTANT, SPÉCIFIQUE À UNE VILLE
   var conditionsActuelles: Prevision!
   var previsionsParJour = [SourcePrevision : [Date : Prevision]]()
   var previsionsParHeure = [SourcePrevision : [Date : Prevision]]()
+  var heureLeverDuSoleil: Date?
+  var heureCoucherDuSoleil: Date?
   
   func importePrevisions() {
     // 1. appeler une fonction pour déterminer la localisation (ou alors mettre ça en paramètre de importePrevisions()?)
@@ -61,6 +64,8 @@ class ImportateurPrevisions {
           }
           self.previsionsParJour[source] = delegueParseurXML.previsionsParJour
           self.previsionsParHeure[source] = delegueParseurXML.previsionsParHeure
+          self.heureLeverDuSoleil = delegueParseurXML.heureLeverDuSoleil
+          self.heureCoucherDuSoleil = delegueParseurXML.heureCoucherDuSoleil
         }
       }
       task.resume()
