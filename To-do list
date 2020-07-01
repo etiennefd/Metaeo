@@ -22,6 +22,8 @@ AFFICHAGE DES DONNÉES
 [x] Ordonner les cellules de la CollectionView selon la période (après conversion String -> Date)
 [x] Afficher les bonnes conditions météo (plutôt que "Ensoleillé" partout)
 [ ] Mieux disposer les données secondaires (vent, humidité, etc.) -> Table View?
+[ ] Afficher correctement les icônes de nuit vs. de jour
+[ ] Afficher l'heure d'importation
 
 GÉOGRAPHIE
 [ ] Permettre de choisir un lieu

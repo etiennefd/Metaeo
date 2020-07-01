@@ -12,7 +12,7 @@ enum Condition: String {
   // utilisées à la fois dans les conditions actuelles et les prévisions d'Environnement Canada
   case sunny = "sunny"
   case cloudy = "cloudy"
-  case mostlyCloudy = "mostly Cloudy"
+  case mostlyCloudy = "mostly cloudy"
   case rain = "rain"
   case freezingRain = "freezing rain"
   case flurries = "flurries"
