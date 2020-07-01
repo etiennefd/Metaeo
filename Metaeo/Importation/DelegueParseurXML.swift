@@ -67,7 +67,10 @@ class DelegueParseurXML: NSObject, XMLParserDelegate {
     if !data.isEmpty {
       switch elementXML {
       case (_, "condition") /*currentConditions et hourlyForecast*/, ("abbreviatedForecast", "textSummary") /*forecast*/:
-        self.previsionEnEdition.condition = Condition(rawValue: data)
+        self.previsionEnEdition.condition = Condition(rawValue: data.lowercased())
+        if self.previsionEnEdition.condition == nil {
+          print("Incapable de parser la condition \(data)")
+        }
       case (_, "dewpoint"):
         self.previsionEnEdition.pointDeRosee = Double(data)
       case (_, "period"):
@@ -114,7 +117,7 @@ class DelegueParseurXML: NSObject, XMLParserDelegate {
         // heure de l'émission des prévisions
         else if self.elementXMLEnEdition?.parent?.attributs["name"] == "forecastIssue",
           self.elementXMLEnEdition?.parent?.attributs["zone"] == "UTC" {
-          // à faire, en considérant que l'élément dateTime vient avant les prévisions normales + horaires
+          // à faire, en considérant que l'élément dateTime vient avant l'ensemble des prévisions normales et pareillement pour horaires
           //self.previsionEnEdition.heureEmission = self.dateFormatterTimeStamp.date(from: data)
         }
         // heure du lever de soleil

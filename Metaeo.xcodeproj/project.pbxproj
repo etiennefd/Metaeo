@@ -24,6 +24,7 @@
 		8F0D59CC24A2A4A8004D4438 /* ImportateurPrevisions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D59CB24A2A4A8004D4438 /* ImportateurPrevisions.swift */; };
 		8F0D59D024A3CEDF004D4438 /* PrevisionPeriodeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D59CF24A3CEDF004D4438 /* PrevisionPeriodeCollectionViewCell.swift */; };
 		8F0D59D224A3E6BB004D4438 /* Achievements in Resources */ = {isa = PBXBuildFile; fileRef = 8F0D59D124A3E6BB004D4438 /* Achievements */; };
+		8F0D59D424AB9941004D4438 /* EnumConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D59D324AB9941004D4438 /* EnumConditions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		8F0D59CB24A2A4A8004D4438 /* ImportateurPrevisions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportateurPrevisions.swift; sourceTree = "<group>"; };
 		8F0D59CF24A3CEDF004D4438 /* PrevisionPeriodeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrevisionPeriodeCollectionViewCell.swift; sourceTree = "<group>"; };
 		8F0D59D124A3E6BB004D4438 /* Achievements */ = {isa = PBXFileReference; lastKnownFileType = text; path = Achievements; sourceTree = "<group>"; };
+		8F0D59D324AB9941004D4438 /* EnumConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumConditions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 		8F0D59B8243F6D14004D4438 /* Modèles */ = {
 			isa = PBXGroup;
 			children = (
+				8F0D59D324AB9941004D4438 /* EnumConditions.swift */,
 				8F0D59C12440C49F004D4438 /* Prevision.swift */,
 			);
 			name = "Modèles";
@@ -265,6 +268,7 @@
 				8F0D598F24369DFA004D4438 /* AppDelegate.swift in Sources */,
 				8F0D59C22440C49F004D4438 /* Prevision.swift in Sources */,
 				8F0D599124369DFA004D4438 /* ListePrevisionsViewController.swift in Sources */,
+				8F0D59D424AB9941004D4438 /* EnumConditions.swift in Sources */,
 				8F0D59CC24A2A4A8004D4438 /* ImportateurPrevisions.swift in Sources */,
 				8F0D59C8248B3233004D4438 /* PrevisionSourceTableViewCell.swift in Sources */,
 				8F0D59D024A3CEDF004D4438 /* PrevisionPeriodeCollectionViewCell.swift in Sources */,

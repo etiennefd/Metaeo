@@ -84,38 +84,30 @@ struct Prevision: CustomDebugStringConvertible {
     return self.heureDebut
   }
   
-  func donneIcone() -> UIImage? {
-    guard let condition = self.condition else {
-      return UIImage(named: "na")
-    }
-    switch condition {
-    case .sunny:
-      return UIImage(named: "sunny")
-    case .cloudy:
-      return UIImage(named: "cloudy")
-    case .lightRain:
-      return UIImage(named: "light rain")
-    case .mostlyCloudy:
-      return self.estNuit() ? UIImage(named: "mostly cloudy night") : UIImage(named: "mostly cloudy")
-    case .thunderstorm, .thunderstormWithLightRain:
-      return UIImage(named: "thunderstorm")
-    default:
-      return UIImage(named: "na")
-    }
-  }
+  
   
   // À raffiner selon les heures, et selon les autres sources de données, mais ceci devrait suffire pour Environnement Canada
   func estNuit() -> Bool {
     if chainePeriode?.contains("night") ?? false {
       return true
+    } else if chainePeriode?.contains("day") ?? false {
+      return false
     }
-    if let heureLeverDuSoleil = ImportateurPrevisions.global.heureLeverDuSoleil,
-      let heureCoucherDuSoleil = ImportateurPrevisions.global.heureCoucherDuSoleil {
-      if self.heureDebut.compare(heureLeverDuSoleil) == .orderedAscending
-        || self.heureDebut.compare(heureCoucherDuSoleil) == .orderedDescending {
-        return true
-      }
-    }
+    // Prévisions horaires (ne marche pas encore)
+//    if let heureLeverDuSoleil = ImportateurPrevisions.global.heureLeverDuSoleil,
+//      let heureCoucherDuSoleil = ImportateurPrevisions.global.heureCoucherDuSoleil {
+//      if self.heureEmission après heureLeverDuSoleil {
+//        heureLeverDuSoleil += 1 jour
+//      }
+//      if self.heureEmission après heureCoucherDuSoleil {
+//        heureCoucherDuSoleil += 1 jour
+//      }
+//      Calendar.current.date(from: )
+//      if self.heureDebut.compare(heureLeverDuSoleil) == .orderedAscending
+//        || self.heureDebut.compare(heureCoucherDuSoleil) == .orderedDescending {
+//        return true
+//      }
+//    }
     return false
   }
   
