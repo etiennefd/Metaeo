@@ -2,7 +2,7 @@ IMPORTATION DES DONNÉES
 [x] Trouver comment accéder aux données d'EC
 [x] Créer des Prévisions à partir des données d'EC
 [ ] Créer des Prévisions à partir du XML de yr.no
-[ ] Explorer d'autres sources de données :
+[ ] Ajouter d'autres sources de données :
   [ ] Météomédia / WeatherSource
   [ ] NOAA
   [ ] OpenWeatherMap
@@ -12,6 +12,7 @@ IMPORTATION DES DONNÉES
 [ ] Présenter la vue des conditions actuelles seulement après avoir chargé les données initiales à l'ouverture
 [ ] Garder les données importées en cache
 [ ] Réimporter automatiquement les données quand ça fait un certain temps (une heure?)
+[ ] Gérer l'échec de l'importation (ex. : en cas d'absence de connection internet)
 
 AFFICHAGE DES DONNÉES
 [x] Placer les différentes données d'une Prévision dans une CustomCellView pour mettre dans le TableView
@@ -19,7 +20,8 @@ AFFICHAGE DES DONNÉES
 [x] Créer une CustomView pour les données des observations actuelles
 [x] Créer une CollectionView pour les prévisions par période ainsi que le CustomCellView
 [x] Ordonner les cellules de la CollectionView selon la période (après conversion String -> Date)
-[ ] Afficher les bonnes conditions météo (plutôt que "Ensoleillé" partout)
+[x] Afficher les bonnes conditions météo (plutôt que "Ensoleillé" partout)
+[ ] Mieux disposer les données secondaires (vent, humidité, etc.) -> Table View?
 
 GÉOGRAPHIE
 [ ] Permettre de choisir un lieu
@@ -31,15 +33,23 @@ PARAMÈTRES
 
 ÉLÉMENTS VISUELS
 [ ] Obtenir/colorer les icônes pour toutes les conditions météo
-[ ] Afficher les icônes aux bons endroits
+  [x] Conditions actuelles
+  [ ] Conditions utilisées dans les prévisions
+[x] Afficher les icônes aux bons endroits
+[ ] Expérimenter et choisir différentes tailles et dispositions pour les icônes
 [ ] Choisir une police (ou deux)
 [ ] Créer une icône d'app
 [ ] (Optionnel) modifier l'icône d'app selon la météo
+[ ] Créer des icônes pour la barre d'onglets en bas
 
 FUN STUFF
 [ ] Inventer une liste d'achievements
 [ ] Coder la page des achievements
 [ ] Créer une page de statistiques (nombre de jours ensoleillés vécus par l'utilisateur, etc.)
 
+LOCALISATION
+[ ] Avoir une version française et anglaise pour toutes les chaines de l'app
+[ ] Afficher les heures correctement selon la locale
+
 MONÉTISATION
-[ ]
+[ ] Créer un modèle d'abonnement pour utiliser les API payantes
