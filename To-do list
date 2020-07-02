@@ -23,7 +23,8 @@ AFFICHAGE DES DONNÉES
 [x] Afficher les bonnes conditions météo (plutôt que "Ensoleillé" partout)
 [ ] Mieux disposer les données secondaires (vent, humidité, etc.) -> Table View?
 [ ] Afficher correctement les icônes de nuit vs. de jour
-[ ] Afficher l'heure d'importation
+[ ] Afficher l'heure d'importation et d'émission
+[ ] Créer une vue pour donner des détails lorsqu'on touche une prévision dans la liste
 
 GÉOGRAPHIE
 [ ] Permettre de choisir un lieu

@@ -164,8 +164,10 @@ enum Condition: String {
   
   // conditions pas dans les liste d'EC, mais néanmoins vues dans les XML
   case chanceOfShowersRiskOfThunderstorms = "chance of showers. risk of thunderstorms"
+  case chanceOfShowersRiskOfSevereThunderstorms = "chance of showers. risk of severe thunderstorms"
   case lightRainshower = "light rainshower"
   case mainlyCloudy = "mainly cloudy"
+  case rainShowersAndFlurries = "rain showers and flurries"
 }
 
 // Fonction pour retourner une icône selon la condition météo.
@@ -178,70 +180,188 @@ extension Prevision {
     switch condition {
     case .sunny:
       return UIImage(named: "sunny")
-    case .mainlySunny, .aMixOfSunAndCloud:
+    case .mainlySunny,
+         .aMixOfSunAndCloud,
+         .sunnyWithCloudyPeriods:
       return UIImage(named: "mainly sunny")
-    case .cloudyPeriods, .partlyCloudy, .mainlyClear:
+    case .aFewClouds,
+         .cloudyPeriods,
+         .partlyCloudy,
+         .mainlyClear:
       return self.estNuit() ? UIImage(named: "a few clouds") : UIImage(named: "mainly sunny")
-    case .mainlyCloudy, .mostlyCloudy:
+    case .mainlyCloudy,
+         .mostlyCloudy:
       return self.estNuit() ? UIImage(named: "mostly cloudy night") : UIImage(named: "mostly cloudy")
-    case .lightRainshower, .lightRainShower, .chanceOfShowers:
+    case .cloudyWithSunnyPeriods:
+      return UIImage(named: "mostly cloudy")
+    case .increasingCloudiness:
+      return self.estNuit() ? UIImage(named: "incresing cloudiness night") : UIImage(named: "incresing cloudiness")
+    case .clearing:
+      return self.estNuit() ? UIImage(named: "clearing night") : UIImage(named: "clearing")
+    case .lightRainshower,
+         .lightRainShower,
+         .chanceOfShowers,
+         .aFewShowers,
+         .chanceOfDrizzleOrRain:
       return self.estNuit() ? UIImage(named: "chance of showers night") : UIImage(named: "chance of showers")
-    case .lightRainShowerAndFlurries:
+    case .lightRainShowerAndFlurries,
+         .aFewRainShowersOrFlurries,
+         .aFewFlurriesOrShowers,
+         .aFewFlurriesOrRainShowers,
+         .chanceOfFlurriesOrRainShowers:
       return self.estNuit() ? UIImage(named: "chance of rain and snow night") : UIImage(named: "chance of rain and snow")
-    case.lightFlurries:
+    case .lightFlurries,
+         .aFewFlurries,
+         .chanceOfFlurries,
+         .aFewWetFlurries:
       return self.estNuit() ? UIImage(named: "light flurries night") : UIImage(named: "light flurries")
-    case .cloudy:
+    case .chanceOfThunderstorms,
+         .chanceOfThundershowers,
+         .chanceOfShowersOrThunderstorms,
+         .chanceOfShowersOrThundershowers,
+         .chanceOfShowersAtTimesHeavyOrThunderstorms,
+         .chanceOfShowersAtTimesHeavyOrThundershowers,
+         .aFewFlurriesOrThundershowers,
+         .chanceOfShowersRiskOfThunderstorms,
+         .chanceOfShowersRiskOfSevereThunderstorms:
+      return self.estNuit() ? UIImage(named: "chance of thunderstorms night") : UIImage(named: "chance of thunderstorms")
+    case .cloudy,
+         .overcast:
       return UIImage(named: "cloudy")
-    case .precipitation, .squalls, .lightPrecipitation, .heavyPrecipitation:
+    case .precipitation,
+         .squalls,
+         .lightPrecipitation,
+         .heavyPrecipitation:
       return UIImage(named: "unknown precipitation")
-    case .rainShower, .lightRainAndDrizzle, .lightRain, .rain, .rainAndDrizzle:
+    case .rainShower,
+         .lightRainAndDrizzle,
+         .lightRain,
+         .rain,
+         .rainAndDrizzle,
+         .showers,
+         .aFewShowersOrDrizzle:
       return UIImage(named: "light rain")
-    case .heavyRain, .heavyRainShower, .heavyRainAndDrizzle:
+    case .heavyRain,
+         .heavyRainShower,
+         .heavyRainAndDrizzle,
+         .periodsOfRain,
+         .rainAtTimesHeavy:
       return UIImage(named: "heavy rain")
-    case .lightFreezingRain, .lightFreezingDrizzle, .freezingRain, .freezingDrizzle, .heavyFreezingRain, .heavyFreezingDrizzle:
+    case .lightFreezingRain,
+         .lightFreezingDrizzle,
+         .freezingRain,
+         .freezingDrizzle,
+         .heavyFreezingRain,
+         .heavyFreezingDrizzle,
+         .chanceOfFreezingRain,
+         .chanceOfFreezingRainOrRain,
+         .chanceOfRainOrFreezingRain:
       return UIImage(named: "sleet")
-    case .lightSnow, .snow:
+    case .rainAndFlurries,
+         .rainShowersAndFlurries,
+         .rainAndSnow,
+         .lightRainAndSnow,
+         .heavyRainShowerAndFlurries,
+         .heavyRainAndSnow,
+         .periodsOfRainOrSnow,
+         .aFewRainShowersOrWetFlurries,
+         .snowMixedWithRain,
+         .chanceOfSnowMixedWithFreezingRain,
+         .wetSnowOrRain:
+      return UIImage(named: "rain and snow")
+    case .lightSnow,
+         .snow,
+         .wetSnow,
+         .flurries,
+         .wetFlurries,
+         .chanceOfSnow,
+         .periodsOfSnow:
       return UIImage(named: "snow")
-    case .flurries, .heavySnow, .heavyFlurries:
+    case .heavySnow,
+         .snowAtTimesHeavy,
+         .heavyFlurries,
+         .snowSqualls,
+         .blizzard,
+         .nearBlizzard,
+         .snowAndBlizzard,
+         .snowAtTimesHeavyAndBlowingSnow:
       return UIImage(named: "heavy snow")
-    case .thunderstorm, .thunderstormWithLightRain, .thunderstormWithRain, .thunderstormWithHeavyRain, .heavyThunderstorm, .heavyThunderstormWithRain:
+    case .thunderstorm,
+         .thunderstormWithLightRain,
+         .thunderstormWithRain,
+         .thunderstormWithHeavyRain,
+         .heavyThunderstorm,
+         .heavyThunderstormWithRain,
+         .aFewShowersOrThunderstorms,
+         .aFewShowersOrThundershowers,
+         .showersOrThunderstorms,
+         .showersOrThundershowers,
+         .rainOrThunderstorms,
+         .rainOrThundershowers:
       return UIImage(named: "thunderstorm")
     case .haze:
       return UIImage(named: "haze")
-    case .fog, .iceFog, .fogPatches, .shallowFog, .mist:
+    case .fog,
+         .fogPatches,
+         .fogDissipating,
+         .fogDeveloping,
+         .iceFog,
+         .iceFogDeveloping,
+         .iceFogDissipating,
+         .shallowFog,
+         .mist:
       return UIImage(named: "fog")
     case .driftingSnow:
       return UIImage(named: "drifting snow")
+    case .blowingSnow,
+         .snowAndBlowingSnow:
+      return UIImage(named: "blowing snow")
     case .iceCrystals:
       return UIImage(named: "ice crystals")
-    case .snowPellets, .icePellets, .hail:
+    case .hail,
+         .snowPellets,
+         .icePellets,
+         .icePellet,
+         .icePelletOrSnow,
+         .icePelletMixedWithSnow,
+         .icePelletMixedWithFreezingRain,
+         .aFewFlurriesMixedWithIcePellets:
       return UIImage(named: "hail")
-    case .snowGrains, .lightDrizzle, .drizzle, .heavyDrizzle:
+    case .snowGrains,
+         .lightDrizzle,
+         .drizzle,
+         .heavyDrizzle,
+         .drizzleOrFreezingDrizzle,
+         .possibilityOfDrizzle,
+         .possibilityOfDrizzleMixedWithFreezingDrizzle:
       return UIImage(named: "drizzle")
     case .clear:
       return UIImage(named: "clear")
-    case .aFewClouds:
-      return UIImage(named: "a few clouds")
-    case .blowingSnow:
-      return UIImage(named: "blowing snow")
-    case .funnelCloud, .tornado:
+    case .funnelCloud,
+         .tornado:
       return UIImage(named: "tornado")
+    case .waterspout:
+      return UIImage(named: "waterspout")
     case .smoke:
       return UIImage(named: "smoke")
-    case .dustDevils, .dustStorm, .blowingDust, .sandstorm, .driftingDust:
+    case .dustDevils,
+         .dustStorm,
+         .blowingDust,
+         .sandstorm,
+         .driftingDust:
       return UIImage(named: "sandstorm")
     case .volcanicAsh:
       return UIImage(named: "volcanic ash")
-    case .thunderstormWithHail, .heavyThunderstormWithHail:
+    case .thunderstormWithHail,
+         .heavyThunderstormWithHail,
+         .chanceOfThunderstormsAndPossibleHail:
       return UIImage(named: "thunderstorm with hail")
-    case .thunderstormWithBlowingDust, .thunderstormWithDustStorm:
+    case .thunderstormWithBlowingDust,
+         .thunderstormWithDustStorm:
       return UIImage(named: "thunderstorm with dust")
-    case .waterspout:
-      return UIImage(named: "waterspout")
-
-    case .chanceOfShowersRiskOfThunderstorms:
-      return self.estNuit() ? UIImage(named: "chance of showers risk of thunderstorms night") : UIImage(named: "chance of showers risk of thunderstorms")
-
+    case .windy:
+      return UIImage(named: "windy")
+    
     case .notAvailable:
       return UIImage(named: "na")
     default:
