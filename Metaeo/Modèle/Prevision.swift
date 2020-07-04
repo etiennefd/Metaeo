@@ -12,6 +12,8 @@ struct Prevision: CustomDebugStringConvertible {
   
   //MARK: Propriétés
   
+  var type: TypePrevision!
+  
   var lieu: String! // ex : Montréal
   var source: String! // ex : yr.no, Environnement Canada
 
@@ -53,15 +55,15 @@ struct Prevision: CustomDebugStringConvertible {
   
   //MARK: Initialisation
   
-  init(lieu: String, heureDebut: Date, heureFin: Date, temperatureMax: Double, condition: String, source: String) {
-    self.lieu = lieu
-    self.heureDebut = heureDebut
-    self.heureFin = heureFin
-    self.temperatureMax = temperatureMax
-    self.condition = Condition(rawValue: condition)
-    //    self.icone = UIImage
-    self.source = source
-  }
+//  init(lieu: String, heureDebut: Date, heureFin: Date, temperatureMax: Double, condition: String, source: String) {
+//    self.lieu = lieu
+//    self.heureDebut = heureDebut
+//    self.heureFin = heureFin
+//    self.temperatureMax = temperatureMax
+//    self.condition = Condition(rawValue: condition)
+//    //    self.icone = UIImage
+//    self.source = source
+//  }
   
   init() {
     
@@ -88,26 +90,28 @@ struct Prevision: CustomDebugStringConvertible {
   
   // À raffiner selon les heures, et selon les autres sources de données, mais ceci devrait suffire pour Environnement Canada
   func estNuit() -> Bool {
-    if chainePeriode?.contains("night") ?? false {
-      return true
-    } else if chainePeriode?.contains("day") ?? false {
+    if self.type == .periode {
+      if chainePeriode?.contains("night") ?? false {
+        return true
+      }
       return false
+    } else if self.type == .horaire {
+      if var heureLeverDuSoleil = ImportateurPrevisions.global.donneesEnAffichage.heureLeverDuSoleil,
+        var heureCoucherDuSoleil = ImportateurPrevisions.global.donneesEnAffichage.heureCoucherDuSoleil {
+        var composantDateDecalage = DateComponents()
+        composantDateDecalage.day = 1
+        if self.heureEmission?.compare(heureLeverDuSoleil) == .orderedAscending /*emission après lever*/{
+          heureLeverDuSoleil = Calendar.current.date(byAdding: composantDateDecalage, to: heureLeverDuSoleil) ?? heureLeverDuSoleil
+        }
+        if self.heureEmission?.compare(heureCoucherDuSoleil) == .orderedAscending /*emission après coucher*/{
+          heureCoucherDuSoleil = Calendar.current.date(byAdding: composantDateDecalage, to: heureCoucherDuSoleil) ?? heureCoucherDuSoleil
+        }
+        if self.heureDebut.compare(heureLeverDuSoleil) == .orderedAscending
+          || self.heureDebut.compare(heureCoucherDuSoleil) == .orderedDescending {
+          return true
+        }
+      }
     }
-    // Prévisions horaires (ne marche pas encore)
-//    if let heureLeverDuSoleil = ImportateurPrevisions.global.heureLeverDuSoleil,
-//      let heureCoucherDuSoleil = ImportateurPrevisions.global.heureCoucherDuSoleil {
-//      if self.heureEmission après heureLeverDuSoleil {
-//        heureLeverDuSoleil += 1 jour
-//      }
-//      if self.heureEmission après heureCoucherDuSoleil {
-//        heureCoucherDuSoleil += 1 jour
-//      }
-//      Calendar.current.date(from: )
-//      if self.heureDebut.compare(heureLeverDuSoleil) == .orderedAscending
-//        || self.heureDebut.compare(heureCoucherDuSoleil) == .orderedDescending {
-//        return true
-//      }
-//    }
     return false
   }
   

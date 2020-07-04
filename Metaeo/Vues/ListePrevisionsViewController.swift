@@ -12,12 +12,14 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
 
   //MARK: Properties
   var montrerPrevisionsParHeure = false // pour alterner entre prévisions par jour et prévisions horaires
+  var dateFormatterPrevisionHoraire = DateFormatter()
+  
   var periodeEnSelection: Date!
   var sourceEnSelection: SourcePrevision!
   var previsionsStockees: [SourcePrevision : [Date : Prevision]] {
     return montrerPrevisionsParHeure ?
-      ImportateurPrevisions.global.previsionsParHeure :
-      ImportateurPrevisions.global.previsionsParJour
+      ImportateurPrevisions.global.donneesEnAffichage.previsionsParHeure :
+      ImportateurPrevisions.global.donneesEnAffichage.previsionsParJour
   }
   var previsionsParSourceAffichees = [Prevision]() // dans la table view
   var previsionsParPeriodeAffichees = [Prevision]() // dans la collection view
@@ -28,6 +30,11 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
+    
+    dateFormatterPrevisionHoraire.dateStyle = .none
+    dateFormatterPrevisionHoraire.timeStyle = .short
+    dateFormatterPrevisionHoraire.locale = Locale.current // à faire : s'assurer que l'heure affichée corresponde au fuseau horaire du lieu, pas de l'utilisateur
+    
     self.rechargeDonnees()
   }
   
@@ -116,8 +123,12 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     }
     
     let prevision = previsionsParPeriodeAffichees[indexPath.row]
-    
-    cellule.etiquettePeriode.text = prevision.chainePeriode // à faire : localize
+
+    if prevision.type == .horaire {
+      cellule.etiquettePeriode.text = dateFormatterPrevisionHoraire.string(from: prevision.heureDebut)
+    } else {
+      cellule.etiquettePeriode.text = prevision.chainePeriode
+    }
     cellule.etiquetteTemperature.text = prevision.chaineTemperature()
     cellule.vueIconeMeteo.image = prevision.donneIcone()
     //cellule.backgroundColor = .black

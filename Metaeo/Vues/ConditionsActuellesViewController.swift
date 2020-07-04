@@ -35,7 +35,7 @@ class ConditionsActuellesViewController: UIViewController {
   }
   
   func rechargeDonnees() {
-    if let conditionsActuelles = ImportateurPrevisions.global.conditionsActuelles {
+    if let conditionsActuelles = ImportateurPrevisions.global.donneesEnAffichage.conditionsActuelles {
       self.etiquetteTemperature.text = "\(conditionsActuelles.donneTemperatureArrondie()) °C"
       self.iconeCondition.image = conditionsActuelles.donneIcone()
       if let condition = conditionsActuelles.condition {
@@ -61,6 +61,7 @@ class ConditionsActuellesViewController: UIViewController {
       if let pointDeRosee = conditionsActuelles.pointDeRosee {
         self.etiquettePointDeRosee.text = "\(pointDeRosee) °C"
       }
+      // ceci n'existe pas dans les condiditons actuelles d'EC!
       if let indiceUV = conditionsActuelles.indiceUV {
         self.etiquetteIndiceUV.isHidden = false
         self.etiquetteIndiceUV.text = "\(indiceUV) (???)"

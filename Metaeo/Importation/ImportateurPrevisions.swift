@@ -8,16 +8,27 @@
 
 import Foundation
 
-class ImportateurPrevisions {
-  static let global: ImportateurPrevisions = ImportateurPrevisions()
+struct DonneesPourLieu {
+  var heureEmission: Date?
+  // var coordonnées
+  // var nom du lieu
+  // var ville
+  // var province
+  // var pays
   
-  // Données importées qui peuvent être utilisées partout dans l'app
-  // POUR L'INSTANT, SPÉCIFIQUE À UNE VILLE
   var conditionsActuelles: Prevision!
   var previsionsParJour = [SourcePrevision : [Date : Prevision]]()
   var previsionsParHeure = [SourcePrevision : [Date : Prevision]]()
   var heureLeverDuSoleil: Date?
   var heureCoucherDuSoleil: Date?
+}
+
+class ImportateurPrevisions {
+  static let global: ImportateurPrevisions = ImportateurPrevisions()
+  
+  // Données importées qui peuvent être utilisées partout dans l'app
+  var toutesLesDonneesImportees = [DonneesPourLieu]()
+  var donneesEnAffichage = DonneesPourLieu()
   
   func importePrevisions() {
     // 1. appeler une fonction pour déterminer la localisation (ou alors mettre ça en paramètre de importePrevisions()?)
@@ -53,19 +64,21 @@ class ImportateurPrevisions {
         
         // Mettre à jour
         DispatchQueue.main.async {
+          self.donneesEnAffichage = DonneesPourLieu()
           if let conditionsActuelles = delegueParseurXML.conditionsActuelles {
-            self.conditionsActuelles = conditionsActuelles
+            self.donneesEnAffichage.conditionsActuelles = conditionsActuelles
           }
           if let previsionsParJour = delegueParseurXML.previsionsParJour {
-            self.previsionsParJour[source] = previsionsParJour
+            self.donneesEnAffichage.previsionsParJour[source] = previsionsParJour
           }
           if let previsionsParHeure = delegueParseurXML.previsionsParHeure {
-            self.previsionsParHeure[source] = previsionsParHeure
+            self.donneesEnAffichage.previsionsParHeure[source] = previsionsParHeure
           }
-          self.previsionsParJour[source] = delegueParseurXML.previsionsParJour
-          self.previsionsParHeure[source] = delegueParseurXML.previsionsParHeure
-          self.heureLeverDuSoleil = delegueParseurXML.heureLeverDuSoleil
-          self.heureCoucherDuSoleil = delegueParseurXML.heureCoucherDuSoleil
+          self.donneesEnAffichage.previsionsParJour[source] = delegueParseurXML.previsionsParJour
+          self.donneesEnAffichage.previsionsParHeure[source] = delegueParseurXML.previsionsParHeure
+          self.donneesEnAffichage.heureLeverDuSoleil = delegueParseurXML.heureLeverDuSoleil
+          self.donneesEnAffichage.heureCoucherDuSoleil = delegueParseurXML.heureCoucherDuSoleil
+          self.donneesEnAffichage.heureEmission = delegueParseurXML.heureCreationXML
         }
       }
       task.resume()
@@ -94,7 +107,7 @@ class ImportateurPrevisions {
   }
   
   // Donne le bon délégué parseur XML selon le type de données XML à parser
-  private func delegueParseurXMLPourSource(_ source: SourcePrevision) -> DelegueParseurXML {
-    return DelegueParseurXML()
+  private func delegueParseurXMLPourSource(_ source: SourcePrevision) -> DelegueParseurXMLEnvironnementCanada {
+    return DelegueParseurXMLEnvironnementCanada()
   }
 }

@@ -8,6 +8,10 @@
 
 import Foundation
 
+enum TypePrevision {
+  case actuel, periode, horaire
+}
+
 enum SourcePrevision: String {
   case environnementCanada, yrNo, meteomedia
 }

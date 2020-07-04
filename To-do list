@@ -1,7 +1,10 @@
 IMPORTATION DES DONNÉES
 [x] Trouver comment accéder aux données d'EC
-[x] Créer des Prévisions à partir des données d'EC
-[ ] Créer des Prévisions à partir du XML de yr.no
+[x] Créer des Prévisions à partir des données d'EC (XML)
+[ ] Créer des Prévisions à partir du JSON de yr.no
+  [ ] Créer un parseur JSON
+  [ ] Créer des identifiants pour obtenir les données légalement
+  [ ] Associer les informations reçues à celles utilisées par EC pour harmoniser
 [ ] Ajouter d'autres sources de données :
   [ ] Météomédia / WeatherSource
   [ ] NOAA
@@ -13,6 +16,8 @@ IMPORTATION DES DONNÉES
 [ ] Garder les données importées en cache
 [ ] Réimporter automatiquement les données quand ça fait un certain temps (une heure?)
 [ ] Gérer l'échec de l'importation (ex. : en cas d'absence de connection internet)
+[ ] Parser l'indice UV
+[ ] Parser la température ressentie (humidex et refroidissement éolien)
 
 AFFICHAGE DES DONNÉES
 [x] Placer les différentes données d'une Prévision dans une CustomCellView pour mettre dans le TableView
@@ -29,6 +34,7 @@ AFFICHAGE DES DONNÉES
 GÉOGRAPHIE
 [ ] Permettre de choisir un lieu
 [ ] Faire un mapping entre les lieux choisis par l'utilisateurs et les lieux disponibles selon les sources
+[ ] Utiliser la position de l'utilisateur pour déterminer le lieu
 
 PARAMÈTRES
 [ ] Permettre de choisir les unités (°C ou °F, km/h ou m/s ou mph, etc.)

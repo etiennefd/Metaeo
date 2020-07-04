@@ -14,7 +14,7 @@ class ElementXML {
   var parent: ElementXML?
 }
 
-class DelegueParseurXML: NSObject, XMLParserDelegate {
+class DelegueParseurXMLEnvironnementCanada: NSObject, XMLParserDelegate {
   
   //Pour le parsage XML :
   var elementXMLEnEdition: ElementXML? // pour savoir ce qu'on est en train d'éditer
@@ -24,12 +24,15 @@ class DelegueParseurXML: NSObject, XMLParserDelegate {
   var previsionEnEdition: Prevision!
   
   // Dates/heures
-  var dateEmissionLocaleDuXML = Date()
+  var heureCreationXML = Date()
+  var heureLocaleCreationXML = Date()
   var fuseauHoraire: TimeZone!
-  var dateFormatterHourlyForecast = DateFormatter()
-  var dateFormatterTimeStamp = DateFormatter()
+  var heureEmissionForecast: Date?
+  var heureEmissionHourlyForecast: Date?
   var heureLeverDuSoleil: Date?
   var heureCoucherDuSoleil: Date?
+  var dateFormatterHourlyForecast = DateFormatter()
+  var dateFormatterTimeStamp = DateFormatter()
   
   //MARK: XMLParserDelegate
   // voir https://stackoverflow.com/questions/31083348/parsing-xml-from-url-in-swift
@@ -73,6 +76,8 @@ class DelegueParseurXML: NSObject, XMLParserDelegate {
         }
       case (_, "dewpoint"):
         self.previsionEnEdition.pointDeRosee = Double(data)
+      case (_, "humidex") /*currentConditions et hourlyForecast*/, ("humidex", "calculated") /*forecase*/:
+        self.previsionEnEdition.humidex = Int(data)
       case (_, "period"):
         self.previsionEnEdition.chainePeriode = data
       case (_, "pressure"):
@@ -91,6 +96,8 @@ class DelegueParseurXML: NSObject, XMLParserDelegate {
         }
       case (_, "visibility"):
         self.previsionEnEdition.visibilite = Double(data)
+      case (_, "windChill"):
+        self.previsionEnEdition.refroidissementEolien = Int(data)
       case ("uv", "index"):
         self.previsionEnEdition.indiceUV = Int(data)
       case ("wind", "speed"):
@@ -100,25 +107,35 @@ class DelegueParseurXML: NSObject, XMLParserDelegate {
       case ("wind", "direction"):
         self.previsionEnEdition.directionVent = PointCardinal(rawValue: data)
       case ("dateTime", "timeStamp"):
-        // heure d'émission du XML : on utilise l'heure locale ici, exceptionnellement
+        // heure de création du XML : heure universelle
+        if self.elementXMLEnEdition?.parent?.attributs["name"] == "xmlCreation",
+          self.elementXMLEnEdition?.parent?.attributs["zone"] == "UTC" {
+          self.heureCreationXML = self.dateFormatterTimeStamp.date(from: data) ?? Date()
+        }
+        // heure de création du XML : heure locale
         if self.elementXMLEnEdition?.parent?.attributs["name"] == "xmlCreation",
           self.elementXMLEnEdition?.parent?.attributs["zone"] != "UTC",
           let differenceAvecUTC = self.elementXMLEnEdition?.parent?.attributs["UTCOffset"] {
-          self.dateEmissionLocaleDuXML = self.dateFormatterTimeStamp.date(from: data) ?? Date()
+          self.heureLocaleCreationXML = self.dateFormatterTimeStamp.date(from: data) ?? Date()
           self.fuseauHoraire = TimeZone(secondsFromGMT: Int(differenceAvecUTC)! * 3600)
         }
-        // heure de l'observation des conditisions actuelles
+ 
+        // heure de l'observation des conditions actuelles
         else if self.elementXMLEnEdition?.parent?.attributs["name"] == "observation",
           self.elementXMLEnEdition?.parent?.attributs["zone"] == "UTC" {
-          let heureEmission = self.dateFormatterTimeStamp.date(from: data)
-          self.previsionEnEdition.heureEmission = heureEmission
-          self.previsionEnEdition.heureDebut = heureEmission
+          let heureObservation = self.dateFormatterTimeStamp.date(from: data)
+//          self.previsionEnEdition.heureEmission = heureEmission
+          self.previsionEnEdition.heureDebut = heureObservation
         }
         // heure de l'émission des prévisions
         else if self.elementXMLEnEdition?.parent?.attributs["name"] == "forecastIssue",
           self.elementXMLEnEdition?.parent?.attributs["zone"] == "UTC" {
-          // à faire, en considérant que l'élément dateTime vient avant l'ensemble des prévisions normales et pareillement pour horaires
-          //self.previsionEnEdition.heureEmission = self.dateFormatterTimeStamp.date(from: data)
+          let heureEmission = self.dateFormatterTimeStamp.date(from: data)
+          if self.elementXMLEnEdition?.parent?.parent?.nom == "forecastGroup" {
+            self.heureEmissionForecast = heureEmission
+          } else if self.elementXMLEnEdition?.parent?.parent?.nom == "hourlyForecastGroup" {
+            self.heureEmissionHourlyForecast = heureEmission
+          }
         }
         // heure du lever de soleil
         else if self.elementXMLEnEdition?.parent?.attributs["name"] == "sunrise",
@@ -141,8 +158,11 @@ class DelegueParseurXML: NSObject, XMLParserDelegate {
     }
     switch elementName {
     case "currentConditions":
+      self.previsionEnEdition.type = .actuel
+      self.previsionEnEdition.heureEmission = self.heureEmissionForecast
       self.conditionsActuelles = self.previsionEnEdition
     case "forecast":
+      self.previsionEnEdition.type = .periode
       if let chaineJour = self.previsionEnEdition.chainePeriode {
         if let jour = dateDepuisChaineJour(chaineJour) {
           self.previsionEnEdition.heureDebut = jour
@@ -150,6 +170,8 @@ class DelegueParseurXML: NSObject, XMLParserDelegate {
         }
       }
     case "hourlyForecast":
+      self.previsionEnEdition.type = .horaire
+      self.previsionEnEdition.heureEmission = self.heureEmissionHourlyForecast
       if let chaineHeure = self.elementXMLEnEdition?.attributs["dateTimeUTC"],
         let heure = self.dateFormatterHourlyForecast.date(from: chaineHeure) {
         self.previsionEnEdition.chainePeriode = chaineHeure
@@ -163,10 +185,10 @@ class DelegueParseurXML: NSObject, XMLParserDelegate {
     }
   }
   
-  // Convertit par exemple "Wednesday night" en Date en utilisant la date d'émission de la prévision
+  // Convertit par exemple "Wednesday night" en Date en utilisant la date de création du XML
   private func dateDepuisChaineJour(_ chaine: String) -> Date? {
     let joursDeLaSemaine = Calendar.current.weekdaySymbols
-    let indexJourActuel = Calendar.current.component(.weekday, from: self.dateEmissionLocaleDuXML) - 1
+    let indexJourActuel = Calendar.current.component(.weekday, from: self.heureLocaleCreationXML) - 1
     let composantsChaine = chaine.components(separatedBy: " ")
     let symboleJourDeLaChaine = composantsChaine[0]
     guard let indexJourDeLaChaine = joursDeLaSemaine.firstIndex(of: symboleJourDeLaChaine) else {
@@ -176,7 +198,7 @@ class DelegueParseurXML: NSObject, XMLParserDelegate {
     let decalage = ((indexJourDeLaChaine + joursDeLaSemaine.count) - indexJourActuel) % joursDeLaSemaine.count
     var composantDateDecalage = DateComponents()
     composantDateDecalage.day = decalage
-    guard let dateDecalee = Calendar.current.date(byAdding: composantDateDecalage, to: self.dateEmissionLocaleDuXML) else {
+    guard let dateDecalee = Calendar.current.date(byAdding: composantDateDecalage, to: self.heureLocaleCreationXML) else {
       return nil
     }
     // Si la prévision concerne le soir, son heure est 16h. Sinon, 5h.
