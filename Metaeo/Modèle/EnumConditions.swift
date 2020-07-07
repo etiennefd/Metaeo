@@ -281,9 +281,14 @@ extension Prevision {
          .chanceOfShowersOrThundershowers,
          .chanceOfShowersAtTimesHeavyOrThunderstorms,
          .chanceOfShowersAtTimesHeavyOrThundershowers,
-         .aFewFlurriesOrThundershowers,
          .chanceOfShowersRiskOfThunderstorms,
          .chanceOfShowersRiskOfSevereThunderstorms,
+         .aFewShowersOrThunderstorms,
+         .aFewShowersOrThundershowers,
+         .showersOrThunderstorms,
+         .showersOrThundershowers,
+         .rainOrThunderstorms,
+         .rainOrThundershowers,
          .lightRainShowersAndThunderYR,
          .rainShowersAndThunderYR,
          .heavyRainShowersAndThunderYR:
@@ -363,12 +368,6 @@ extension Prevision {
          .thunderstormWithHeavyRain,
          .heavyThunderstorm,
          .heavyThunderstormWithRain,
-         .aFewShowersOrThunderstorms,
-         .aFewShowersOrThundershowers,
-         .showersOrThunderstorms,
-         .showersOrThundershowers,
-         .rainOrThunderstorms,
-         .rainOrThundershowers,
          .lightRainAndThunderYR,
          .rainAndThunderYR,
          .heavyRainAndThunderYR:
@@ -448,7 +447,8 @@ extension Prevision {
          .snowAndThunderYR,
          .heavySnowAndThunderYR:
       return UIImage(named: "thunderstorm with snow")
-    case .lightSnowShowersAndThunderYR,
+    case .aFewFlurriesOrThundershowers,
+         .lightSnowShowersAndThunderYR,
          .snowShowersAndThunderYR,
          .heavySnowShowersAndThunderYR:
       return self.estNuit() ? UIImage(named: "chance of thunderstorm with snow night") : UIImage(named: "chance of thunderstorm with snow")
