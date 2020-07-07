@@ -50,19 +50,19 @@ class ConditionsActuellesViewController: UIViewController {
       }
       if let vitesseVent = conditionsActuelles.vitesseVent,
         let directionVent = conditionsActuelles.donneDirectionVent() {
-        self.etiquetteVent.text = "\(vitesseVent) km/h \(directionVent)"
+        self.etiquetteVent.text = "\(Int(vitesseVent.rounded())) km/h \(directionVent)"
       }
       if let vitesseRafales = conditionsActuelles.vitesseRafales {
         self.etiquetteRafales.isHidden = false
-        self.etiquetteRafales.text = "\(vitesseRafales) km/h"
+        self.etiquetteRafales.text = "\(Int(vitesseRafales.rounded())) km/h"
       } else {
         self.etiquetteRafales.isHidden = true
       }
       if let humidite = conditionsActuelles.humidite {
-        self.etiquetteHumidite.text = "\(humidite) %"
+        self.etiquetteHumidite.text = "\(Int(humidite.rounded())) %"
       }
       if let pointDeRosee = conditionsActuelles.pointDeRosee {
-        self.etiquettePointDeRosee.text = "\(pointDeRosee) °C"
+        self.etiquettePointDeRosee.text = "\(Int(pointDeRosee.rounded())) °C"
       }
       // ceci n'existe pas dans les condiditons actuelles d'EC!
       if let indiceUV = conditionsActuelles.indiceUV {
@@ -72,7 +72,7 @@ class ConditionsActuellesViewController: UIViewController {
         self.etiquetteIndiceUV.isHidden = true
       }
       if let visibilite = conditionsActuelles.visibilite {
-        self.etiquetteVisibilite.text = "\(visibilite) km"
+        self.etiquetteVisibilite.text = "\(Int(visibilite.rounded())) km"
       }
     }
   }
