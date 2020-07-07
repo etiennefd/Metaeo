@@ -1,10 +1,18 @@
+BOGUES
+[ ] Parfois le collectionView par période est vide
+[ ] Une prévision peut avoir une icône de jour ET une de nuit selon la source, si une dit "sunny" et l'autre "clear" et estNuit == vrai
+
 IMPORTATION DES DONNÉES
 [x] Trouver comment accéder aux données d'EC
 [x] Créer des Prévisions à partir des données d'EC (XML)
 [ ] Créer des Prévisions à partir du JSON de yr.no
-  [ ] Créer un parseur JSON
-  [ ] Créer des identifiants pour obtenir les données légalement
-  [ ] Associer les informations reçues à celles utilisées par EC pour harmoniser
+  [x] Créer un parseur JSON
+  [x] Parser les prévisions horaires
+  [ ] Parser les prévisions par jour
+  [ ] Créer des identifiants pour obtenir les données légalement (HTML header)
+  [-] Associer les informations reçues à celles utilisées par EC pour harmoniser
+  [x] Créer des conditions spécifiques à yr.no
+  [ ] Créer les icônes supplémentaires nécessaires
 [ ] Ajouter d'autres sources de données :
   [ ] Météomédia / WeatherSource
   [ ] NOAA
@@ -16,7 +24,6 @@ IMPORTATION DES DONNÉES
 [ ] Garder les données importées en cache
 [ ] Réimporter automatiquement les données quand ça fait un certain temps (une heure?)
 [ ] Gérer l'échec de l'importation (ex. : en cas d'absence de connection internet)
-[ ] Parser l'indice UV
 [ ] Parser la température ressentie (humidex et refroidissement éolien)
 
 AFFICHAGE DES DONNÉES
@@ -26,10 +33,15 @@ AFFICHAGE DES DONNÉES
 [x] Créer une CollectionView pour les prévisions par période ainsi que le CustomCellView
 [x] Ordonner les cellules de la CollectionView selon la période (après conversion String -> Date)
 [x] Afficher les bonnes conditions météo (plutôt que "Ensoleillé" partout)
-[ ] Mieux disposer les données secondaires (vent, humidité, etc.) -> Table View?
-[ ] Afficher correctement les icônes de nuit vs. de jour
+[ ] Mieux disposer les données secondaires (vent, humidité, etc.) -> dans une Table View?
+[x] Afficher correctement les icônes de nuit vs. de jour
 [ ] Afficher l'heure d'importation et d'émission
 [ ] Créer une vue pour donner des détails lorsqu'on touche une prévision dans la liste
+[ ] Permettre de réordonner la table des prévisions par source
+  [ ] Recharger la collection view pour afficher les données de la première source
+  [ ] Sauvegarder l'ordre choisi par l'utilisateur
+[ ] Afficher dans la collection view les prévisions de la source sélectionnée, s'il y en a une?
+[ ] Choisir un gris pâle quand on sélectionne une cellule du table view? (pas nécessaire si cliquer ouvre une nouvelle vue?)
 
 GÉOGRAPHIE
 [ ] Permettre de choisir un lieu
@@ -41,12 +53,12 @@ PARAMÈTRES
 [ ] Sauvegarder les paramètres
 
 ÉLÉMENTS VISUELS
-[ ] Obtenir/colorer les icônes pour toutes les conditions météo
+[x] Obtenir/colorer les icônes pour toutes les conditions météo
   [x] Conditions actuelles
-  [ ] Conditions utilisées dans les prévisions
+  [x] Conditions utilisées dans les prévisions
 [x] Afficher les icônes aux bons endroits
 [ ] Expérimenter et choisir différentes tailles et dispositions pour les icônes
-[ ] Choisir une police (ou deux)
+[ ] Choisir les polices
 [ ] Créer une icône d'app
 [ ] (Optionnel) modifier l'icône d'app selon la météo
 [ ] Créer des icônes pour la barre d'onglets en bas
@@ -62,3 +74,10 @@ LOCALISATION
 
 MONÉTISATION
 [ ] Créer un modèle d'abonnement pour utiliser les API payantes
+
+
+
+Légende
+[ ] == à faire
+[x] == fait
+[-] == abandonné

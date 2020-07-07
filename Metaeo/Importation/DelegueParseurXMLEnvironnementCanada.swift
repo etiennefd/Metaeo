@@ -78,12 +78,16 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, XMLParserDelegate {
         self.previsionEnEdition.pointDeRosee = Double(data)
       case (_, "humidex") /*currentConditions et hourlyForecast*/, ("humidex", "calculated") /*forecase*/:
         self.previsionEnEdition.humidex = Int(data)
+      case (_, "lop"):
+        self.previsionEnEdition.probPrecipitation = Double(data)
       case (_, "period"):
         self.previsionEnEdition.chainePeriode = data
       case (_, "pressure"):
         self.previsionEnEdition.pression = Double(data)
         self.previsionEnEdition.tendancePression = TendancePression(rawValue: self.elementXMLEnEdition?.attributs["tendency"] ?? "")
         self.previsionEnEdition.changementPression = Double(self.elementXMLEnEdition?.attributs["change"] ?? "")
+      case (_, "pop"):
+        self.previsionEnEdition.probPrecipitation = Double(data)
       case (_, "relativeHumidity"):
         self.previsionEnEdition.humidite = Double(data)
       case (_, "temperature"): // parent == "temperatures" pour forecast et currentConditions, mais pas pour hourlyForecast
@@ -97,13 +101,13 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, XMLParserDelegate {
       case (_, "visibility"):
         self.previsionEnEdition.visibilite = Double(data)
       case (_, "windChill"):
-        self.previsionEnEdition.refroidissementEolien = Int(data)
+        self.previsionEnEdition.refroidissementEolien = Double(data)
       case ("uv", "index"):
-        self.previsionEnEdition.indiceUV = Int(data)
+        self.previsionEnEdition.indiceUV = Double(data)
       case ("wind", "speed"):
-        self.previsionEnEdition.vitesseVent = Int(data)
+        self.previsionEnEdition.vitesseVent = Double(data)
       case ("wind", "gust"):
-        self.previsionEnEdition.vitesseRafales = Int(data)
+        self.previsionEnEdition.vitesseRafales = Double(data)
       case ("wind", "direction"):
         self.previsionEnEdition.directionVent = PointCardinal(rawValue: data)
       case ("dateTime", "timeStamp"):
@@ -154,7 +158,7 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, XMLParserDelegate {
   
   func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
     if self.previsionEnEdition != nil {
-      self.previsionEnEdition.source = "Environnement Canada" // à déplacer et ajuster selon la source
+      self.previsionEnEdition.source = .environnementCanada
     }
     switch elementName {
     case "currentConditions":
@@ -162,7 +166,7 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, XMLParserDelegate {
       self.previsionEnEdition.heureEmission = self.heureEmissionForecast
       self.conditionsActuelles = self.previsionEnEdition
     case "forecast":
-      self.previsionEnEdition.type = .periode
+      self.previsionEnEdition.type = .jour
       if let chaineJour = self.previsionEnEdition.chainePeriode {
         if let jour = dateDepuisChaineJour(chaineJour) {
           self.previsionEnEdition.heureDebut = jour

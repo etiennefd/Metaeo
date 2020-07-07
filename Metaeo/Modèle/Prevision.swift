@@ -15,7 +15,7 @@ struct Prevision: CustomDebugStringConvertible {
   var type: TypePrevision!
   
   var lieu: String! // ex : Montréal
-  var source: String! // ex : yr.no, Environnement Canada
+  var source: SourcePrevision! // ex : yr.no, Environnement Canada
 
   var heureEmission: Date? // moment où la prévision a été émise par la source
   var chainePeriode: String? // ex : Vendredi
@@ -35,9 +35,9 @@ struct Prevision: CustomDebugStringConvertible {
   var quantitePrecipitation: Int?
   
   var directionVent: PointCardinal?
-  var directionVentDegres: Int?
-  var vitesseVent: Int?
-  var vitesseRafales: Int?
+  var directionVentDegres: Double?
+  var vitesseVent: Double?
+  var vitesseRafales: Double?
   
   var pression: Double?
   var tendancePression: TendancePression? // à la hausse, à la baisse, stable
@@ -46,10 +46,10 @@ struct Prevision: CustomDebugStringConvertible {
   var humidite: Double?
   var pointDeRosee: Double?
   var visibilite: Double?
-  var indiceUV: Int?
+  var indiceUV: Double?
   
   var humidex: Int?
-  var refroidissementEolien: Int?
+  var refroidissementEolien: Double?
   
   var certitude: Int?
   
@@ -86,11 +86,21 @@ struct Prevision: CustomDebugStringConvertible {
     return self.heureDebut
   }
   
+  func donneDirectionVent() -> PointCardinal? {
+    if let directionVent = self.directionVent {
+      return directionVent
+    }
+    if let directionVentDegres = self.directionVentDegres {
+      return degresVersPointCardinal(directionVentDegres)
+    }
+    return nil
+  }
+  
   
   
   // À raffiner selon les heures, et selon les autres sources de données, mais ceci devrait suffire pour Environnement Canada
   func estNuit() -> Bool {
-    if self.type == .periode {
+    if self.type == .jour {
       if chainePeriode?.contains("night") ?? false {
         return true
       }
@@ -98,16 +108,19 @@ struct Prevision: CustomDebugStringConvertible {
     } else if self.type == .horaire {
       if var heureLeverDuSoleil = ImportateurPrevisions.global.donneesEnAffichage.heureLeverDuSoleil,
         var heureCoucherDuSoleil = ImportateurPrevisions.global.donneesEnAffichage.heureCoucherDuSoleil {
+        // Le lever et le coucher sont ceux de la date d'émission de la prévision.
+        // Pour savoir si la prévision est de nuit, il faut comparer avec le prochain lever/coucher.
+        // Donc on ajoute 1 jour si l'émission des prévisions a été faite après le lever/coucher du jour même.
         var composantDateDecalage = DateComponents()
         composantDateDecalage.day = 1
-        if self.heureEmission?.compare(heureLeverDuSoleil) == .orderedAscending /*emission après lever*/{
+        if let heureEmission = self.heureEmission, heureEmission > heureLeverDuSoleil /*émission après lever*/ {
           heureLeverDuSoleil = Calendar.current.date(byAdding: composantDateDecalage, to: heureLeverDuSoleil) ?? heureLeverDuSoleil
         }
-        if self.heureEmission?.compare(heureCoucherDuSoleil) == .orderedAscending /*emission après coucher*/{
+        if let heureEmission = self.heureEmission, heureEmission > heureCoucherDuSoleil /*émission après coucher*/{
           heureCoucherDuSoleil = Calendar.current.date(byAdding: composantDateDecalage, to: heureCoucherDuSoleil) ?? heureCoucherDuSoleil
         }
-        if self.heureDebut.compare(heureLeverDuSoleil) == .orderedAscending
-          || self.heureDebut.compare(heureCoucherDuSoleil) == .orderedDescending {
+        if self.heureDebut < heureLeverDuSoleil /*prévision avant lever*/
+          || heureLeverDuSoleil < heureCoucherDuSoleil, self.heureDebut > heureCoucherDuSoleil /*prévision après coucher*/ {
           return true
         }
       }

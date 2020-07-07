@@ -40,13 +40,19 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
   
   func rechargeDonnees() {
     // choisir la 1re cellule dans chaque vue
-    self.periodeEnSelection = self.previsionsStockees.values.first?.keys.sorted().first
+    let ffff = self.previsionsStockees
+//    self.periodeEnSelection = self.previsionsStockees.values.first?.keys.sorted().first
+    self.periodeEnSelection = self.previsionsStockees[.environnementCanada]?.keys.sorted().first
     self.sourceEnSelection = self.previsionsStockees.keys.first
     
     self.rechargeDonneesTableView()
     self.rechargeDonneesCollectionView()
     
-    self.periodesCollectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .left)
+    print("avant selectItem!!!")
+    if self.previsionsParPeriodeAffichees.count > 0 {
+      self.periodesCollectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .left)
+    }
+    print("après selectItem!!!")
   }
   
   func rechargeDonneesTableView() {
@@ -73,12 +79,16 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     for (source, previsionsParPeriode) in self.previsionsStockees {
       // remplir le tableau des prévisions par période selon la source choisie (collection view)
       if source == self.sourceEnSelection {
-        for (_, prevision) in previsionsParPeriode {
+        for (date, prevision) in previsionsParPeriode {
+          // Éviter d'afficher
+          if prevision.type == .horaire, date < Date() {
+            continue
+          }
           previsionsParPeriodeAffichees.append(prevision)
         }
       }
     }
-    previsionsParPeriodeAffichees.sort(by: { $0.heureDebut.compare($1.heureDebut) == .orderedAscending })
+    previsionsParPeriodeAffichees.sort(by: { $0.heureDebut < $1.heureDebut })
     
     // recharger les données
     self.periodesCollectionView.reloadData()
@@ -103,7 +113,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     
     let prevision = previsionsParSourceAffichees[indexPath.row]
     
-    cellule.etiquetteSource.text = prevision.source
+    cellule.etiquetteSource.text = prevision.source.rawValue
     cellule.etiquetteTemperature.text = prevision.chaineTemperature()
     cellule.vueIconeMeteo.image = prevision.donneIcone()
     
