@@ -112,21 +112,23 @@
                                     <outlet property="delegate" destination="9pv-A4-QxB" id="i1A-Xc-8Sb"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J5l-a3-wOL">
-                                <rect key="frame" x="300" y="44" width="66" height="30"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="GSn-NK-cHT">
+                                <rect key="frame" x="84" y="93" width="245" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Par heure"/>
+                                <segments>
+                                    <segment title="7 days"/>
+                                    <segment title="24 hours"/>
+                                </segments>
                                 <connections>
-                                    <action selector="changerTypePeriode:" destination="9pv-A4-QxB" eventType="touchUpInside" id="QML-gJ-PJh"/>
+                                    <action selector="changerTypePeriode:" destination="9pv-A4-QxB" eventType="valueChanged" id="fEg-fD-tKW"/>
                                 </connections>
-                            </button>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="PQr-Ze-W5v"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Prévisions" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="FORECASTS" image="first" id="acW-dT-cKf"/>
                     <connections>
-                        <outlet property="boutonChangerTypePeriode" destination="J5l-a3-wOL" id="GTd-cC-BFF"/>
                         <outlet property="listePrevisionsTableView" destination="583-Ua-F8G" id="ed2-YC-gt4"/>
                         <outlet property="periodesCollectionView" destination="VRo-tI-SH3" id="hPI-oa-Aek"/>
                     </connections>
@@ -261,7 +263,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="999 km/h" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f0o-RH-Zg3">
-                                                <rect key="frame" x="150" y="0.0" width="74" height="21"/>
+                                                <rect key="frame" x="150" y="0.0" width="103" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -326,7 +328,7 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Conditions actuelles" image="second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="CURRENT" image="second" id="cPa-gy-q4n"/>
                     <connections>
                         <outlet property="etiquetteCondition" destination="v2L-m8-uXx" id="8YV-B1-k7w"/>
                         <outlet property="etiquetteHumidite" destination="Xjq-fR-gyf" id="ujU-D4-P7L"/>
@@ -344,7 +346,7 @@
             </objects>
             <point key="canvasLocation" x="-755.07246376811599" y="784.82142857142856"/>
         </scene>
-        <!--Paramètres-->
+        <!--SETTINGS-->
         <scene sceneID="mnO-oy-zLy">
             <objects>
                 <viewController id="9md-bG-F3J" customClass="ParametresViewController" customModule="Metaeo" customModuleProvider="target" sceneMemberID="viewController">
@@ -354,7 +356,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="sai-xS-ajZ"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Paramètres" id="WWI-NN-UCU"/>
+                    <tabBarItem key="tabBarItem" title="SETTINGS" id="WWI-NN-UCU"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aB4-tz-LQu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

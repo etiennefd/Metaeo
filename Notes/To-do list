@@ -1,6 +1,6 @@
 BOGUES
 [ ] Parfois le collectionView par période est vide
-[ ] Une prévision peut avoir une icône de jour ET une de nuit selon la source, si une dit "sunny" et l'autre "clear" et estNuit == vrai
+[ ] Une prévision peut avoir une icône de jour ET une de nuit selon la source, si une dit "sunny" et l'autre "clear" et estNuit == vrai. Mais c'est rare.
 
 IMPORTATION DES DONNÉES
 [x] Trouver comment accéder aux données d'EC
@@ -13,6 +13,11 @@ IMPORTATION DES DONNÉES
   [-] Associer les informations reçues à celles utilisées par EC pour harmoniser
   [x] Créer des conditions spécifiques à yr.no
   [ ] Créer les icônes supplémentaires nécessaires
+[ ] Créer des Prévisions à partir du XML de la NOAA
+  [ ] Clarifier la différence entre les différents services de données
+  [ ] Créer un parseur XML distinct de celui d'EC
+  [ ] Ajouter les conditions dans l'enum
+  [ ] Créer des icônes pour les conditions Hot et Cold
 [ ] Ajouter d'autres sources de données :
   [ ] Météomédia / WeatherSource
   [ ] NOAA
@@ -22,35 +27,48 @@ IMPORTATION DES DONNÉES
 [x] Remplacer les String par des Dates pour les périodes
 [ ] Présenter la vue des conditions actuelles seulement après avoir chargé les données initiales à l'ouverture
 [ ] Garder les données importées en cache
-[ ] Réimporter automatiquement les données quand ça fait un certain temps (une heure?)
+[ ] Réimporter automatiquement les données quand ça fait un certain temps (une heure? un délai d'expiration?)
 [ ] Gérer l'échec de l'importation (ex. : en cas d'absence de connection internet)
 [ ] Parser la température ressentie (humidex et refroidissement éolien)
 
-AFFICHAGE DES DONNÉES
-[x] Placer les différentes données d'une Prévision dans une CustomCellView pour mettre dans le TableView
-[x] Créer le TableView en suivant le modèle de l'app MealTracker
-[x] Créer une CustomView pour les données des observations actuelles
-[x] Créer une CollectionView pour les prévisions par période ainsi que le CustomCellView
-[x] Ordonner les cellules de la CollectionView selon la période (après conversion String -> Date)
+AFFICHAGE DES DONNÉES (EN GÉNÉRAL)
 [x] Afficher les bonnes conditions météo (plutôt que "Ensoleillé" partout)
-[ ] Mieux disposer les données secondaires (vent, humidité, etc.) -> dans une Table View?
 [x] Afficher correctement les icônes de nuit vs. de jour
 [ ] Afficher l'heure d'importation et d'émission
+
+VUE DES CONDITIONS ACTUELLES
+[x] Créer une CustomView pour les données des observations actuelles
+[ ] Mieux disposer les données secondaires (vent, humidité, etc.) -> dans une Table View?
+[ ] Afficher la source
+
+VUE DE LA LISTE DE PRÉVISIONS
+[x] Créer le TableView en suivant le modèle de l'app MealTracker
+[ ] Placer les différentes données d'une Prévision dans une CustomCellView pour mettre dans le TableView
+  [x] Afficher la source, l'icône, la température
+  [ ] Choisir les autres variables à montrer : ressenti, prob de précipitation, vent, indice UV?
+  [ ] Peut-être permettre à l'utilisateur de choisir la variable à montrer?
+[x] Créer une CollectionView pour les prévisions par période ainsi que le CustomCellView
+[x] Ordonner les cellules de la CollectionView selon la période (après conversion String -> Date)
 [ ] Créer une vue pour donner des détails lorsqu'on touche une prévision dans la liste
+  [ ] Implémenter les mécanismes de navigation de table view pour entrer et sortir de cette vue
+  [ ] Dans cette vue, permettre de passer d'une source à l'autre ET/OU d'une période à l'autre avec un geste du doigt
 [ ] Permettre de réordonner la table des prévisions par source
   [ ] Recharger la collection view pour afficher les données de la première source
   [ ] Sauvegarder l'ordre choisi par l'utilisateur
-[ ] Afficher dans la collection view les prévisions de la source sélectionnée, s'il y en a une?
+[ ] Afficher dans la collection view les prévisions de la source sélectionnée, s'il y en a une? (Plutôt que la première source par défaut)
 [ ] Choisir un gris pâle quand on sélectionne une cellule du table view? (pas nécessaire si cliquer ouvre une nouvelle vue?)
+[x] Changer entre 7 jours et 24h avec un UISegmentedControl
+
+PARAMÈTRES
+[ ] Créer une table view pour les paramètres
+[ ] Permettre de choisir les unités (°C ou °F, km/h ou m/s ou mph, etc.)
+[ ] Sauvegarder les paramètres choisis par l'utilisateur
 
 GÉOGRAPHIE
 [ ] Permettre de choisir un lieu
 [ ] Faire un mapping entre les lieux choisis par l'utilisateurs et les lieux disponibles selon les sources
 [ ] Utiliser la position de l'utilisateur pour déterminer le lieu
 
-PARAMÈTRES
-[ ] Permettre de choisir les unités (°C ou °F, km/h ou m/s ou mph, etc.)
-[ ] Sauvegarder les paramètres
 
 ÉLÉMENTS VISUELS
 [x] Obtenir/colorer les icônes pour toutes les conditions météo

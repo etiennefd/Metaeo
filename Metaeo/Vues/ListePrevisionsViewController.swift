@@ -25,7 +25,6 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
   var previsionsParPeriodeAffichees = [Prevision]() // dans la collection view
   @IBOutlet weak var listePrevisionsTableView: UITableView!
   @IBOutlet weak var periodesCollectionView: UICollectionView!
-  @IBOutlet weak var boutonChangerTypePeriode: UIButton!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -157,12 +156,14 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
   //MARK: Actions
   
   @IBAction func changerTypePeriode(_ sender: Any) {
-    montrerPrevisionsParHeure = !montrerPrevisionsParHeure
-    let bouton = sender as? UIButton
-    if montrerPrevisionsParHeure {
-      bouton?.setTitle("Par jour", for: .normal)
-    } else {
-      bouton?.setTitle("Par heure", for: .normal)
+    let segmentedControl = sender as? UISegmentedControl
+    switch segmentedControl?.selectedSegmentIndex {
+    case 0:
+      montrerPrevisionsParHeure = false
+    case 1:
+      montrerPrevisionsParHeure = true
+    default:
+      break
     }
     self.rechargeDonnees()
   }
