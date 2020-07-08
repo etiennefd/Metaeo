@@ -70,7 +70,7 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, XMLParserDelegate {
     if !data.isEmpty {
       switch elementXML {
       case (_, "condition") /*currentConditions et hourlyForecast*/, ("abbreviatedForecast", "textSummary") /*forecast*/:
-        self.previsionEnEdition.condition = Condition(rawValue: data.lowercased())
+        self.previsionEnEdition.condition = Condition(rawValue: nettoyerChaineCondition(data))
         if self.previsionEnEdition.condition == nil {
           print("Incapable de parser la condition \(data)")
         }
@@ -209,6 +209,16 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, XMLParserDelegate {
     let estSoir = composantsChaine.contains("night")
     let dateAjustee = Calendar.current.date(bySettingHour: estSoir ? 16 : 5, minute: 0, second: 0, of: dateDecalee)
     return dateAjustee
+  }
+  
+  // Mettre une condition en minuscules et enlever le point final s'il y a lieu
+  private func nettoyerChaineCondition(_ chaine: String) -> String {
+    var chaineNettoyee = chaine.lowercased()
+    chaineNettoyee = chaineNettoyee.trimmingCharacters(in: .whitespaces)
+    if chaineNettoyee.last == "." {
+      chaineNettoyee = String(chaineNettoyee.dropLast())
+    }
+    return chaineNettoyee
   }
 }
 
