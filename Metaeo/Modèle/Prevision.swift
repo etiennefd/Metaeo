@@ -106,23 +106,33 @@ struct Prevision: CustomDebugStringConvertible {
       }
       return false
     } else if self.type == .horaire {
-      if var heureLeverDuSoleil = ImportateurPrevisions.global.donneesEnAffichage.heureLeverDuSoleil,
-        var heureCoucherDuSoleil = ImportateurPrevisions.global.donneesEnAffichage.heureCoucherDuSoleil {
-        // Le lever et le coucher sont ceux de la date d'émission de la prévision.
-        // Pour savoir si la prévision est de nuit, il faut comparer avec le prochain lever/coucher.
-        // Donc on ajoute 1 jour si l'émission des prévisions a été faite après le lever/coucher du jour même.
-        var composantDateDecalage = DateComponents()
-        composantDateDecalage.day = 1
-        if let heureEmission = self.heureEmission, heureEmission > heureLeverDuSoleil /*émission après lever*/ {
-          heureLeverDuSoleil = Calendar.current.date(byAdding: composantDateDecalage, to: heureLeverDuSoleil) ?? heureLeverDuSoleil
-        }
-        if let heureEmission = self.heureEmission, heureEmission > heureCoucherDuSoleil /*émission après coucher*/{
-          heureCoucherDuSoleil = Calendar.current.date(byAdding: composantDateDecalage, to: heureCoucherDuSoleil) ?? heureCoucherDuSoleil
-        }
-        if self.heureDebut < heureLeverDuSoleil /*prévision avant lever*/
-          || heureLeverDuSoleil < heureCoucherDuSoleil, self.heureDebut > heureCoucherDuSoleil /*prévision après coucher*/ {
+      if let heureLeverDuSoleil = ImportateurPrevisions.global.donneesEnAffichage.heureLeverDuSoleil,
+        let heureCoucherDuSoleil = ImportateurPrevisions.global.donneesEnAffichage.heureCoucherDuSoleil {
+        // Avant le lever du jour actuel? C'est la nuit
+        if self.heureDebut < heureLeverDuSoleil {
           return true
         }
+        // Après le lever du jour actuel mais avant le coucher? C'est le jour
+        if self.heureDebut < heureCoucherDuSoleil {
+          return false
+        }
+        // Ajouter un jour aux heures de coucher et lever pour obtenir une estimation des lever/coucher du jour suivant
+        var composantDateDecalage = DateComponents()
+        composantDateDecalage.day = 1
+        guard let heureProchainLeverDuSoleil = Calendar.current.date(byAdding: composantDateDecalage, to: heureLeverDuSoleil),
+          let heureProchainCoucherDuSoleil = Calendar.current.date(byAdding: composantDateDecalage, to: heureCoucherDuSoleil) else {
+            return false
+        }
+        // Après le coucher du jour actuel mais avant le lever du jour suivant? C'est la nuit
+        if self.heureDebut < heureProchainLeverDuSoleil {
+          return true
+        }
+        // Après le deuxième lever mais avant le deuxième coucher
+        if self.heureDebut < heureProchainCoucherDuSoleil {
+          return false
+        }
+        // Après le deuxième coucher
+        return true
       }
     }
     return false
