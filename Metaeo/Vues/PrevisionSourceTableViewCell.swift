@@ -15,6 +15,7 @@ class PrevisionSourceTableViewCell: UITableViewCell {
   @IBOutlet weak var vueIconeMeteo: UIImageView!
   @IBOutlet weak var etiquetteSource: UILabel!
   @IBOutlet weak var etiquetteTemperature: UILabel!
+  @IBOutlet weak var etiquetteCondition: UILabel!
   
   override func awakeFromNib() {
     super.awakeFromNib()
