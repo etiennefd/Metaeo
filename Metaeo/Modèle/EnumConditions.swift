@@ -168,6 +168,7 @@ enum Condition: String {
   case lightRainshower = "light rainshower"
   case mainlyCloudy = "mainly cloudy"
   case rainShowersAndFlurries = "rain showers and flurries"
+  case thunderstormWithLightRainshowers = "thunderstorm with light rainshowers"
   
   // utilisées par yr.no
   // les cas commentés sont ceux qui sont identiques à une condition déjà définie ci-dessus
@@ -368,6 +369,7 @@ extension Prevision {
          .thunderstormWithHeavyRain,
          .heavyThunderstorm,
          .heavyThunderstormWithRain,
+         .thunderstormWithLightRainshowers,
          .lightRainAndThunderYR,
          .rainAndThunderYR,
          .heavyRainAndThunderYR:
