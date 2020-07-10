@@ -74,6 +74,8 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, XMLParserDelegate {
         if self.previsionEnEdition.condition == nil {
           print("Incapable de parser la condition \(data)")
         }
+      case ("forecast", "textSummary"):
+        self.previsionEnEdition.detailsCondition = data
       case (_, "dewpoint"):
         self.previsionEnEdition.pointDeRosee = Double(data)
       case (_, "humidex") /*currentConditions et hourlyForecast*/, ("humidex", "calculated") /*forecase*/:
