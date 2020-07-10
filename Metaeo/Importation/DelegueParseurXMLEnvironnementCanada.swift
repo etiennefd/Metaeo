@@ -168,6 +168,11 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, XMLParserDelegate {
       self.previsionEnEdition.heureEmission = self.heureEmissionForecast
       self.conditionsActuelles = self.previsionEnEdition
     case "forecast":
+      // Cas spécial : parfois, EC donne "chance of showers" mais mentionne un risque d'orages dans le texte et met une icône avec de la foudre.
+      // Lorsque ça se produit, je change la condition pour inclure le risque d'orages.
+      if self.previsionEnEdition.condition == .chanceOfShowers, self.previsionEnEdition.detailsCondition?.contains("thunderstorm") ?? false {
+        self.previsionEnEdition.condition = .chanceOfShowersOrThunderstorms
+      }
       self.previsionEnEdition.type = .jour
       if let chaineJour = self.previsionEnEdition.chainePeriode {
         if let jour = dateDepuisChaineJour(chaineJour) {
