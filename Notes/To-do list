@@ -1,10 +1,12 @@
 BOGUES
 [ ] Parfois le collectionView par période est vide
 [ ] Une prévision peut avoir une icône de jour ET une de nuit selon la source, si une dit "sunny" et l'autre "clear" et estNuit == vrai. Mais c'est rare.
+[ ] EC a parfois des icônes avec orages alors que la condition dit seulement "Possibilité d'averses". Il faudrait peut-être ajuster la condition (Possibilité d'averses ou d'orages) si l'icône a un éclair, si le texte dit "orage" ou si les prévisions horaires incluent des possibilités d'orage.
 
 IMPORTATION DES DONNÉES
 [x] Trouver comment accéder aux données d'EC
 [x] Créer des Prévisions à partir des données d'EC (XML)
+[ ] Importer les données sur les avertissements et les veilles
 [ ] Créer des Prévisions à partir du JSON de yr.no
   [x] Créer un parseur JSON
   [x] Parser les prévisions horaires
@@ -12,20 +14,23 @@ IMPORTATION DES DONNÉES
   [ ] Créer des identifiants pour obtenir les données légalement (HTML header)
   [-] Associer les informations reçues à celles utilisées par EC pour harmoniser
   [x] Créer des conditions spécifiques à yr.no
-  [ ] Créer les icônes supplémentaires nécessaires
 [ ] Créer des Prévisions à partir du XML de la NOAA
   [ ] Clarifier la différence entre les différents services de données
   [ ] Créer un parseur XML distinct de celui d'EC
   [ ] Ajouter les conditions dans l'enum
-  [ ] Créer des icônes pour les conditions Hot et Cold
-[ ] Ajouter d'autres sources de données :
+[ ] Faire de la recherche sur d'autres sources de données :
   [ ] Météomédia / WeatherSource
-  [ ] NOAA
+  [x] NOAA
   [ ] OpenWeatherMap
   [ ] Accuweather
+  [ ] Foreca
+  [ ] Met Office - https://metoffice.apiconnect.ibmcloud.com/metoffice/production/api
+  [ ] Weather.io
+  [.] Modèle SGPD du Canada - https://eccc-msc.github.io/open-data/msc-data/nwp_gdps/readme_gdps_fr/
 [x] Importer les données et les organiser par source et période
 [x] Remplacer les String par des Dates pour les périodes
 [ ] Présenter la vue des conditions actuelles seulement après avoir chargé les données initiales à l'ouverture
+  [ ] Mettre une animation pour indiquer qu'on charge les données
 [ ] Garder les données importées en cache
 [ ] Réimporter automatiquement les données quand ça fait un certain temps (une heure? un délai d'expiration?)
 [ ] Gérer l'échec de l'importation (ex. : en cas d'absence de connection internet)
@@ -39,7 +44,9 @@ AFFICHAGE DES DONNÉES (EN GÉNÉRAL)
 VUE DES CONDITIONS ACTUELLES
 [x] Créer une CustomView pour les données des observations actuelles
 [ ] Mieux disposer les données secondaires (vent, humidité, etc.) -> dans une Table View?
-[ ] Afficher la source
+[ ] Afficher la source des données
+[ ] Afficher le lieu d'observation (ex : aéroport)
+[ ] Afficher les avertissements et veilles (de chaleur, d'orages, etc.)
 
 VUE DE LA LISTE DE PRÉVISIONS
 [x] Créer le TableView en suivant le modèle de l'app MealTracker
@@ -69,22 +76,23 @@ GÉOGRAPHIE
 [ ] Faire un mapping entre les lieux choisis par l'utilisateurs et les lieux disponibles selon les sources
 [ ] Utiliser la position de l'utilisateur pour déterminer le lieu
 
-
 ÉLÉMENTS VISUELS
 [x] Obtenir/colorer les icônes pour toutes les conditions météo
   [x] Conditions actuelles
   [x] Conditions utilisées dans les prévisions
+  [x] Icônes supplémentaires nécessaires à yr.no
+  [x] Icônes pour les conditions Hot et Cold de la NOAA
 [x] Afficher les icônes aux bons endroits
 [ ] Expérimenter et choisir différentes tailles et dispositions pour les icônes
 [ ] Choisir les polices
 [ ] Créer une icône d'app
-[ ] (Optionnel) modifier l'icône d'app selon la météo
+[ ] (Optionnel) modifier l'icône d'app selon les conditions actuelles
 [ ] Créer des icônes pour la barre d'onglets en bas
 
 FUN STUFF
-[ ] Inventer une liste d'achievements
-[ ] Coder la page des achievements
-[ ] Créer une page de statistiques (nombre de jours ensoleillés vécus par l'utilisateur, etc.)
+[.] Inventer une liste d'achievements
+[.] Coder la page des achievements
+[.] Créer une page de statistiques (nombre de jours ensoleillés vécus par l'utilisateur, etc.)
 
 LOCALISATION
 [ ] Avoir une version française et anglaise pour toutes les chaines de l'app
@@ -99,3 +107,4 @@ Légende
 [ ] == à faire
 [x] == fait
 [-] == abandonné
+[.] == à faire, mais pas pour le Minimum Viable Product
