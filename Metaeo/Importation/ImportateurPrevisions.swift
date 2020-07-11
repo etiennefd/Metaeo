@@ -19,6 +19,7 @@ struct DonneesPourLieu {
   // var ville
   // var province
   // var pays
+  var fuseauHoraire: TimeZone?
   
   var conditionsActuelles = [SourcePrevision : Prevision]()
   var previsionsParJour = [SourcePrevision : [Date : Prevision]]()
@@ -88,6 +89,7 @@ class ImportateurPrevisions {
             self.donneesEnAffichage.heureLeverDuSoleil = delegueParseurXML.heureLeverDuSoleil
             self.donneesEnAffichage.heureCoucherDuSoleil = delegueParseurXML.heureCoucherDuSoleil
             self.donneesEnAffichage.heureEmission = delegueParseurXML.heureCreationXML
+            self.donneesEnAffichage.fuseauHoraire = delegueParseurXML.fuseauHoraire
             
             // Pour le moment le choix de la source est un peu aléatoire selon la première tâche terminée... il va falloir améliorer ça
             if self.sourceChoisieConditionsActuelles == nil {

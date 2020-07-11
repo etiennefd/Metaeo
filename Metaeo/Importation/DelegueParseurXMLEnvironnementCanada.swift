@@ -205,16 +205,16 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, XMLParserDelegate {
     guard let indexJourDeLaChaine = joursDeLaSemaine.firstIndex(of: symboleJourDeLaChaine) else {
       return nil
     }
-    // Le décalage représente le nombre de jours (ex. 4) entre la date de la prévision (ex. lundi)  et aujourd'hui (ex. lundi)
+    // Le décalage représente le nombre de jours (ex. 4) entre la date de la prévision (ex. jeudi) et aujourd'hui (ex. lundi)
     let decalage = ((indexJourDeLaChaine + joursDeLaSemaine.count) - indexJourActuel) % joursDeLaSemaine.count
     var composantDateDecalage = DateComponents()
     composantDateDecalage.day = decalage
     guard let dateDecalee = Calendar.current.date(byAdding: composantDateDecalage, to: self.heureLocaleCreationXML) else {
       return nil
     }
-    // Si la prévision concerne le soir, son heure est 16h. Sinon, 5h.
+    // Si la prévision concerne le soir, son heure est 18h. Sinon, 6h. (Ces heures sont artificielles, pour harmoniser avec les autres sources)
     let estSoir = composantsChaine.contains("night")
-    let dateAjustee = Calendar.current.date(bySettingHour: estSoir ? 16 : 5, minute: 0, second: 0, of: dateDecalee)
+    let dateAjustee = Calendar.current.date(bySettingHour: estSoir ? 18 : 6, minute: 0, second: 0, of: dateDecalee)
     return dateAjustee
   }
   

@@ -23,20 +23,29 @@ class ParseurJSONYrNo: NSObject {
     
     let heureEmission = dateFormatter.date(from: json["properties"]["meta"]["updated_at"].stringValue)
     
+    var previsionJourEnEdition: Prevision? = nil
+    
+    // Variables pour bien créer les conditions du jour actuel
+    var aCreePrevisionDuJourMeme = false
+    var doitAjusterSelonDeuxiemePeriodeDe6h = false
+    var intHeurePrevisionDuJourMeme: Int?
+    
     let timeseries = json["properties"]["timeseries"].arrayValue
     for objetPrevision in timeseries {
-//      let previsionJourEnEdition = Prevision()
-      guard let heure = dateFormatter.date(from: objetPrevision["time"].stringValue) else {
+      guard let heurePrevision = dateFormatter.date(from: objetPrevision["time"].stringValue) else {
         continue
       }
+      
+      // Créer la prévision horaire
+      
       var previsionHoraireEnEdition = Prevision()
       previsionHoraireEnEdition.type = .horaire
       previsionHoraireEnEdition.source = .yrNo
-      previsionHoraireEnEdition.heureDebut = heure
+      previsionHoraireEnEdition.heureDebut = heurePrevision
       previsionHoraireEnEdition.heureEmission = heureEmission
       
       let donneesInstantanees = objetPrevision["data"]["instant"]["details"]
-      previsionHoraireEnEdition.pression = donneesInstantanees["air_pressure_at_sea_level"].doubleValue / 10
+      previsionHoraireEnEdition.pression = donneesInstantanees["air_pressure_at_sea_level"].doubleValue / 10 // divisé par 10 car présenté en hPa
       previsionHoraireEnEdition.temperature = donneesInstantanees["air_temperature"].doubleValue
       previsionHoraireEnEdition.pointDeRosee = donneesInstantanees["dew_point_temperature"].doubleValue
       previsionHoraireEnEdition.humidite = donneesInstantanees["relative_humidity"].doubleValue
@@ -47,105 +56,196 @@ class ParseurJSONYrNo: NSObject {
       let codeSymboleCondition = objetPrevision["data"]["next_1_hours"]["summary"]["symbol_code"].stringValue
       let composants = codeSymboleCondition.components(separatedBy: "_")
       previsionHoraireEnEdition.condition = Condition(rawValue: composants[0])
-//      if composants.count > 1 {
-//        previsionHoraireEnEdition.estNuit = composants[1] == "night" || composants[1] == "polartwilight"
-//      }
+      previsionHoraireEnEdition.quantitePrecipitation = objetPrevision["data"]["next_1_hours"]["details"]["precipitation_amount"].doubleValue
       
-      self.previsionsParHeure[heure] = previsionHoraireEnEdition
+      // Ajouter la prévision horaire
+      self.previsionsParHeure[heurePrevision] = previsionHoraireEnEdition
+      
+      // Pour les prévisions par jour, c'est un peu plus compliqué
+      
+      let heureActuelle = Date()
+      let calendrierLocal = Calendar.current
+      //calendar.timeZone = timeZone du lieu de la prévision
+      let intHeureLocalePrevision = calendrierLocal.component(.hour, from: heurePrevision)
+      let intHeureLocaleActuelle = calendrierLocal.component(.hour, from: heureActuelle)
+      let joursDeLaSemaine = calendrierLocal.weekdaySymbols
+
+      var calendrierUTC = Calendar.current
+      calendrierUTC.timeZone = TimeZone(identifier: "UTC")!
+      let intHeureUTCPrevision = calendrierUTC.component(.hour, from: heurePrevision)
+      
+      // Créer la prévision pour le reste de la journée ou nuit actuelle.
+      // Si l'heure locale actuelle est entre 4 et 6h inclus, ou 16 et 18h inclus, on ne montre pas cette prévision (on passe directement à la journée ou la nuit suivante)
+      if !aCreePrevisionDuJourMeme,
+          (intHeureLocaleActuelle > 6 && intHeureLocaleActuelle < 16) /* jour */ ||
+          (intHeureLocaleActuelle > 18 || intHeureLocaleActuelle < 4) /* nuit */ {
+        
+        previsionJourEnEdition = Prevision()
+        previsionJourEnEdition!.type = .jour
+        previsionJourEnEdition!.source = .yrNo
+        let heureAjustee = calendrierLocal.date(bySettingHour: (intHeureLocaleActuelle > 18 && intHeureLocaleActuelle < 4) ? 18 : 6, minute: 0, second: 0, of: heurePrevision)
+        previsionJourEnEdition!.heureDebut = heureAjustee
+        previsionJourEnEdition!.heureEmission = heureEmission
+        
+
+        var chaineJourDeLaSemaine = joursDeLaSemaine[calendrierLocal.component(.weekday, from: heurePrevision) - 1]
+        if intHeureLocalePrevision == 18 {
+          chaineJourDeLaSemaine = chaineJourDeLaSemaine + " night"
+        }
+        previsionJourEnEdition!.chainePeriode = chaineJourDeLaSemaine
+        // il faudrait une fonction pour changer le jour en today/tonight si c'est pertinent
+        //        if let heureAjustee = heureAjustee, calendrierLocal.component(.hour, from: heureAjustee) == 18 {
+        //          previsionJourEnEdition!.chainePeriode = "Tonight"
+        //        } else {
+        //          previsionJourEnEdition!.chainePeriode = "Today"
+        //        }
+        
+        // La condition est soit celle des 6 ou des 12 prochaines heures, selon si on est assez tôt dans la journée/nuit
+        var codeSymboleCondition: String
+        if (intHeureLocaleActuelle > 6 && intHeureLocaleActuelle < 12) || (intHeureLocaleActuelle > 18) {
+          codeSymboleCondition = objetPrevision["data"]["next_6_hours"]["summary"]["symbol_code"].stringValue
+        } else {
+          codeSymboleCondition = objetPrevision["data"]["next_12_hours"]["summary"]["symbol_code"].stringValue
+          doitAjusterSelonDeuxiemePeriodeDe6h = true
+        }
+        let composants = codeSymboleCondition.components(separatedBy: "_")
+        previsionJourEnEdition!.condition = Condition(rawValue: composants[0])
+        
+        previsionJourEnEdition!.temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
+        previsionJourEnEdition!.temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
+        previsionJourEnEdition!.quantitePrecipitation = objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
+        
+        self.previsionsParJour[heureAjustee!] = previsionJourEnEdition
+        aCreePrevisionDuJourMeme = true
+        intHeurePrevisionDuJourMeme = intHeureUTCPrevision
+        continue
+      }
+      
+      // Si la prévision pour le jour même utilise la condition des next_12_hours, on va regarder la 2e période de 6h pour ajuster la température et les précipitations.
+      if doitAjusterSelonDeuxiemePeriodeDe6h,
+        let intHeurePrevisionDuJourMeme = intHeurePrevisionDuJourMeme,
+        (intHeureUTCPrevision - intHeurePrevisionDuJourMeme) % 24 == 6 {
+        
+        let temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
+        let temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
+        if temperatureMin < previsionJourEnEdition!.temperatureMin ?? -999 {
+          previsionJourEnEdition!.temperatureMin = temperatureMin
+        }
+        if temperatureMax > previsionJourEnEdition!.temperatureMax ?? -999 {
+          previsionJourEnEdition!.temperatureMax = temperatureMax
+        }
+        let precipitationsAvant = previsionJourEnEdition!.quantitePrecipitation ?? 0
+        previsionJourEnEdition!.quantitePrecipitation = precipitationsAvant + objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
+        
+        self.previsionsParJour[previsionJourEnEdition!.heureDebut] = previsionJourEnEdition
+        doitAjusterSelonDeuxiemePeriodeDe6h = false
+        continue
+      }
+      
+      // Créer une prévision pour un jour ou une nuit à partir de next_12_hours et next_6_hours.
+      // Si on est dans le fuseau UTC, ceci devrait remplir tout.
+      // Ailleurs, ça va remplir seulement environ 2 jours parce que les prévisions plus lointaines sont mal alignées.
+      if (intHeureLocalePrevision == 6 || intHeureLocalePrevision == 18), objetPrevision["data"]["next_12_hours"].exists() || objetPrevision["data"]["next_6_hours"].exists() {
+        previsionJourEnEdition = Prevision()
+        previsionJourEnEdition!.type = .jour
+        previsionJourEnEdition!.source = .yrNo
+        previsionJourEnEdition!.heureDebut = heurePrevision
+        previsionJourEnEdition!.heureEmission = heureEmission
+        
+        var chaineJourDeLaSemaine = joursDeLaSemaine[calendrierLocal.component(.weekday, from: heurePrevision) - 1]
+        if intHeureLocalePrevision == 18 {
+          chaineJourDeLaSemaine = chaineJourDeLaSemaine + " night"
+        }
+        previsionJourEnEdition!.chainePeriode = chaineJourDeLaSemaine
+        
+        var codeSymboleCondition: String
+        if objetPrevision["data"]["next_12_hours"].exists() {
+          codeSymboleCondition = objetPrevision["data"]["next_12_hours"]["summary"]["symbol_code"].stringValue
+        } else {
+          codeSymboleCondition = objetPrevision["data"]["next_6_hours"]["summary"]["symbol_code"].stringValue
+        }
+        let composants = codeSymboleCondition.components(separatedBy: "_")
+        previsionJourEnEdition!.condition = Condition(rawValue: composants[0])
+        previsionJourEnEdition!.temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
+        previsionJourEnEdition!.temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
+        previsionJourEnEdition!.quantitePrecipitation = objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
+        
+        self.previsionsParJour[heurePrevision] = previsionJourEnEdition
+        continue
+      }
+      
+      // Ajustement en utilisant le next_6_hours de minuit ou midi
+      if (intHeureLocalePrevision == 0 || intHeureLocalePrevision == 12), objetPrevision["data"]["next_6_hours"].exists() {
+        let temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
+        let temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
+        if temperatureMin < previsionJourEnEdition!.temperatureMin ?? -999 {
+          previsionJourEnEdition!.temperatureMin = temperatureMin
+        }
+        if temperatureMax > previsionJourEnEdition!.temperatureMax ?? -999 {
+          previsionJourEnEdition!.temperatureMax = temperatureMax
+        }
+        let precipitationsAvant = previsionJourEnEdition!.quantitePrecipitation ?? 0
+        previsionJourEnEdition!.quantitePrecipitation = precipitationsAvant + objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
+        
+        self.previsionsParJour[previsionJourEnEdition!.heureDebut] = previsionJourEnEdition
+        continue
+      }
+      
+      // Pour la période à long terme, sans prévisions horaires, créer des prévisions à partir des next_12_hours et ajuster avec les next_6_hours.
+      // Les prévisions de yr.no sont toujours à 0h, 6h, 12h et 18h UTC.
+      // On utilise l'heure locale pour déterminer si c'est la prévision du matin (6-11h) ou du soir (18-23h) ou l'ajustement de l'après-midi (12-17h) ou de la nuit (0-5h)
+      if !objetPrevision["data"]["next_1_hours"].exists() {
+        
+        switch intHeureLocalePrevision {
+        case 6, 7, 8, 9, 10, 11, 18, 19, 20, 21, 22, 23:
+          previsionJourEnEdition = Prevision()
+          previsionJourEnEdition!.type = .jour
+          previsionJourEnEdition!.source = .yrNo
+          let heureAjustee = calendrierLocal.date(bySettingHour: intHeureLocalePrevision >= 18 ? 18 : 6, minute: 0, second: 0, of: heurePrevision)
+          previsionJourEnEdition!.heureDebut = heureAjustee
+          previsionJourEnEdition!.heureEmission = heureEmission
+          
+          var chaineJourDeLaSemaine = joursDeLaSemaine[calendrierLocal.component(.weekday, from: heurePrevision) - 1]
+          if intHeureLocalePrevision >= 18 {
+            chaineJourDeLaSemaine = chaineJourDeLaSemaine + " night"
+          }
+          previsionJourEnEdition!.chainePeriode = chaineJourDeLaSemaine
+          
+          var codeSymboleCondition: String
+          if objetPrevision["data"]["next_12_hours"].exists() {
+            codeSymboleCondition = objetPrevision["data"]["next_12_hours"]["summary"]["symbol_code"].stringValue
+          } else {
+            codeSymboleCondition = objetPrevision["data"]["next_6_hours"]["summary"]["symbol_code"].stringValue
+          }
+          let composants = codeSymboleCondition.components(separatedBy: "_")
+          previsionJourEnEdition!.condition = Condition(rawValue: composants[0])
+          previsionJourEnEdition!.temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
+          previsionJourEnEdition!.temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
+          previsionJourEnEdition!.quantitePrecipitation = objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
+          
+          self.previsionsParJour[heureAjustee!] = previsionJourEnEdition
+          continue
+          
+        case 12, 13, 14, 15, 16, 17, 0, 1, 2, 3, 4, 5:
+          let temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
+          let temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
+          if temperatureMin < previsionJourEnEdition!.temperatureMin ?? -999 {
+            previsionJourEnEdition!.temperatureMin = temperatureMin
+          }
+          if temperatureMax > previsionJourEnEdition!.temperatureMax ?? -999 {
+            previsionJourEnEdition!.temperatureMax = temperatureMax
+          }
+          let precipitationsAvant = previsionJourEnEdition!.quantitePrecipitation ?? 0
+          previsionJourEnEdition!.quantitePrecipitation = precipitationsAvant + objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
+          
+          self.previsionsParJour[previsionJourEnEdition!.heureDebut] = previsionJourEnEdition
+          continue
+          
+        default:
+          break
+        }
+      }
     }
   }
-  
-  // À ENLEVER
-  // que faire avec les "polar_twilight"??
-//  private func codeSymboleVersCondition(_ codeSymbole: String) -> Condition {
-//    switch codeSymbole {
-//    case "clearsky_day":
-//      return .sunny
-//    case "clearsky_night":
-//      return .clear
-//    case "cloudy":
-//      return .cloudy
-//    case "fair_day", "fair_night":
-//      return .aFewClouds
-//    case "fog":
-//      return .fog
-//    case "heavyrain":
-//      return .heavyRain
-//    case "heavyrainandthunder":
-//      return .thunderstorm
-//    case "heavyrainshowers":
-//      return .heavyRainShower
-//      case "heavyrainshowersandthunder":
-//      return .thunder
-//      case "heavysleet":
-//      return .heavyRainAndSnow
-//      case "heavysleetandthunder":
-//      return .
-//      case "heavysleetshowers":
-//      return .
-//      case "heavysleetshowersandthunder":
-//      return .
-//      case "heavysnow":
-//      return .heavySnow
-//      case "heavysnowandthunder":
-//      return .thunder
-//      case "heavysnowshowers":
-//      return .snow
-//      case "heavysnowshowersandthunder":
-//      return .
-//      case "lightrain":
-//      return .lightRain
-//      case "lightrainandthunder":
-//      return .thunderstormWithLightRain
-//      case "lightrainshowers":
-//      return .lightRainShower
-//      case "lightrainshowersandthunder":
-//      return .thunderstormWithLightRain
-//      case "lightsleet":
-//      return .lightRainAndSnow
-//      case "lightsleetandthunder":
-//      return .
-//      case "lightsleetshowers":
-//      return .li
-//      case "lightsnow":
-//      return .lightSnow
-//    case "lightsnowandthunder":
-//      return .
-//      case "lightsnowshowers":
-//      return .
-//      case "lightssleetshowersandthunder":
-//      return .thunder
-//    case "lightssnowshowersandthunder":
-//      return .
-//      case "partlycloudy":
-//      return .partlyCloudy
-//    case "rain":
-//      return .rain
-//    case "rainandthunder":
-//      return .thunderstormWithRain
-//    case "rainshowers":
-//      return .rainShower
-//    case "rainshowersandthunder":
-//      return .
-//      case "sleet":
-//      return .rainAndSnow
-//    case "sleetandthunder":
-//      return .
-//      case "sleetshowers":
-//      return .
-//      case "sleetshowersandthunder":
-//      return .
-//      case "snow":
-//      return .snow
-//      case "snowandthunder":
-//      return .thunderstormWithSnow
-//      case "snowshowers":
-//      return .flurries
-//      case "snowshowersandthunder":
-//      return .aFewFlurriesOrThundershowers
-//    default:
-//      <#code#>
-//    }
-//  }
 }
 
