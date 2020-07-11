@@ -165,6 +165,8 @@ enum Condition: String {
   // pas dans les liste d'EC, mais néanmoins vues dans les XML d'EC
   case chanceOfShowersRiskOfThunderstorms = "chance of showers. risk of thunderstorms"
   case chanceOfShowersRiskOfSevereThunderstorms = "chance of showers. risk of severe thunderstorms"
+  case showersRiskOfThunderstorms = "showers. risk of thunderstorms"
+  case aFewShowersRiskOfThunderstorms = "a few showers. risk of thunderstorms"
   case lightRainshower = "light rainshower"
   case mainlyCloudy = "mainly cloudy"
   case rainShowersAndFlurries = "rain showers and flurries"
@@ -290,6 +292,8 @@ extension Prevision {
          .showersOrThundershowers,
          .rainOrThunderstorms,
          .rainOrThundershowers,
+         .aFewShowersRiskOfThunderstorms,
+         .showersRiskOfThunderstorms,
          .lightRainShowersAndThunderYR,
          .rainShowersAndThunderYR,
          .heavyRainShowersAndThunderYR:
