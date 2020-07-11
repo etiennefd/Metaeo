@@ -27,25 +27,25 @@ struct Prevision: CustomDebugStringConvertible {
 
   // En général, seule l'une de ces trois variables est requise.
   // Dans de rares cas (tendance inverse de la température), on a besoin de Min et Max
-  var temperature: Double?
+  var temperature: Double? // °C
   var temperatureMax: Double?
   var temperatureMin: Double?
   
-  var probPrecipitation: Double?
-  var quantitePrecipitation: Int?
+  var probPrecipitation: Double? // %
+  var quantitePrecipitation: Double? // mm
   
   var directionVent: PointCardinal?
-  var directionVentDegres: Double?
-  var vitesseVent: Double?
-  var vitesseRafales: Double?
+  var directionVentDegres: Double? // degrés
+  var vitesseVent: Double? // km/h
+  var vitesseRafales: Double? // km/h
   
-  var pression: Double?
+  var pression: Double? // kPa
   var tendancePression: TendancePression? // à la hausse, à la baisse, stable
   var changementPression: Double?
   
-  var humidite: Double?
-  var pointDeRosee: Double?
-  var visibilite: Double?
+  var humidite: Double? // %
+  var pointDeRosee: Double? // °C
+  var visibilite: Double? // km
   var indiceUV: Double?
   
   var humidex: Int?
