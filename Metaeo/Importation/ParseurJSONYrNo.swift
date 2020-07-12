@@ -10,7 +10,7 @@ import Foundation
 
 class ParseurJSONYrNo: NSObject {
   
-  var conditionsActuelles: Prevision? // pas utilisé pour yr.no
+  //var conditionsActuelles: Prevision? // pas utilisé pour yr.no
   var previsionsParJour: [Date : Prevision]!
   var previsionsParHeure: [Date : Prevision]!
   
@@ -83,13 +83,12 @@ class ParseurJSONYrNo: NSObject {
         previsionJourEnEdition = Prevision()
         previsionJourEnEdition!.type = .jour
         previsionJourEnEdition!.source = .yrNo
-        let heureAjustee = calendrierLocal.date(bySettingHour: (intHeureLocaleActuelle > 18 && intHeureLocaleActuelle < 4) ? 18 : 6, minute: 0, second: 0, of: heurePrevision)
+        let heureAjustee = calendrierLocal.date(bySettingHour: (intHeureLocaleActuelle > 18 || intHeureLocaleActuelle < 4) ? 18 : 6, minute: 0, second: 0, of: heurePrevision)
         previsionJourEnEdition!.heureDebut = heureAjustee
         previsionJourEnEdition!.heureEmission = heureEmission
-        
 
         var chaineJourDeLaSemaine = joursDeLaSemaine[calendrierLocal.component(.weekday, from: heurePrevision) - 1]
-        if intHeureLocalePrevision == 18 {
+        if (intHeureLocaleActuelle > 18 || intHeureLocaleActuelle < 4) {
           chaineJourDeLaSemaine = chaineJourDeLaSemaine + " night"
         }
         previsionJourEnEdition!.chainePeriode = chaineJourDeLaSemaine
