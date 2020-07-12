@@ -123,9 +123,9 @@ class ImportateurPrevisions {
           // Mettre à jour les données à afficher
           DispatchQueue.main.async {
 //            self.donneesEnAffichage = DonneesPourLieu()
-            if let conditionsActuelles = parseur.conditionsActuelles {
-              self.donneesEnAffichage.conditionsActuelles[source] = conditionsActuelles
-            }
+//            if let conditionsActuelles = parseur.conditionsActuelles {
+//              self.donneesEnAffichage.conditionsActuelles[source] = conditionsActuelles
+//            }
             if let previsionsParJour = parseur.previsionsParJour {
               self.donneesEnAffichage.previsionsParJour[source] = previsionsParJour
             }
