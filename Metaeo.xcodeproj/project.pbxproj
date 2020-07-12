@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F04209C24BBBEB300182235 /* ParametresTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F04209B24BBBEB300182235 /* ParametresTableViewController.swift */; };
+		8F04209E24BBBF2000182235 /* DetailsPrevisionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F04209D24BBBF2000182235 /* DetailsPrevisionViewController.swift */; };
 		8F057E5E24B25F00009F8D78 /* Papier brouillon in Resources */ = {isa = PBXBuildFile; fileRef = 8F057E5D24B25F00009F8D78 /* Papier brouillon */; };
 		8F095A6524B0FE1B000AC650 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F095A6424B0DAFA000AC650 /* SwiftyJSON.swift */; };
 		8F0D598F24369DFA004D4438 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D598E24369DFA004D4438 /* AppDelegate.swift */; };
@@ -20,7 +22,6 @@
 		8F0D59B5243E91FD004D4438 /* Utilitaires.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D59B4243E91FD004D4438 /* Utilitaires.swift */; };
 		8F0D59C22440C49F004D4438 /* Prevision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D59C12440C49F004D4438 /* Prevision.swift */; };
 		8F0D59C4244936AF004D4438 /* To-do list in Resources */ = {isa = PBXBuildFile; fileRef = 8F0D59C3244936AF004D4438 /* To-do list */; };
-		8F0D59C624832179004D4438 /* ParametresViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D59C524832179004D4438 /* ParametresViewController.swift */; };
 		8F0D59C8248B3233004D4438 /* PrevisionSourceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D59C7248B3233004D4438 /* PrevisionSourceTableViewCell.swift */; };
 		8F0D59CA249E654F004D4438 /* DelegueParseurXMLEnvironnementCanada.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D59C9249E654F004D4438 /* DelegueParseurXMLEnvironnementCanada.swift */; };
 		8F0D59CC24A2A4A8004D4438 /* ImportateurPrevisions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D59CB24A2A4A8004D4438 /* ImportateurPrevisions.swift */; };
@@ -41,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8F04209B24BBBEB300182235 /* ParametresTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametresTableViewController.swift; sourceTree = "<group>"; };
+		8F04209D24BBBF2000182235 /* DetailsPrevisionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsPrevisionViewController.swift; sourceTree = "<group>"; };
 		8F057E5D24B25F00009F8D78 /* Papier brouillon */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Papier brouillon"; path = "Notes/Papier brouillon"; sourceTree = SOURCE_ROOT; };
 		8F095A6424B0DAFA000AC650 /* SwiftyJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		8F0D598B24369DFA004D4438 /* Metaeo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Metaeo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,7 +61,6 @@
 		8F0D59B4243E91FD004D4438 /* Utilitaires.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilitaires.swift; sourceTree = "<group>"; };
 		8F0D59C12440C49F004D4438 /* Prevision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prevision.swift; sourceTree = "<group>"; };
 		8F0D59C3244936AF004D4438 /* To-do list */ = {isa = PBXFileReference; lastKnownFileType = text; path = "To-do list"; sourceTree = "<group>"; };
-		8F0D59C524832179004D4438 /* ParametresViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParametresViewController.swift; sourceTree = "<group>"; };
 		8F0D59C7248B3233004D4438 /* PrevisionSourceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrevisionSourceTableViewCell.swift; sourceTree = "<group>"; };
 		8F0D59C9249E654F004D4438 /* DelegueParseurXMLEnvironnementCanada.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelegueParseurXMLEnvironnementCanada.swift; sourceTree = "<group>"; };
 		8F0D59CB24A2A4A8004D4438 /* ImportateurPrevisions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportateurPrevisions.swift; sourceTree = "<group>"; };
@@ -86,6 +88,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8F04209F24BBBF3200182235 /* Cellules */ = {
+			isa = PBXGroup;
+			children = (
+				8F0D59CF24A3CEDF004D4438 /* PrevisionPeriodeCollectionViewCell.swift */,
+				8F0D59C7248B3233004D4438 /* PrevisionSourceTableViewCell.swift */,
+			);
+			path = Cellules;
+			sourceTree = "<group>";
+		};
 		8F057E5F24B25F11009F8D78 /* Notes */ = {
 			isa = PBXGroup;
 			children = (
@@ -165,9 +176,9 @@
 				8F0D599424369DFA004D4438 /* Main.storyboard */,
 				8F0D599224369DFA004D4438 /* ConditionsActuellesViewController.swift */,
 				8F0D599024369DFA004D4438 /* ListePrevisionsViewController.swift */,
-				8F0D59C7248B3233004D4438 /* PrevisionSourceTableViewCell.swift */,
-				8F0D59CF24A3CEDF004D4438 /* PrevisionPeriodeCollectionViewCell.swift */,
-				8F0D59C524832179004D4438 /* ParametresViewController.swift */,
+				8F04209D24BBBF2000182235 /* DetailsPrevisionViewController.swift */,
+				8F04209B24BBBEB300182235 /* ParametresTableViewController.swift */,
+				8F04209F24BBBF3200182235 /* Cellules */,
 			);
 			path = Vues;
 			sourceTree = "<group>";
@@ -288,12 +299,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F0D59CA249E654F004D4438 /* DelegueParseurXMLEnvironnementCanada.swift in Sources */,
-				8F0D59C624832179004D4438 /* ParametresViewController.swift in Sources */,
 				8F0D599324369DFA004D4438 /* ConditionsActuellesViewController.swift in Sources */,
 				8F095A6524B0FE1B000AC650 /* SwiftyJSON.swift in Sources */,
+				8F04209E24BBBF2000182235 /* DetailsPrevisionViewController.swift in Sources */,
 				8F0D59B5243E91FD004D4438 /* Utilitaires.swift in Sources */,
 				8F5EFD3324B106C6002353B3 /* ParseurJSONYrNo.swift in Sources */,
 				8F0D598F24369DFA004D4438 /* AppDelegate.swift in Sources */,
+				8F04209C24BBBEB300182235 /* ParametresTableViewController.swift in Sources */,
 				8F0D59C22440C49F004D4438 /* Prevision.swift in Sources */,
 				8F0D599124369DFA004D4438 /* ListePrevisionsViewController.swift in Sources */,
 				8F0D59D424AB9941004D4438 /* EnumConditions.swift in Sources */,
