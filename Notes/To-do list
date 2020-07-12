@@ -1,7 +1,7 @@
 BOGUES
 [ ] Parfois le collectionView par période est vide
 [ ] Une prévision peut avoir une icône de jour ET une de nuit selon la source, si une dit "sunny" et l'autre "clear" et estNuit == vrai. Mais c'est rare.
-[ ] EC a parfois des icônes avec orages alors que la condition dit seulement "Possibilité d'averses". Il faudrait peut-être ajuster la condition (Possibilité d'averses ou d'orages) si l'icône a un éclair, si le texte dit "orage" ou si les prévisions horaires incluent des possibilités d'orage.
+[x] EC a parfois des icônes avec orages alors que la condition dit seulement "Possibilité d'averses". Il faudrait peut-être ajuster la condition (Possibilité d'averses ou d'orages) si l'icône a un éclair, si le texte dit "orage" ou si les prévisions horaires incluent des possibilités d'orage.
 
 IMPORTATION DES DONNÉES
 [x] Trouver comment accéder aux données d'EC
@@ -10,7 +10,7 @@ IMPORTATION DES DONNÉES
 [ ] Créer des Prévisions à partir du JSON de yr.no
   [x] Créer un parseur JSON
   [x] Parser les prévisions horaires
-  [ ] Parser les prévisions par jour
+  [x] Parser les prévisions par jour
   [ ] Créer des identifiants pour obtenir les données légalement (HTML header)
   [-] Associer les informations reçues à celles utilisées par EC pour harmoniser
   [x] Créer des conditions spécifiques à yr.no
@@ -27,6 +27,10 @@ IMPORTATION DES DONNÉES
   [ ] Met Office - https://metoffice.apiconnect.ibmcloud.com/metoffice/production/api
   [ ] Weather.io
   [.] Modèle SGPD du Canada - https://eccc-msc.github.io/open-data/msc-data/nwp_gdps/readme_gdps_fr/
+  [ ] Wetter.com
+  [?] JMA
+  [.] World Weather Online
+  [ ] Météo-France
 [x] Importer les données et les organiser par source et période
 [x] Remplacer les String par des Dates pour les périodes
 [ ] Présenter la vue des conditions actuelles seulement après avoir chargé les données initiales à l'ouverture
@@ -55,15 +59,17 @@ VUE DE LA LISTE DE PRÉVISIONS
   [ ] Choisir les autres variables à montrer : ressenti, prob de précipitation, vent, indice UV?
   [ ] Peut-être permettre à l'utilisateur de choisir la variable à montrer?
 [x] Créer une CollectionView pour les prévisions par période ainsi que le CustomCellView
-[x] Ordonner les cellules de la CollectionView selon la période (après conversion String -> Date)
+[x] Ordonner les cellules du CollectionView selon la période (après conversion String -> Date)
 [ ] Créer une vue pour donner des détails lorsqu'on touche une prévision dans la liste
   [ ] Implémenter les mécanismes de navigation de table view pour entrer et sortir de cette vue
   [ ] Dans cette vue, permettre de passer d'une source à l'autre ET/OU d'une période à l'autre avec un geste du doigt
 [ ] Permettre de réordonner la table des prévisions par source
-  [ ] Recharger la collection view pour afficher les données de la première source
+  [-] Recharger la collection view pour afficher les données de la première source
   [ ] Sauvegarder l'ordre choisi par l'utilisateur
-[ ] Afficher dans la collection view les prévisions de la source sélectionnée, s'il y en a une? (Plutôt que la première source par défaut)
-[ ] Choisir un gris pâle quand on sélectionne une cellule du table view? (pas nécessaire si cliquer ouvre une nouvelle vue?)
+[x] Afficher dans la collection view les prévisions de la source sélectionnée, s'il y en a une? (Plutôt que la première source par défaut)
+  [x] Sélectionner à l'aide d'un geste spécial (toucher longtemps)
+[ ] Choisir un gris pâle quand on sélectionne une cellule du table view
+[ ] Faire persister la sélection du CollectionView et du TableView même quand on change la sélection de l'autre
 [x] Changer entre 7 jours et 24h avec un UISegmentedControl
 
 PARAMÈTRES
@@ -86,7 +92,7 @@ GÉOGRAPHIE
 [ ] Expérimenter et choisir différentes tailles et dispositions pour les icônes
 [ ] Choisir les polices
 [ ] Créer une icône d'app
-[ ] (Optionnel) modifier l'icône d'app selon les conditions actuelles
+[?] (Optionnel) modifier l'icône d'app selon les conditions actuelles
 [ ] Créer des icônes pour la barre d'onglets en bas
 
 FUN STUFF
@@ -106,5 +112,6 @@ MONÉTISATION
 Légende
 [ ] == à faire
 [x] == fait
+[?] == optionnel
 [-] == abandonné
-[.] == à faire, mais pas pour le Minimum Viable Product
+[.] == à faire, mais pas pour la v1 (Minimum Viable Product)

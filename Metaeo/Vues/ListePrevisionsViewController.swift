@@ -34,12 +34,18 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     dateFormatterPrevisionHoraire.timeStyle = .short
     dateFormatterPrevisionHoraire.locale = Locale.current // à faire : s'assurer que l'heure affichée corresponde au fuseau horaire du lieu, pas de l'utilisateur
     
+    //Long Press
+    let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
+    //longPressGesture.minimumPressDuration = 0.5
+    self.listePrevisionsTableView.addGestureRecognizer(longPressGesture)
+    
     self.rechargeDonnees()
   }
   
   func rechargeDonnees() {
-    // choisir la 1re cellule dans chaque vue
     let ffff = self.previsionsStockees
+    
+    // choisir la 1re cellule dans chaque vue
 //    self.periodeEnSelection = self.previsionsStockees.values.first?.keys.sorted().first
     self.periodeEnSelection = self.previsionsStockees[.environnementCanada]?.keys.sorted().first
     self.sourceEnSelection = self.previsionsStockees.keys.first
@@ -55,8 +61,9 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
   }
   
   func rechargeDonneesTableView() {
-    previsionsParSourceAffichees.removeAll()
+    let ffff = self.previsionsStockees
     
+    previsionsParSourceAffichees.removeAll()
     self.sourceEnSelection = self.previsionsStockees.keys.first
     
     for (_, previsionsParPeriode) in self.previsionsStockees {
@@ -79,7 +86,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
       // remplir le tableau des prévisions par période selon la source choisie (collection view)
       if source == self.sourceEnSelection {
         for (date, prevision) in previsionsParPeriode {
-          // Éviter d'afficher
+          // éviter d'afficher les prévisions horaires antérieures au moment présent
           if prevision.type == .horaire, date < Date() {
             continue
           }
@@ -167,6 +174,21 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
       break
     }
     self.rechargeDonnees()
+  }
+  
+  //MARK: Gestures
+
+  // Tape longue pour sélectionner la source à utiliser dans les prévisions du CollectionView
+  @objc func longPress(longPressGestureRecognizer: UILongPressGestureRecognizer) {
+    if longPressGestureRecognizer.state == UIGestureRecognizer.State.began {
+      let touchPoint = longPressGestureRecognizer.location(in: self.listePrevisionsTableView)
+      if let indexPath = self.listePrevisionsTableView.indexPathForRow(at: touchPoint) {
+        self.listePrevisionsTableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+        let prevision = previsionsParSourceAffichees[indexPath.row]
+        self.sourceEnSelection = prevision.source
+        self.rechargeDonneesCollectionView()
+      }
+    }
   }
   
   
