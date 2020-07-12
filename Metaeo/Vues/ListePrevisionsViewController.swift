@@ -11,6 +11,7 @@ import UIKit
 class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
 
   //MARK: Properties
+  
   var montrerPrevisionsParHeure = false // pour alterner entre prévisions par jour et prévisions horaires
   var dateFormatterPrevisionHoraire = DateFormatter()
   
@@ -30,15 +31,20 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     super.viewDidLoad()
     // Do any additional setup after loading the view.
     
+    // Bouton d'édition de la table
+    self.navigationItem.rightBarButtonItem = self.editButtonItem
+    
+    // Date Formatter
     dateFormatterPrevisionHoraire.dateStyle = .none
     dateFormatterPrevisionHoraire.timeStyle = .short
     dateFormatterPrevisionHoraire.locale = Locale.current // à faire : s'assurer que l'heure affichée corresponde au fuseau horaire du lieu, pas de l'utilisateur
     
-    //Long Press
+    // Tape longue pour sélectionner la source
     let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
     //longPressGesture.minimumPressDuration = 0.5
     self.listePrevisionsTableView.addGestureRecognizer(longPressGesture)
     
+    // Charger les données du CollectionView et du TableView
     self.rechargeDonnees()
   }
   
@@ -100,6 +106,12 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     self.periodesCollectionView.reloadData()
   }
   
+  // Pour utiliser le bouton Edit/Done
+  override func setEditing(_ editing: Bool, animated: Bool) {
+    super.setEditing(editing, animated: animated)
+    listePrevisionsTableView.setEditing(editing, animated: animated)
+  }
+  
   //MARK: UITableViewDataSource
   
   func numberOfSections(in tableView: UITableView) -> Int {
@@ -127,6 +139,28 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     return cellule
   }
   
+  // Réordonner
+
+  func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+    return true
+  }
+  
+  func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+    let itemToMove = previsionsParSourceAffichees[sourceIndexPath.row]
+    previsionsParSourceAffichees.remove(at: sourceIndexPath.row)
+    previsionsParSourceAffichees.insert(itemToMove, at: destinationIndexPath.row)
+  }
+  
+  // enlève le bouton supprimer pendant l'édition de la table
+  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+    return .none
+  }
+  
+  // enlève l'indentation pendant l'édition de la table
+  func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+    return false
+  }
+
   //MARK: UICollectionViewDataSource
 
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -148,7 +182,6 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     }
     cellule.etiquetteTemperature.text = prevision.chaineTemperature()
     cellule.vueIconeMeteo.image = prevision.donneIcone()
-    //cellule.backgroundColor = .black
     
     return cellule
   }

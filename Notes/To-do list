@@ -63,7 +63,7 @@ VUE DE LA LISTE DE PRÉVISIONS
 [ ] Créer une vue pour donner des détails lorsqu'on touche une prévision dans la liste
   [ ] Implémenter les mécanismes de navigation de table view pour entrer et sortir de cette vue
   [ ] Dans cette vue, permettre de passer d'une source à l'autre ET/OU d'une période à l'autre avec un geste du doigt
-[ ] Permettre de réordonner la table des prévisions par source
+[x] Permettre de réordonner la table des prévisions par source
   [-] Recharger la collection view pour afficher les données de la première source
   [ ] Sauvegarder l'ordre choisi par l'utilisateur
 [x] Afficher dans la collection view les prévisions de la source sélectionnée, s'il y en a une? (Plutôt que la première source par défaut)
