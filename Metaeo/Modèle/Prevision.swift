@@ -100,12 +100,28 @@ struct Prevision: CustomDebugStringConvertible {
   
   // À raffiner selon les heures, et selon les autres sources de données, mais ceci devrait suffire pour Environnement Canada
   func estNuit() -> Bool {
-    if self.type == .jour {
+    guard let type = self.type else {
+      return false
+    }
+    switch type {
+      
+    case .actuel:
+      let heureCourante = Date()
+      if let heureLeverDuSoleil = ImportateurPrevisions.global.donneesEnAffichage.heureLeverDuSoleil,
+        let heureCoucherDuSoleil = ImportateurPrevisions.global.donneesEnAffichage.heureCoucherDuSoleil {
+        if heureCourante < heureLeverDuSoleil || heureCourante > heureCoucherDuSoleil {
+          return true
+        }
+        return false
+      }
+      
+    case .jour:
       if chainePeriode?.contains("night") ?? false {
         return true
       }
       return false
-    } else if self.type == .horaire {
+      
+    case .horaire:
       if let heureLeverDuSoleil = ImportateurPrevisions.global.donneesEnAffichage.heureLeverDuSoleil,
         let heureCoucherDuSoleil = ImportateurPrevisions.global.donneesEnAffichage.heureCoucherDuSoleil {
         // Avant le lever du jour actuel? C'est la nuit
@@ -134,6 +150,7 @@ struct Prevision: CustomDebugStringConvertible {
         // Après le deuxième coucher
         return true
       }
+      
     }
     return false
   }
