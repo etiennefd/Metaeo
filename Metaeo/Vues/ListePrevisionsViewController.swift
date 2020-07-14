@@ -92,8 +92,17 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
       // remplir le tableau des prévisions par période selon la source choisie (collection view)
       if source == self.sourceEnSelection {
         for (date, prevision) in previsionsParPeriode {
-          // éviter d'afficher les prévisions horaires antérieures au moment présent
-          if prevision.type == .horaire, date < Date() {
+          // éviter d'afficher :
+          // prévisions horaires antérieures au moment présent
+          // prévisions horaires postérieures à 24h dans le futur
+          // prévisions par jour postérieures à 6 jours dans le futur
+          let maintenant = Date()
+          guard let dans24h = Calendar.current.date(byAdding: .day, value: 1, to: maintenant),
+            let dans6Jours = Calendar.current.date(byAdding: .day, value: 6, to: maintenant) else {
+              continue
+          }
+          if (prevision.type == .horaire && (date < maintenant || date > dans24h))
+            || (prevision.type == .jour && date > dans6Jours) {
             continue
           }
           previsionsParPeriodeAffichees.append(prevision)

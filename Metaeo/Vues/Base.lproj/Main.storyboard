@@ -113,6 +113,7 @@
                                             <outlet property="etiquetteSource" destination="iYu-fa-Hn9" id="Yl8-nR-rxh"/>
                                             <outlet property="etiquetteTemperature" destination="qIJ-gf-wLG" id="lqH-6v-QGd"/>
                                             <outlet property="vueIconeMeteo" destination="vfi-Fe-Lgt" id="a7X-QR-hgM"/>
+                                            <segue destination="6Q1-jW-oii" kind="show" id="6cd-hJ-kfF"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -153,6 +154,15 @@
                     <view key="view" contentMode="scaleToFill" id="yEs-o9-TI8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Détails" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YCk-oU-rRM">
+                                <rect key="frame" x="167" y="153" width="53" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="k7d-bl-rz9"/>
                     </view>
@@ -368,7 +378,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1013" y="728"/>
+            <point key="canvasLocation" x="-662" y="723"/>
         </scene>
         <!--SETTINGS-->
         <scene sceneID="sx1-tS-UJh">
