@@ -15,7 +15,9 @@ enum TypePrevision {
 enum SourcePrevision: String {
   case environnementCanada = "Meteorological Service of Canada"
   case yrNo = "MET Norway"
-  //case meteomedia
+  case NOAA = "National Weather Service"
+  case openWeatherMap = "OpenWeatherMap"
+  //case
 }
 
 enum PointCardinal: String {
@@ -32,6 +34,14 @@ func celsiusVersFahrenheit(_ celsius: Double) -> Double {
 
 func fahrenheitVersCelsius(_ fahrenheit: Double) -> Double {
   return (fahrenheit - 32) / 1.8
+}
+
+func celsiusVersKelvin(_ celsius: Double) -> Double {
+  return celsius + 273.15
+}
+
+func kelvinVersCelsius(_ kelvin: Double) -> Double {
+  return kelvin - 273.15
 }
 
 func degresVersPointCardinal(_ degres: Double) -> PointCardinal? {

@@ -49,7 +49,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
   }
   
   func rechargeDonnees() {
-    let ffff = self.previsionsStockees
+//    let ffff = self.previsionsStockees
     
     // choisir la 1re cellule dans chaque vue
 //    self.periodeEnSelection = self.previsionsStockees.values.first?.keys.sorted().first
@@ -59,15 +59,15 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     self.rechargeDonneesTableView()
     self.rechargeDonneesCollectionView()
     
-    print("avant selectItem!!!")
+    //print("avant selectItem!!!")
     if self.previsionsParPeriodeAffichees.count > 0 {
       self.periodesCollectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .left)
     }
-    print("après selectItem!!!")
+    //print("après selectItem!!!")
   }
   
   func rechargeDonneesTableView() {
-    let ffff = self.previsionsStockees
+//    let ffff = self.previsionsStockees
     
     previsionsParSourceAffichees.removeAll()
     self.sourceEnSelection = self.previsionsStockees.keys.first

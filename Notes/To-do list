@@ -14,22 +14,27 @@ IMPORTATION DES DONNÉES
   [ ] Créer des identifiants pour obtenir les données en respectant les termes (HTML header)
   [-] Associer les informations reçues à celles utilisées par EC pour harmoniser
   [x] Créer des conditions spécifiques à yr.no
-[ ] Créer des Prévisions à partir du XML de la NOAA
-  [ ] Clarifier la différence entre les différents services de données
-  [ ] Créer un parseur XML distinct de celui d'EC
-  [ ] Ajouter les conditions dans l'enum
+[ ] Créer des Prévisions à partir de l'API de la NOAA
+  [x] Clarifier la différence entre les différents services de données
+  [ ] Créer un parseur JSON
+  [ ] Ajouter les conditions dans l'enum (https://graphical.weather.gov/xml/xml_fields_icon_weather_conditions.php)
+  [ ] Parser les prévisions selon les instructions à https://weather-gov.github.io/api/general-faqs
+    [ ] Par jour
+    [ ] Horaires
+  [ ] Parser les observations récentes (ex. https://api.weather.gov/stations/KDCA/observations/latest)
+[ ] Créer des Prévisions à partir de l'API de OpenWeatherMap
 [ ] Faire de la recherche sur les sources de données :
   [x] Environnement Canada
   [x] Yr.no
   [ ] Météomédia / WeatherSource
   [x] NOAA
-  [ ] OpenWeatherMap
+  [x] OpenWeatherMap
   [ ] Accuweather
   [ ] Foreca
   [ ] Met Office - https://metoffice.apiconnect.ibmcloud.com/metoffice/production/api
   [ ] Weather.io
   [.] Modèle SGPD du Canada - https://eccc-msc.github.io/open-data/msc-data/nwp_gdps/readme_gdps_fr/
-  [ ] Wetter.com
+  [?] Wetter.com
   [?] JMA
   [.] World Weather Online
   [ ] Météo-France
@@ -77,7 +82,11 @@ VUE DE LA LISTE DE PRÉVISIONS
 
 PARAMÈTRES
 [ ] Créer une table view pour les paramètres
-[ ] Permettre de choisir les unités (°C ou °F, km/h ou m/s ou mph, etc.)
+[ ] Permettre de choisir les unités
+  [ ] °C, °F
+    [?] autres échelles comme K?
+  [ ] km/h, m/s, mph, Beaufort, nœuds
+  [ ] hPa, kPa, mmHg
 [ ] Sauvegarder les paramètres choisis par l'utilisateur
 
 GÉOGRAPHIE
@@ -94,9 +103,11 @@ GÉOGRAPHIE
 [x] Afficher les icônes aux bons endroits
 [ ] Expérimenter et choisir différentes tailles et dispositions pour les icônes
 [ ] Choisir les polices
+[ ] Choisir une couleur dominante et la mettre sur les éléments interactifs pertinents
 [ ] Créer une icône d'app
   [-] Modifier l'icône d'app selon les conditions actuelles
 [ ] Créer des icônes pour la barre d'onglets en bas
+[ ] Mode sombre
 
 FUN STUFF
 [.] Inventer une liste d'achievements
@@ -110,6 +121,11 @@ LOCALISATION
 MONÉTISATION
 [ ] Créer un modèle d'abonnement pour utiliser les API payantes
 
+DÉPLOIEMENT
+[ ] Acheter un ordinateur qui peut rouler les derniers systèmes d'exploitation
+[ ] S'inscrire au Apple Developer Program
+[ ] Déployer sur TestFlight
+[ ] Soumettre au Apple Store
 
 
 Légende
