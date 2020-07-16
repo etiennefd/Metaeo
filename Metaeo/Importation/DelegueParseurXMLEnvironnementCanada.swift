@@ -79,7 +79,7 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, XMLParserDelegate {
       case (_, "dewpoint"):
         self.previsionEnEdition.pointDeRosee = Double(data)
       case (_, "humidex") /*currentConditions et hourlyForecast*/, ("humidex", "calculated") /*forecase*/:
-        self.previsionEnEdition.humidex = Int(data)
+        self.previsionEnEdition.humidex = Double(data)
       case (_, "lop"):
         self.previsionEnEdition.probPrecipitation = Double(data)
       case (_, "period"):

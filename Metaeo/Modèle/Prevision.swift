@@ -48,28 +48,23 @@ struct Prevision: CustomDebugStringConvertible {
   var visibilite: Double? // km
   var indiceUV: Double?
   
-  var humidex: Int?
+  var humidex: Double?
   var refroidissementEolien: Double?
   
   var certitude: Int?
   
+  var dateFormatterPrevisionHoraire = DateFormatter()
+  
   //MARK: Initialisation
   
-//  init(lieu: String, heureDebut: Date, heureFin: Date, temperatureMax: Double, condition: String, source: String) {
-//    self.lieu = lieu
-//    self.heureDebut = heureDebut
-//    self.heureFin = heureFin
-//    self.temperatureMax = temperatureMax
-//    self.condition = Condition(rawValue: condition)
-//    //    self.icone = UIImage
-//    self.source = source
-//  }
-  
   init() {
-    
+    // Date Formatter
+    dateFormatterPrevisionHoraire.dateStyle = .none
+    dateFormatterPrevisionHoraire.timeStyle = .short
+    dateFormatterPrevisionHoraire.locale = Locale.current // à faire : s'assurer que l'heure affichée corresponde au fuseau horaire du lieu, pas de l'utilisateur
   }
   
-  //MARK: Utilitaires
+  //MARK: Getters
   
   // À faire : considérer les fahrenheit
   func donneTemperature() -> Double {
@@ -78,12 +73,40 @@ struct Prevision: CustomDebugStringConvertible {
   func donneTemperatureArrondie() -> Int {
     return Int(self.donneTemperature().rounded())
   }
-  func chaineTemperature() -> String {
+  func donneChaineTemperature() -> String {
     return "\(self.donneTemperatureArrondie()) °C"
+  }
+  
+  func donneTemperatureRessentie() -> Double? {
+    return self.refroidissementEolien ?? self.humidex ?? nil
+  }
+  func donneTemperatureRessentieArrondie() -> Int? {
+    if let temperatureRessentie = self.donneTemperatureRessentie() {
+      return Int(temperatureRessentie.rounded())
+    }
+    return nil
   }
   
   func donneHeure() -> Date {
     return self.heureDebut
+  }
+  func donneChaineHeure() -> String {
+    return dateFormatterPrevisionHoraire.string(from: self.heureDebut)
+  }
+  
+  func donneChaineHeureEmission() -> String? {
+    if let heureEmission = self.heureEmission {
+      return dateFormatterPrevisionHoraire.string(from: heureEmission)
+    }
+    return nil
+  }
+  
+  func donneChainePeriode() -> String? {
+    if self.type == .horaire {
+      return self.donneChaineHeure()
+    } else {
+      return self.chainePeriode
+    }
   }
   
   func donneDirectionVent() -> PointCardinal? {
@@ -95,6 +118,16 @@ struct Prevision: CustomDebugStringConvertible {
     }
     return nil
   }
+  
+  func donneIndiceUV() -> Int? {
+    if let indiceUV = self.indiceUV {
+      return Int(indiceUV.rounded())
+    }
+    return nil
+  }
+  
+ 
+  
   
   
   

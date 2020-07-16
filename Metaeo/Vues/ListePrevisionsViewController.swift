@@ -13,7 +13,6 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
   //MARK: Properties
   
   var montrerPrevisionsParHeure = false // pour alterner entre prévisions par jour et prévisions horaires
-  var dateFormatterPrevisionHoraire = DateFormatter()
   
   var periodeEnSelection: Date!
   var sourceEnSelection: SourcePrevision!
@@ -33,11 +32,6 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     
     // Bouton d'édition de la table
     self.navigationItem.rightBarButtonItem = self.editButtonItem
-    
-    // Date Formatter
-    dateFormatterPrevisionHoraire.dateStyle = .none
-    dateFormatterPrevisionHoraire.timeStyle = .short
-    dateFormatterPrevisionHoraire.locale = Locale.current // à faire : s'assurer que l'heure affichée corresponde au fuseau horaire du lieu, pas de l'utilisateur
     
     // Tape longue pour sélectionner la source
     let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
@@ -141,7 +135,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     let prevision = previsionsParSourceAffichees[indexPath.row]
     
     cellule.etiquetteSource.text = prevision.source.rawValue
-    cellule.etiquetteTemperature.text = prevision.chaineTemperature()
+    cellule.etiquetteTemperature.text = prevision.donneChaineTemperature()
     cellule.vueIconeMeteo.image = prevision.donneIcone()
     cellule.etiquetteCondition.text = prevision.condition?.rawValue
     
@@ -184,12 +178,13 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     
     let prevision = previsionsParPeriodeAffichees[indexPath.row]
 
-    if prevision.type == .horaire {
-      cellule.etiquettePeriode.text = dateFormatterPrevisionHoraire.string(from: prevision.heureDebut)
-    } else {
-      cellule.etiquettePeriode.text = prevision.chainePeriode
-    }
-    cellule.etiquetteTemperature.text = prevision.chaineTemperature()
+//    if prevision.type == .horaire {
+//      cellule.etiquettePeriode.text = dateFormatterPrevisionHoraire.string(from: prevision.heureDebut)
+//    } else {
+//      cellule.etiquettePeriode.text = prevision.chainePeriode
+//    }
+    cellule.etiquettePeriode.text = prevision.donneChainePeriode()
+    cellule.etiquetteTemperature.text = prevision.donneChaineTemperature()
     cellule.vueIconeMeteo.image = prevision.donneIcone()
     
     return cellule
@@ -201,6 +196,29 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     let previsionSelectionnee = self.previsionsParPeriodeAffichees[index]
     self.periodeEnSelection = previsionSelectionnee.heureDebut
     self.rechargeDonneesTableView()
+  }
+  
+  // MARK: - Navigation
+  
+  // In a storyboard-based application, you will often want to do a little preparation before navigation
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    super.prepare(for: segue, sender: sender)
+    switch(segue.identifier ?? "") {
+    case "MontrerDetailsPrevision":
+      guard let detailsPrevisionViewController = segue.destination as? DetailsPrevisionViewController else {
+        fatalError("Unexpected destination: \(segue.destination)")
+      }
+      guard let celluleSelectionnee = sender as? PrevisionSourceTableViewCell else {
+        fatalError("Unexpected sender : \(sender ?? "")")
+      }
+      guard let indexPath = self.listePrevisionsTableView.indexPath(for: celluleSelectionnee) else {
+        fatalError("The selected cell is not being displayed by the table")
+      }
+      let previsionSelectionnee = self.previsionsParSourceAffichees[indexPath.row]
+      detailsPrevisionViewController.previsionAffichee = previsionSelectionnee
+    default:
+      fatalError("Unexpected segue identifier: \(segue.identifier ?? "")")
+    }
   }
   
   //MARK: Actions
