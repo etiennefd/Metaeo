@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DelegueParseurXMLEnvironnementCanada: DelegueParseurXML {  
+class DelegueParseurXMLEnvironnementCanada: NSObject, DelegueParseurXML {  
   
   //Pour le parsage XML :
   var elementXMLEnEdition: ElementXML? // pour savoir ce qu'on est en train d'éditer
