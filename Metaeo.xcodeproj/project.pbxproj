@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		8F04209C24BBBEB300182235 /* ParametresTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F04209B24BBBEB300182235 /* ParametresTableViewController.swift */; };
 		8F04209E24BBBF2000182235 /* DetailsPrevisionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F04209D24BBBF2000182235 /* DetailsPrevisionViewController.swift */; };
+		8F0420A124C0FF7800182235 /* ParseurJSONNOAA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0420A024C0FF7800182235 /* ParseurJSONNOAA.swift */; };
+		8F0420A324C1081E00182235 /* ProtocolesParseurs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0420A224C1081E00182235 /* ProtocolesParseurs.swift */; };
 		8F057E5E24B25F00009F8D78 /* Papier brouillon in Resources */ = {isa = PBXBuildFile; fileRef = 8F057E5D24B25F00009F8D78 /* Papier brouillon */; };
 		8F095A6524B0FE1B000AC650 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F095A6424B0DAFA000AC650 /* SwiftyJSON.swift */; };
 		8F0D598F24369DFA004D4438 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D598E24369DFA004D4438 /* AppDelegate.swift */; };
@@ -44,6 +46,8 @@
 /* Begin PBXFileReference section */
 		8F04209B24BBBEB300182235 /* ParametresTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametresTableViewController.swift; sourceTree = "<group>"; };
 		8F04209D24BBBF2000182235 /* DetailsPrevisionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsPrevisionViewController.swift; sourceTree = "<group>"; };
+		8F0420A024C0FF7800182235 /* ParseurJSONNOAA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseurJSONNOAA.swift; sourceTree = "<group>"; };
+		8F0420A224C1081E00182235 /* ProtocolesParseurs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtocolesParseurs.swift; sourceTree = "<group>"; };
 		8F057E5D24B25F00009F8D78 /* Papier brouillon */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Papier brouillon"; path = "Notes/Papier brouillon"; sourceTree = SOURCE_ROOT; };
 		8F095A6424B0DAFA000AC650 /* SwiftyJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		8F0D598B24369DFA004D4438 /* Metaeo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Metaeo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -187,8 +191,10 @@
 			isa = PBXGroup;
 			children = (
 				8F0D59CB24A2A4A8004D4438 /* ImportateurPrevisions.swift */,
+				8F0420A224C1081E00182235 /* ProtocolesParseurs.swift */,
 				8F0D59C9249E654F004D4438 /* DelegueParseurXMLEnvironnementCanada.swift */,
 				8F5EFD3224B106C6002353B3 /* ParseurJSONYrNo.swift */,
+				8F0420A024C0FF7800182235 /* ParseurJSONNOAA.swift */,
 			);
 			path = Importation;
 			sourceTree = "<group>";
@@ -300,9 +306,11 @@
 			files = (
 				8F0D59CA249E654F004D4438 /* DelegueParseurXMLEnvironnementCanada.swift in Sources */,
 				8F0D599324369DFA004D4438 /* ConditionsActuellesViewController.swift in Sources */,
+				8F0420A324C1081E00182235 /* ProtocolesParseurs.swift in Sources */,
 				8F095A6524B0FE1B000AC650 /* SwiftyJSON.swift in Sources */,
 				8F04209E24BBBF2000182235 /* DetailsPrevisionViewController.swift in Sources */,
 				8F0D59B5243E91FD004D4438 /* Utilitaires.swift in Sources */,
+				8F0420A124C0FF7800182235 /* ParseurJSONNOAA.swift in Sources */,
 				8F5EFD3324B106C6002353B3 /* ParseurJSONYrNo.swift in Sources */,
 				8F0D598F24369DFA004D4438 /* AppDelegate.swift in Sources */,
 				8F04209C24BBBEB300182235 /* ParametresTableViewController.swift in Sources */,

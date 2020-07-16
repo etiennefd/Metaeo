@@ -67,9 +67,9 @@ VUE DE LA LISTE DE PRÉVISIONS
   [?] Peut-être permettre à l'utilisateur de choisir la variable à montrer?
 [x] Créer une CollectionView pour les prévisions par période ainsi que le CustomCellView
 [x] Ordonner les cellules du CollectionView selon la période (après conversion String -> Date)
-[ ] Créer une vue pour donner des détails lorsqu'on touche une prévision dans la liste
+[x] Créer une vue pour donner des détails lorsqu'on touche une prévision dans la liste
   [x] Implémenter les mécanismes de navigation du TableView pour entrer et sortir de cette vue
-  [ ] Afficher les données pertinentes, y compris le texte de la prévision s'il y a lieu
+  [x] Afficher les données pertinentes, y compris le texte de la prévision s'il y a lieu
   [ ] Dans cette vue, permettre de passer d'une source à l'autre ET/OU d'une période à l'autre avec un geste du doigt
 [x] Permettre de réordonner la table des prévisions par source
   [-] Recharger la collection view pour afficher les données de la première source

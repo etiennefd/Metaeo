@@ -8,9 +8,9 @@
 
 import Foundation
 
-class ParseurJSONYrNo: ParseurJSON {
+class ParseurJSONNOAA: ParseurJSON {
   
-  var conditionsActuelles: Prevision? // pas utilisé pour yr.no
+  var conditionsActuelles: Prevision?
   var previsionsParJour: [Date : Prevision]!
   var previsionsParHeure: [Date : Prevision]!
   

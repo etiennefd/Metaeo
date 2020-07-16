@@ -8,13 +8,7 @@
 
 import Foundation
 
-class ElementXML {
-  var nom: String = ""
-  var attributs: [String : String] = [:]
-  var parent: ElementXML?
-}
-
-class DelegueParseurXMLEnvironnementCanada: NSObject, XMLParserDelegate {
+class DelegueParseurXMLEnvironnementCanada: DelegueParseurXML {  
   
   //Pour le parsage XML :
   var elementXMLEnEdition: ElementXML? // pour savoir ce qu'on est en train d'éditer

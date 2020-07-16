@@ -8,8 +8,18 @@
 
 import Foundation
 
+//MARK: Enums
+
 enum TypePrevision {
   case actuel, jour, horaire
+}
+
+enum PointCardinal: String {
+  case N, NNE, NE, ENE, E, ESE, SE, SSE, S, SSW, SW, WSW, W, WNW, NW, NNW
+}
+
+enum FormatDonnees {
+  case xml, json
 }
 
 enum SourcePrevision: String {
@@ -20,9 +30,18 @@ enum SourcePrevision: String {
   //case
 }
 
-enum PointCardinal: String {
-  case N, NNE, NE, ENE, E, ESE, SE, SSE, S, SSW, SW, WSW, W, WNW, NW, NNW
+func formatPourSource(_ source: SourcePrevision) -> FormatDonnees {
+  switch source {
+  case .environnementCanada:
+    return .xml
+  case .yrNo,
+       .NOAA,
+       .openWeatherMap:
+    return .json
+  }
 }
+
+//MARK: Conversion d'unités
 
 enum TendancePression: String {
   case falling, rising, steady
