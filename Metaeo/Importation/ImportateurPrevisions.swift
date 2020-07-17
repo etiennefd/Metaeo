@@ -80,8 +80,6 @@ class ImportateurPrevisions {
             if let previsionsParHeure = delegueParseurXML.previsionsParHeure {
               self.donneesEnAffichage.previsionsParHeure[source] = previsionsParHeure
             }
-            self.donneesEnAffichage.previsionsParJour[source] = delegueParseurXML.previsionsParJour
-            self.donneesEnAffichage.previsionsParHeure[source] = delegueParseurXML.previsionsParHeure
             self.donneesEnAffichage.heureLeverDuSoleil = delegueParseurXML.heureLeverDuSoleil
             self.donneesEnAffichage.heureCoucherDuSoleil = delegueParseurXML.heureCoucherDuSoleil
             self.donneesEnAffichage.heureEmission = delegueParseurXML.heureCreationXML
@@ -129,8 +127,6 @@ class ImportateurPrevisions {
             if let previsionsParHeure = parseur.previsionsParHeure {
               self.donneesEnAffichage.previsionsParHeure[source] = previsionsParHeure
             }
-            self.donneesEnAffichage.previsionsParJour[source] = parseur.previsionsParJour
-            self.donneesEnAffichage.previsionsParHeure[source] = parseur.previsionsParHeure
 //            self.donneesEnAffichage.heureLeverDuSoleil = parseur.heureLeverDuSoleil
 //            self.donneesEnAffichage.heureCoucherDuSoleil = parseur.heureCoucherDuSoleil
 //            self.donneesEnAffichage.heureEmission = parseur.heureCreationXML
@@ -153,7 +149,7 @@ class ImportateurPrevisions {
   // Donne les services météo qui s'appliquent à une localisation donnée
   private func sourcesPourLocalisation(_ localisation: String) -> [SourcePrevision] {
     if localisation == "Montreal" {
-      return [.environnementCanada, .yrNo]
+      return [.environnementCanada, .yrNo, .NOAA /* utilise présentement les données de Burlington */]
     }
     return []
   }
@@ -167,7 +163,7 @@ class ImportateurPrevisions {
     case .yrNo:
       return URL(string: "https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=45.5088&lon=-73.5878&altitude=216")!
     case .NOAA:
-      return URL(string: "https://api.weather.gov/points/44.4759,-73.2121") // Burlington
+      return URL(string: "https://api.weather.gov/points/44.4759,-73.2121")! // Burlington
     default:
       return nil
     }

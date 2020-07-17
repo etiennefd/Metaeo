@@ -15,236 +15,232 @@ class ParseurJSONNOAA: ParseurJSON {
   var previsionsParHeure: [Date : Prevision]!
   
   func parseJSON(_ json: JSON) {
+    self.conditionsActuelles = Prevision()
     self.previsionsParHeure = [Date : Prevision]()
     self.previsionsParJour = [Date : Prevision]()
     
+    let urlForecast = json["properties"]["forecast"].stringValue
+    let urlForecastHourly = json["properties"]["forecastHourly"].stringValue
+    let urlStations = json["properties"]["observationStations"].stringValue
+    
+    // 1. Importer le JSON des prévisions par jour (ex. https://api.weather.gov/gridpoints/LWX/96,70/forecast)
+    
+    let taskForecast = URLSession.shared.dataTask(with: URL(string: urlForecast)!) { data, response, error in
+      guard let data = data, error == nil else {
+        print(error ?? "Erreur inconnue")
+        //self.handleClientError(error)
+        return
+      }
+      guard let httpResponse = response as? HTTPURLResponse,
+        (200...299).contains(httpResponse.statusCode) else {
+          print(error ?? "Erreur inconnue")
+          //self.handleServerError(response)
+          return
+      }
+      // Parser le JSON
+      let parseur = ParseurJSONNOAAForecast()
+      do {
+        let json = try JSON(data: data)
+        parseur.parseJSON(json)
+      } catch {
+        // erreur
+      }
+      // Mettre à jour les données à afficher
+      DispatchQueue.main.async {
+        if let previsionsParJour = parseur.previsionsParJour {
+          self.previsionsParJour = previsionsParJour
+        }
+      }
+    }
+    taskForecast.resume()
+    
+    // 2. Importer le JSON des prévisions par heure (ex. https://api.weather.gov/gridpoints/LWX/96,70/forecast/hourly)
+    
+    let taskForecastHourly = URLSession.shared.dataTask(with: URL(string: urlForecastHourly)!) { data, response, error in
+      guard let data = data, error == nil else {
+        print(error ?? "Erreur inconnue")
+        //self.handleClientError(error)
+        return
+      }
+      guard let httpResponse = response as? HTTPURLResponse,
+        (200...299).contains(httpResponse.statusCode) else {
+          print(error ?? "Erreur inconnue")
+          //self.handleServerError(response)
+          return
+      }
+      // Parser le JSON
+      let parseur = ParseurJSONNOAAForecastHourly()
+      do {
+        let json = try JSON(data: data)
+        parseur.parseJSON(json)
+      } catch {
+        // erreur
+      }
+      // Mettre à jour les données à afficher
+      DispatchQueue.main.async {
+        if let previsionsParHeure = parseur.previsionsParHeure {
+          self.previsionsParHeure = previsionsParHeure
+        }
+      }
+    }
+    taskForecastHourly.resume()
+    
+    // 3. mporter le JSON des stations, qui servira lui-même à importer le JSON des dernières observations
+    // (ex. https://api.weather.gov/gridpoints/BTV/88,56/stations suivi de https://api.weather.gov/stations/KBTV/observations/latest)
+    
+    let taskStations = URLSession.shared.dataTask(with: URL(string: urlStations)!) { data, response, error in
+      guard let data = data, error == nil else {
+        print(error ?? "Erreur inconnue")
+        //self.handleClientError(error)
+        return
+      }
+      guard let httpResponse = response as? HTTPURLResponse,
+        (200...299).contains(httpResponse.statusCode) else {
+          print(error ?? "Erreur inconnue")
+          //self.handleServerError(response)
+          return
+      }
+      // Parser le JSON
+      let parseur = ParseurJSONNOAAStations()
+      do {
+        let json = try JSON(data: data)
+        parseur.parseJSON(json)
+      } catch {
+        // erreur
+      }
+      // Mettre à jour les données à afficher
+      DispatchQueue.main.async {
+        if let urlObservations = parseur.urlObservations {
+          let taskObservations = URLSession.shared.dataTask(with: URL(string: urlObservations)!) { data, response, error in
+            guard let data = data, error == nil else {
+              print(error ?? "Erreur inconnue")
+              //self.handleClientError(error)
+              return
+            }
+            guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+                print(error ?? "Erreur inconnue")
+                //self.handleServerError(response)
+                return
+            }
+            // Parser le JSON
+            let parseur = ParseurJSONNOAAObservations()
+            do {
+              let json = try JSON(data: data)
+              parseur.parseJSON(json)
+            } catch {
+              // erreur
+            }
+            // Mettre à jour les données à afficher
+            DispatchQueue.main.async {
+              if let conditionsActuelles = parseur.conditionsActuelles {
+                self.conditionsActuelles = conditionsActuelles
+              }
+            }
+          }
+          taskObservations.resume()
+        }
+      }
+    }
+    taskStations.resume()
+
+  }
+}
+
+class ParseurJSONNOAAForecast {
+  var previsionsParJour: [Date : Prevision]!
+  
+  func parseJSON(_ json: JSON) {
+    self.previsionsParJour = [Date : Prevision]()
+    
+    // aller chercher les infos
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
     
-    let heureEmission = dateFormatter.date(from: json["properties"]["meta"]["updated_at"].stringValue)
+    let heureEmission = dateFormatter.date(from: json["properties"]["updated"].stringValue)
     
-    var previsionJourEnEdition: Prevision? = nil
-    
-    // Variables pour bien créer les conditions du jour actuel
-    var aCreePrevisionDuJourMeme = false
-    var doitAjusterSelonDeuxiemePeriodeDe6h = false
-    var intHeurePrevisionDuJourMeme: Int?
-    
-    let timeseries = json["properties"]["timeseries"].arrayValue
-    for objetPrevision in timeseries {
-      guard let heurePrevision = dateFormatter.date(from: objetPrevision["time"].stringValue) else {
+    let periods = json["properties"]["periods"].arrayValue
+    for objetPrevision in periods {
+      // Obtenir l'heure de la prévision
+      guard let heurePrevision = dateFormatter.date(from: objetPrevision["startTime"].stringValue) else {
         continue
       }
+      // à faire : modifier si ce n'est pas 18h ou 6h
       
-      // Créer la prévision horaire
-      
-      var previsionHoraireEnEdition = Prevision()
-      previsionHoraireEnEdition.type = .horaire
-      previsionHoraireEnEdition.source = .yrNo
-      previsionHoraireEnEdition.heureDebut = heurePrevision
-      previsionHoraireEnEdition.heureEmission = heureEmission
-      
-      let donneesInstantanees = objetPrevision["data"]["instant"]["details"]
-      previsionHoraireEnEdition.pression = donneesInstantanees["air_pressure_at_sea_level"].doubleValue / 10 // divisé par 10 car présenté en hPa
-      previsionHoraireEnEdition.temperature = donneesInstantanees["air_temperature"].doubleValue
-      previsionHoraireEnEdition.pointDeRosee = donneesInstantanees["dew_point_temperature"].doubleValue
-      previsionHoraireEnEdition.humidite = donneesInstantanees["relative_humidity"].doubleValue
-      previsionHoraireEnEdition.indiceUV = donneesInstantanees["ultraviolet_index_clear_sky"].doubleValue
-      previsionHoraireEnEdition.directionVentDegres = donneesInstantanees["wind_from_direction"].doubleValue
-      previsionHoraireEnEdition.vitesseVent = donneesInstantanees["wind_speed"].doubleValue
-      
-      let codeSymboleCondition = objetPrevision["data"]["next_1_hours"]["summary"]["symbol_code"].stringValue
-      let composants = codeSymboleCondition.components(separatedBy: "_")
-      previsionHoraireEnEdition.condition = Condition(rawValue: composants[0])
-      previsionHoraireEnEdition.quantitePrecipitation = objetPrevision["data"]["next_1_hours"]["details"]["precipitation_amount"].doubleValue
-      
-      // Ajouter la prévision horaire
-      self.previsionsParHeure[heurePrevision] = previsionHoraireEnEdition
-      
-      // Pour les prévisions par jour, c'est un peu plus compliqué
-      
-      let heureActuelle = Date()
-      let calendrierLocal = Calendar.current
-      //calendar.timeZone = timeZone du lieu de la prévision
-      let intHeureLocalePrevision = calendrierLocal.component(.hour, from: heurePrevision)
-      let intHeureLocaleActuelle = calendrierLocal.component(.hour, from: heureActuelle)
-      let joursDeLaSemaine = calendrierLocal.weekdaySymbols
+      // Créer la prévision
+      var previsionEnEdition = Prevision()
+      previsionEnEdition.type = .jour
+      previsionEnEdition.source = .NOAA
+      previsionEnEdition.heureDebut = heurePrevision
+      previsionEnEdition.heureEmission = heureEmission
 
-      var calendrierUTC = Calendar.current
-      calendrierUTC.timeZone = TimeZone(identifier: "UTC")!
-      let intHeureUTCPrevision = calendrierUTC.component(.hour, from: heurePrevision)
+      let heureFinPrevision = dateFormatter.date(from: objetPrevision["endTime"].stringValue)
+      previsionEnEdition.heureFin = heureFinPrevision
+      previsionEnEdition.chainePeriode = objetPrevision["name"].stringValue
+      previsionEnEdition.nuit = objetPrevision["isDaytime"].boolValue
+      previsionEnEdition.temperature = fahrenheitVersCelsius(objetPrevision["temperature"].doubleValue)
       
-      // Créer la prévision pour le reste de la journée ou nuit actuelle.
-      // Si l'heure locale actuelle est entre 4 et 6h inclus, ou 16 et 18h inclus, on ne montre pas cette prévision (on passe directement à la journée ou la nuit suivante)
-      if !aCreePrevisionDuJourMeme,
-          (intHeureLocaleActuelle > 6 && intHeureLocaleActuelle < 16) /* jour */ ||
-          (intHeureLocaleActuelle > 18 || intHeureLocaleActuelle < 4) /* nuit */ {
-        
-        previsionJourEnEdition = Prevision()
-        previsionJourEnEdition!.type = .jour
-        previsionJourEnEdition!.source = .yrNo
-        let heureAjustee = calendrierLocal.date(bySettingHour: (intHeureLocaleActuelle > 18 || intHeureLocaleActuelle < 4) ? 18 : 6, minute: 0, second: 0, of: heurePrevision)
-        previsionJourEnEdition!.heureDebut = heureAjustee
-        previsionJourEnEdition!.heureEmission = heureEmission
-
-        var chaineJourDeLaSemaine = joursDeLaSemaine[calendrierLocal.component(.weekday, from: heurePrevision) - 1]
-        if (intHeureLocaleActuelle > 18 || intHeureLocaleActuelle < 4) {
-          chaineJourDeLaSemaine = chaineJourDeLaSemaine + " night"
-        }
-        previsionJourEnEdition!.chainePeriode = chaineJourDeLaSemaine
-        // il faudrait une fonction pour changer le jour en today/tonight si c'est pertinent
-        //        if let heureAjustee = heureAjustee, calendrierLocal.component(.hour, from: heureAjustee) == 18 {
-        //          previsionJourEnEdition!.chainePeriode = "Tonight"
-        //        } else {
-        //          previsionJourEnEdition!.chainePeriode = "Today"
-        //        }
-        
-        // La condition est soit celle des 6 ou des 12 prochaines heures, selon si on est assez tôt dans la journée/nuit
-        var codeSymboleCondition: String
-        if (intHeureLocaleActuelle > 6 && intHeureLocaleActuelle < 12) || (intHeureLocaleActuelle > 18) {
-          codeSymboleCondition = objetPrevision["data"]["next_6_hours"]["summary"]["symbol_code"].stringValue
-        } else {
-          codeSymboleCondition = objetPrevision["data"]["next_12_hours"]["summary"]["symbol_code"].stringValue
-          doitAjusterSelonDeuxiemePeriodeDe6h = true
-        }
-        let composants = codeSymboleCondition.components(separatedBy: "_")
-        previsionJourEnEdition!.condition = Condition(rawValue: composants[0])
-        
-        previsionJourEnEdition!.temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
-        previsionJourEnEdition!.temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
-        previsionJourEnEdition!.quantitePrecipitation = objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
-        
-        self.previsionsParJour[heureAjustee!] = previsionJourEnEdition
-        aCreePrevisionDuJourMeme = true
-        intHeurePrevisionDuJourMeme = intHeureUTCPrevision
-        continue
+      var chaineVitesseVent = objetPrevision["windSpeed"].stringValue
+      chaineVitesseVent = chaineVitesseVent.replacingOccurrences(of: " mph", with: "")
+      let composants = chaineVitesseVent.components(separatedBy: " to ")
+      if composants.count >= 1, let vitesseVent = Double(composants[0]) {
+        previsionEnEdition.vitesseVent = mphVersKmh(vitesseVent)
       }
+      if composants.count >= 2, let vitesseVentMax = Double(composants[1]) {
+        previsionEnEdition.vitesseVentMax = mphVersKmh(vitesseVentMax)
+      }
+      previsionEnEdition.directionVent = PointCardinal(rawValue: objetPrevision["windDirection"].stringValue)
       
-      // Si la prévision pour le jour même utilise la condition des next_12_hours, on va regarder la 2e période de 6h pour ajuster la température et les précipitations.
-      if doitAjusterSelonDeuxiemePeriodeDe6h,
-        let intHeurePrevisionDuJourMeme = intHeurePrevisionDuJourMeme,
-        (intHeureUTCPrevision - intHeurePrevisionDuJourMeme) % 24 == 6 {
-        
-        let temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
-        let temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
-        if temperatureMin < previsionJourEnEdition!.temperatureMin ?? -999 {
-          previsionJourEnEdition!.temperatureMin = temperatureMin
-        }
-        if temperatureMax > previsionJourEnEdition!.temperatureMax ?? -999 {
-          previsionJourEnEdition!.temperatureMax = temperatureMax
-        }
-        let precipitationsAvant = previsionJourEnEdition!.quantitePrecipitation ?? 0
-        previsionJourEnEdition!.quantitePrecipitation = precipitationsAvant + objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
-        
-        self.previsionsParJour[previsionJourEnEdition!.heureDebut] = previsionJourEnEdition
-        doitAjusterSelonDeuxiemePeriodeDe6h = false
-        continue
+      let chaineCondition = nettoyerChaineCondition(objetPrevision["shortForecast"].stringValue)
+      previsionEnEdition.condition = Condition(rawValue: chaineCondition)
+      if previsionEnEdition.condition == nil {
+        print("Incapable de parser la condition \(chaineCondition)")
       }
+      previsionEnEdition.detailsCondition = objetPrevision["detailedForecast"].stringValue
       
-      // Créer une prévision pour un jour ou une nuit à partir de next_12_hours et next_6_hours.
-      // Si on est dans le fuseau UTC, ceci devrait remplir tout.
-      // Ailleurs, ça va remplir seulement environ 2 jours parce que les prévisions plus lointaines sont mal alignées.
-      if (intHeureLocalePrevision == 6 || intHeureLocalePrevision == 18), objetPrevision["data"]["next_12_hours"].exists() || objetPrevision["data"]["next_6_hours"].exists() {
-        previsionJourEnEdition = Prevision()
-        previsionJourEnEdition!.type = .jour
-        previsionJourEnEdition!.source = .yrNo
-        previsionJourEnEdition!.heureDebut = heurePrevision
-        previsionJourEnEdition!.heureEmission = heureEmission
-        
-        var chaineJourDeLaSemaine = joursDeLaSemaine[calendrierLocal.component(.weekday, from: heurePrevision) - 1]
-        if intHeureLocalePrevision == 18 {
-          chaineJourDeLaSemaine = chaineJourDeLaSemaine + " night"
-        }
-        previsionJourEnEdition!.chainePeriode = chaineJourDeLaSemaine
-        
-        var codeSymboleCondition: String
-        if objetPrevision["data"]["next_12_hours"].exists() {
-          codeSymboleCondition = objetPrevision["data"]["next_12_hours"]["summary"]["symbol_code"].stringValue
-        } else {
-          codeSymboleCondition = objetPrevision["data"]["next_6_hours"]["summary"]["symbol_code"].stringValue
-        }
-        let composants = codeSymboleCondition.components(separatedBy: "_")
-        previsionJourEnEdition!.condition = Condition(rawValue: composants[0])
-        previsionJourEnEdition!.temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
-        previsionJourEnEdition!.temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
-        previsionJourEnEdition!.quantitePrecipitation = objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
-        
-        self.previsionsParJour[heurePrevision] = previsionJourEnEdition
-        continue
-      }
-      
-      // Ajustement en utilisant le next_6_hours de minuit ou midi
-      if (intHeureLocalePrevision == 0 || intHeureLocalePrevision == 12), objetPrevision["data"]["next_6_hours"].exists() {
-        let temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
-        let temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
-        if temperatureMin < previsionJourEnEdition!.temperatureMin ?? -999 {
-          previsionJourEnEdition!.temperatureMin = temperatureMin
-        }
-        if temperatureMax > previsionJourEnEdition!.temperatureMax ?? -999 {
-          previsionJourEnEdition!.temperatureMax = temperatureMax
-        }
-        let precipitationsAvant = previsionJourEnEdition!.quantitePrecipitation ?? 0
-        previsionJourEnEdition!.quantitePrecipitation = precipitationsAvant + objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
-        
-        self.previsionsParJour[previsionJourEnEdition!.heureDebut] = previsionJourEnEdition
-        continue
-      }
-      
-      // Pour la période à long terme, sans prévisions horaires, créer des prévisions à partir des next_12_hours et ajuster avec les next_6_hours.
-      // Les prévisions de yr.no sont toujours à 0h, 6h, 12h et 18h UTC.
-      // On utilise l'heure locale pour déterminer si c'est la prévision du matin (6-11h) ou du soir (18-23h) ou l'ajustement de l'après-midi (12-17h) ou de la nuit (0-5h)
-      if !objetPrevision["data"]["next_1_hours"].exists() {
-        
-        switch intHeureLocalePrevision {
-        case 6, 7, 8, 9, 10, 11, 18, 19, 20, 21, 22, 23:
-          previsionJourEnEdition = Prevision()
-          previsionJourEnEdition!.type = .jour
-          previsionJourEnEdition!.source = .yrNo
-          let heureAjustee = calendrierLocal.date(bySettingHour: intHeureLocalePrevision >= 18 ? 18 : 6, minute: 0, second: 0, of: heurePrevision)
-          previsionJourEnEdition!.heureDebut = heureAjustee
-          previsionJourEnEdition!.heureEmission = heureEmission
-          
-          var chaineJourDeLaSemaine = joursDeLaSemaine[calendrierLocal.component(.weekday, from: heurePrevision) - 1]
-          if intHeureLocalePrevision >= 18 {
-            chaineJourDeLaSemaine = chaineJourDeLaSemaine + " night"
-          }
-          previsionJourEnEdition!.chainePeriode = chaineJourDeLaSemaine
-          
-          var codeSymboleCondition: String
-          if objetPrevision["data"]["next_12_hours"].exists() {
-            codeSymboleCondition = objetPrevision["data"]["next_12_hours"]["summary"]["symbol_code"].stringValue
-          } else {
-            codeSymboleCondition = objetPrevision["data"]["next_6_hours"]["summary"]["symbol_code"].stringValue
-          }
-          let composants = codeSymboleCondition.components(separatedBy: "_")
-          previsionJourEnEdition!.condition = Condition(rawValue: composants[0])
-          previsionJourEnEdition!.temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
-          previsionJourEnEdition!.temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
-          previsionJourEnEdition!.quantitePrecipitation = objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
-          
-          self.previsionsParJour[heureAjustee!] = previsionJourEnEdition
-          continue
-          
-        case 12, 13, 14, 15, 16, 17, 0, 1, 2, 3, 4, 5:
-          let temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
-          let temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
-          if temperatureMin < previsionJourEnEdition!.temperatureMin ?? -999 {
-            previsionJourEnEdition!.temperatureMin = temperatureMin
-          }
-          if temperatureMax > previsionJourEnEdition!.temperatureMax ?? -999 {
-            previsionJourEnEdition!.temperatureMax = temperatureMax
-          }
-          let precipitationsAvant = previsionJourEnEdition!.quantitePrecipitation ?? 0
-          previsionJourEnEdition!.quantitePrecipitation = precipitationsAvant + objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
-          
-          self.previsionsParJour[previsionJourEnEdition!.heureDebut] = previsionJourEnEdition
-          continue
-          
-        default:
-          break
-        }
-      }
+      // Ajouter la prévision
+      self.previsionsParJour[heurePrevision] = previsionEnEdition
     }
   }
 }
 
+class ParseurJSONNOAAForecastHourly {
+  var previsionsParHeure: [Date : Prevision]!
+  
+  func parseJSON(_ json: JSON) {
+    self.previsionsParHeure = [Date : Prevision]()
+    
+    // aller chercher les infos
+  }
+}
+
+class ParseurJSONNOAAStations {
+  var urlObservations: String?
+  
+  func parseJSON(_ json: JSON) {
+    let listeStations = json["features"].arrayValue
+    let stationLaPlusProche = listeStations[0]
+    let urlStation = stationLaPlusProche["id"].stringValue
+    self.urlObservations = "\(urlStation)/observations/latest"
+  }
+}
+
+class ParseurJSONNOAAObservations {
+  var conditionsActuelles: Prevision!
+  
+  func parseJSON(_ json: JSON) {
+    self.conditionsActuelles = Prevision()
+    
+    // aller chercher les infos
+  }
+}
+
+// Mettre une condition en minuscules
+private func nettoyerChaineCondition(_ chaine: String) -> String {
+  let chaineNettoyee = chaine.lowercased()
+//  chaineNettoyee = chaineNettoyee.trimmingCharacters(in: .whitespaces)
+//  if chaineNettoyee.last == "." {
+//    chaineNettoyee = String(chaineNettoyee.dropLast())
+//  }
+  return chaineNettoyee
+}
