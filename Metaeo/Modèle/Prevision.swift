@@ -21,6 +21,7 @@ struct Prevision: CustomDebugStringConvertible {
   var chainePeriode: String? // ex : Vendredi
   var heureDebut: Date! // doit toujours être utilisé
   var heureFin: Date? // pas utilisé pour l'instant
+  var nuit: Bool?
   
   var condition: Condition? // ex : nuageux, ensoleillé, pluie
   var detailsCondition: String? // texte pour donner plus de détails
@@ -146,6 +147,9 @@ struct Prevision: CustomDebugStringConvertible {
   
   // À raffiner selon les heures, et selon les autres sources de données, mais ceci devrait suffire pour Environnement Canada
   func estNuit() -> Bool {
+    if let nuit = self.nuit {
+      return nuit
+    }
     guard let type = self.type else {
       return false
     }
