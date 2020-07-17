@@ -63,6 +63,22 @@ func kelvinVersCelsius(_ kelvin: Double) -> Double {
   return kelvin - 273.15
 }
 
+func kmhVersMph(_ kmh: Double) -> Double {
+  return kmh * 0.621371
+}
+
+func mphVersKmh(_ mph: Double) -> Double {
+  return mph * 1.60934
+}
+
+func msVersKmh(_ ms: Double) -> Double {
+  return ms * 3.6
+}
+
+func kmhVersMs(_ kmh: Double) -> Double {
+  return kmh * 0.277778
+}
+
 func degresVersPointCardinal(_ degres: Double) -> PointCardinal? {
   switch degres {
   case 0..<11.25, 348.75..<360:
