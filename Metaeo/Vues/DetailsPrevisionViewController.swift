@@ -50,9 +50,8 @@ class DetailsPrevisionViewController: UIViewController {
       if let indiceUV = prevision.donneIndiceUV() {
         self.etiquetteIndiceUV.text = "Indice UV: \(indiceUV)"
       }
-      if let vitesseVent = prevision.vitesseVent,
-        let directionVent = prevision.donneDirectionVent() {
-        self.etiquetteVent.text = "Wind: \(Int(vitesseVent.rounded())) km/h \(directionVent)"
+      if let chaineVitesseVent = prevision.donneChaineVitesseVentArrondie() {
+        self.etiquetteVent.text = "Wind: \(chaineVitesseVent)"
         if let vitesseRafales = prevision.vitesseRafales {
           self.etiquetteVent.text?.append(" gusting at \(Int(vitesseRafales.rounded())) km/h")
         }

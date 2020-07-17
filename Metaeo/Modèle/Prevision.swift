@@ -37,6 +37,7 @@ struct Prevision: CustomDebugStringConvertible {
   var directionVent: PointCardinal?
   var directionVentDegres: Double? // degrés
   var vitesseVent: Double? // km/h
+  var vitesseVentMax: Double? // km/h, pour les cas comme "10 à 15 km/h"
   var vitesseRafales: Double? // km/h
   
   var pression: Double? // kPa
@@ -107,6 +108,18 @@ struct Prevision: CustomDebugStringConvertible {
     } else {
       return self.chainePeriode
     }
+  }
+  
+  // Modifier avec les unités mph, etc.
+  func donneChaineVitesseVentArrondie() -> String? {
+    let chaineDirectionVent = self.donneDirectionVent() != nil ? " \(self.donneDirectionVent()!.rawValue)" : ""
+    if let vitesseVent = self.vitesseVent {
+      if let vitesseVentMax = self.vitesseVentMax {
+        return "\(Int(vitesseVent.rounded()))-\(Int(vitesseVentMax.rounded())) km/h\(chaineDirectionVent)"
+      }
+      return "\(Int(vitesseVent.rounded())) km/h\(chaineDirectionVent)"
+    }
+    return nil
   }
   
   func donneDirectionVent() -> PointCardinal? {

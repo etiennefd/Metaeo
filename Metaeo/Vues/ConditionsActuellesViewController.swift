@@ -48,9 +48,8 @@ class ConditionsActuellesViewController: UIViewController {
         let tendancePression = conditionsActuelles.tendancePression {
         self.etiquettePression.text = "\(pression) kPa, \(tendancePression)"
       }
-      if let vitesseVent = conditionsActuelles.vitesseVent,
-        let directionVent = conditionsActuelles.donneDirectionVent() {
-        self.etiquetteVent.text = "\(Int(vitesseVent.rounded())) km/h \(directionVent)"
+      if let chaineVitesseVent = conditionsActuelles.donneChaineVitesseVentArrondie() {
+        self.etiquetteVent.text = chaineVitesseVent
       }
       if let vitesseRafales = conditionsActuelles.vitesseRafales {
         self.etiquetteRafales.isHidden = false
