@@ -11,7 +11,7 @@ import Foundation
 //MARK: Enums
 
 enum TypePrevision {
-  case actuel, jour, horaire
+  case actuel, quotidien, horaire
 }
 
 enum PointCardinal: String {

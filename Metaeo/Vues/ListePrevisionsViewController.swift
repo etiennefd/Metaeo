@@ -11,15 +11,20 @@ import UIKit
 class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
 
   //MARK: Properties
-  
+  var stateController: StateController?
+
   var montrerPrevisionsParHeure = false // pour alterner entre prévisions par jour et prévisions horaires
   
   var periodeEnSelection: Date!
   var sourceEnSelection: SourcePrevision!
-  var previsionsStockees: [SourcePrevision : [Date : Prevision]] {
-    return montrerPrevisionsParHeure ?
-      ImportateurPrevisions.global.donneesEnAffichage.previsionsParHeure :
-      ImportateurPrevisions.global.donneesEnAffichage.previsionsParJour
+  var donneesEnAffichage: DonneesPourLieu?
+  var previsionsStockees: [SourcePrevision : [Date : Prevision]]? {
+    if let donneesEnAffichage = self.donneesEnAffichage {
+      return montrerPrevisionsParHeure ?
+        donneesEnAffichage.previsionsParHeure :
+        donneesEnAffichage.previsionsParJour
+    }
+    return nil
   }
   var previsionsParSourceAffichees = [Prevision]() // dans la table view
   var previsionsParPeriodeAffichees = [Prevision]() // dans la collection view
@@ -39,34 +44,63 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     self.listePrevisionsTableView.addGestureRecognizer(longPressGesture)
     
     // Charger les données du CollectionView et du TableView
-    self.rechargeDonnees()
+    self.importeEtRechargeDonnees(forcerImportation: false)
   }
   
+  // Appelle la recharge des données en s'assurant d'avoir des données à montrer
+  func importeEtRechargeDonnees(forcerImportation: Bool) {
+    // Les données sont déjà dans le view controller
+    if !forcerImportation, self.donneesEnAffichage != nil {
+      self.rechargeDonnees()
+    }
+      // Les données sont déjà disponibles dans le state controller
+    else if !forcerImportation, let donneesEnAffichage = self.stateController?.donneDonneesPourLieuEnAffichage() {
+      self.donneesEnAffichage = donneesEnAffichage
+      self.rechargeDonnees()
+    }
+      // Les données ne sont pas disponibles et il faut les importer de manière asynchrone
+    else {
+      // Appeler la fonction du StateController, qui donnera les données du lieu actuel dans son completion handler
+      self.stateController?.importeDonneesPourLieu("Montreal") { [weak self] (donneesPourLieu) in
+        self?.donneesEnAffichage = donneesPourLieu
+        DispatchQueue.main.async {
+          self?.rechargeDonnees()
+        }
+      }
+    }
+  }
+  
+  // Recharge toutes les vues du view controller
   func rechargeDonnees() {
-//    let ffff = self.previsionsStockees
+    guard let previsionsStockees = self.previsionsStockees else {
+      return
+    }
     
     // choisir la 1re cellule dans chaque vue
-//    self.periodeEnSelection = self.previsionsStockees.values.first?.keys.sorted().first
-    self.periodeEnSelection = self.previsionsStockees[.environnementCanada]?.keys.sorted().first
-    self.sourceEnSelection = self.previsionsStockees.keys.first
+    //    self.periodeEnSelection = self.previsionsStockees.values.first?.keys.sorted().first
+    
+    self.periodeEnSelection = previsionsStockees[.environnementCanada]?.keys.sorted().first
+    self.sourceEnSelection = previsionsStockees.keys.first
     
     self.rechargeDonneesTableView()
     self.rechargeDonneesCollectionView()
     
-    //print("avant selectItem!!!")
     if self.previsionsParPeriodeAffichees.count > 0 {
       self.periodesCollectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .left)
     }
-    //print("après selectItem!!!")
   }
   
+  // Recharge la table view
   func rechargeDonneesTableView() {
-//    let ffff = self.previsionsStockees
+    
+    guard let previsionsStockees = self.previsionsStockees else {
+      return
+    }
     
     previsionsParSourceAffichees.removeAll()
-    self.sourceEnSelection = self.previsionsStockees.keys.first
+    self.sourceEnSelection = previsionsStockees.keys.first
     
-    for (_, previsionsParPeriode) in self.previsionsStockees {
+    for (_, previsionsParPeriode) in previsionsStockees {
       // remplir le tableau des prévisions par source selon la période choisie (table view)
       if let previsionPourPeriodeEnSelection = previsionsParPeriode[self.periodeEnSelection] {
         previsionsParSourceAffichees.append(previsionPourPeriodeEnSelection)
@@ -75,14 +109,20 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     self.listePrevisionsTableView.reloadData()
   }
   
+  // Recharge la collection view
   func rechargeDonneesCollectionView() {
+    
+    guard let previsionsStockees = self.previsionsStockees else {
+      return
+    }
+    
     previsionsParPeriodeAffichees.removeAll()
     
     // temporaire (à remplacer par une sélection de l'utilisateur, et décider quoi utiliser par défaut) :
-    self.periodeEnSelection = self.previsionsStockees.values.first?.first?.value.donneHeure()
+    self.periodeEnSelection = previsionsStockees.values.first?.first?.value.donneHeure()
     
     // remplir le tableau des prévisions à afficher
-    for (source, previsionsParPeriode) in self.previsionsStockees {
+    for (source, previsionsParPeriode) in previsionsStockees {
       // remplir le tableau des prévisions par période selon la source choisie (collection view)
       if source == self.sourceEnSelection {
         for (date, prevision) in previsionsParPeriode {
@@ -96,7 +136,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
               continue
           }
           if (prevision.type == .horaire && (date < maintenant || date > dans24h))
-            || (prevision.type == .jour && date > dans6Jours) {
+            || (prevision.type == .quotidien && date > dans6Jours) {
             continue
           }
           previsionsParPeriodeAffichees.append(prevision)

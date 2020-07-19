@@ -12,6 +12,16 @@ class ConditionsActuellesViewController: UIViewController {
   
   //MARK: Properties
   //var conditionsActuelles: Prevision!
+  var stateController: StateController?
+  
+  var sourceEnAffichage: SourcePrevision? = .environnementCanada // à faire : mécanisme pour choisir par défaut une source
+  var donneesEnAffichage: DonneesPourLieu?
+  var conditionsActuelles: Prevision? {
+    if let donneesEnAffichage = self.donneesEnAffichage, let sourceEnAffichage = self.sourceEnAffichage {
+      return donneesEnAffichage.conditionsActuelles[sourceEnAffichage]
+    }
+    return nil
+  }
   
   @IBOutlet weak var iconeCondition: UIImageView!
   @IBOutlet weak var etiquetteTemperature: UILabel!
@@ -27,18 +37,38 @@ class ConditionsActuellesViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
-    rechargeDonnees()
+    //self.importeEtRechargeDonnees(forcerImportation: false)
   }
   
   override func viewWillAppear(_ animated: Bool) {
-    rechargeDonnees()
+    self.importeEtRechargeDonnees(forcerImportation: false)
+  }
+  
+  // Appelle la recharge des données en s'assurant d'avoir des données à montrer
+  func importeEtRechargeDonnees(forcerImportation: Bool) {
+    // Les données sont déjà dans le view controller
+    if !forcerImportation, self.donneesEnAffichage != nil {
+      self.rechargeDonnees()
+    }
+    // Les données sont déjà disponibles dans le state controller
+    else if !forcerImportation, let donneesEnAffichage = self.stateController?.donneDonneesPourLieuEnAffichage() {
+      self.donneesEnAffichage = donneesEnAffichage
+      self.rechargeDonnees()
+    }
+    // Les données ne sont pas disponibles et il faut les importer de manière asynchrone
+    else {
+      // Appeler la fonction du StateController, qui donnera les données du lieu actuel dans son completion handler
+      self.stateController?.importeDonneesPourLieu("Montreal") { [weak self] (donneesPourLieu) in
+        self?.donneesEnAffichage = donneesPourLieu
+        DispatchQueue.main.async {
+          self?.rechargeDonnees()
+        }
+      }
+    }
   }
   
   func rechargeDonnees() {
-    guard let sourceChoisie = ImportateurPrevisions.global.sourceChoisieConditionsActuelles else {
-      return
-    }
-    if let conditionsActuelles = ImportateurPrevisions.global.donneesEnAffichage.conditionsActuelles[sourceChoisie] {
+    if let conditionsActuelles = self.conditionsActuelles {
       self.etiquetteTemperature.text = "\(conditionsActuelles.donneTemperatureArrondie()) °C"
       self.iconeCondition.image = conditionsActuelles.donneIcone()
       if let condition = conditionsActuelles.condition {
@@ -79,8 +109,8 @@ class ConditionsActuellesViewController: UIViewController {
   //MARK: Actions
   
   @IBAction func reimporterDonnees(_ sender: Any) {
-    ImportateurPrevisions.global.importePrevisions()
-    self.rechargeDonnees()
+//    ImportateurPrevisions.global.importePrevisions()
+    self.importeEtRechargeDonnees(forcerImportation: true)
   }
   
 }

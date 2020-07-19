@@ -1,3 +1,11 @@
+
+Déterminer quoi faire avec la fonction ImportePrevisions. La déplacer dans StateController?
+Il faut appeler DispatchQueue seulement lorsqu'on load/recharge les vues dans les viewcontrollers.
+Mais seulement si on doit importer les données. Ce qu'on fait au lancement de l'app puis à d'autres moments selon l'âge des données importées. 
+
+
+
+
 YR.NO
 Prévisions par période de 6 heures
 Prévisions par heure

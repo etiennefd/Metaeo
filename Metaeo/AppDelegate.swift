@@ -12,11 +12,28 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
-
+  let stateController = StateController()
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
-    ImportateurPrevisions.global.importePrevisions()
+    
+    guard let tabBarController = window?.rootViewController as? UITabBarController,
+      let viewControllers = tabBarController.viewControllers else {
+        return true
+    }
+    
+    for viewController in viewControllers {
+      if let conditionsActuellesViewController = viewController as? ConditionsActuellesViewController {
+        conditionsActuellesViewController.stateController = stateController
+      } else if let navigationController = viewController as? UINavigationController,
+        let listePrevisionsViewController = navigationController.viewControllers.first as? ListePrevisionsViewController {
+        listePrevisionsViewController.stateController = stateController
+      } else if let parametresTableViewController = viewController as? ParametresTableViewController {
+        parametresTableViewController.stateController = stateController
+      }
+    }
+    
+    //ImportateurPrevisions.global.importePrevisions()
     return true
   }
 

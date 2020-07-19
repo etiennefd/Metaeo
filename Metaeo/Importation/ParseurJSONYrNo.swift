@@ -81,7 +81,7 @@ class ParseurJSONYrNo: ParseurJSON {
           (intHeureLocaleActuelle > 18 || intHeureLocaleActuelle < 4) /* nuit */ {
         
         previsionJourEnEdition = Prevision()
-        previsionJourEnEdition!.type = .jour
+        previsionJourEnEdition!.type = .quotidien
         previsionJourEnEdition!.source = .yrNo
         let heureAjustee = calendrierLocal.date(bySettingHour: (intHeureLocaleActuelle > 18 || intHeureLocaleActuelle < 4) ? 18 : 6, minute: 0, second: 0, of: heurePrevision)
         previsionJourEnEdition!.heureDebut = heureAjustee
@@ -146,7 +146,7 @@ class ParseurJSONYrNo: ParseurJSON {
       // Ailleurs, ça va remplir seulement environ 2 jours parce que les prévisions plus lointaines sont mal alignées.
       if (intHeureLocalePrevision == 6 || intHeureLocalePrevision == 18), objetPrevision["data"]["next_12_hours"].exists() || objetPrevision["data"]["next_6_hours"].exists() {
         previsionJourEnEdition = Prevision()
-        previsionJourEnEdition!.type = .jour
+        previsionJourEnEdition!.type = .quotidien
         previsionJourEnEdition!.source = .yrNo
         previsionJourEnEdition!.heureDebut = heurePrevision
         previsionJourEnEdition!.heureEmission = heureEmission
@@ -198,7 +198,7 @@ class ParseurJSONYrNo: ParseurJSON {
         switch intHeureLocalePrevision {
         case 6, 7, 8, 9, 10, 11, 18, 19, 20, 21, 22, 23:
           previsionJourEnEdition = Prevision()
-          previsionJourEnEdition!.type = .jour
+          previsionJourEnEdition!.type = .quotidien
           previsionJourEnEdition!.source = .yrNo
           let heureAjustee = calendrierLocal.date(bySettingHour: intHeureLocalePrevision >= 18 ? 18 : 6, minute: 0, second: 0, of: heurePrevision)
           previsionJourEnEdition!.heureDebut = heureAjustee

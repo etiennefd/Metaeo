@@ -167,7 +167,7 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, DelegueParseurXML {
       if self.previsionEnEdition.condition == .chanceOfShowers, self.previsionEnEdition.detailsCondition?.contains("thunderstorm") ?? false {
         self.previsionEnEdition.condition = .chanceOfShowersOrThunderstorms
       }
-      self.previsionEnEdition.type = .jour
+      self.previsionEnEdition.type = .quotidien
       if let chaineJour = self.previsionEnEdition.chainePeriode {
         if let jour = dateDepuisChaineJour(chaineJour) {
           self.previsionEnEdition.heureDebut = jour

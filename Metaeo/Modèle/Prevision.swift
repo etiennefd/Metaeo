@@ -22,6 +22,8 @@ struct Prevision: CustomDebugStringConvertible {
   var heureDebut: Date! // doit toujours être utilisé
   var heureFin: Date? // pas utilisé pour l'instant
   var nuit: Bool?
+  var heureLeverDuSoleil: Date?
+  var heureCoucherDuSoleil: Date?
   
   var condition: Condition? // ex : nuageux, ensoleillé, pluie
   var detailsCondition: String? // texte pour donner plus de détails
@@ -147,9 +149,11 @@ struct Prevision: CustomDebugStringConvertible {
   
   // À raffiner selon les heures, et selon les autres sources de données, mais ceci devrait suffire pour Environnement Canada
   func estNuit() -> Bool {
+    
     if let nuit = self.nuit {
       return nuit
     }
+    
     guard let type = self.type else {
       return false
     }
@@ -157,23 +161,23 @@ struct Prevision: CustomDebugStringConvertible {
       
     case .actuel:
       let heureCourante = Date()
-      if let heureLeverDuSoleil = ImportateurPrevisions.global.donneesEnAffichage.heureLeverDuSoleil,
-        let heureCoucherDuSoleil = ImportateurPrevisions.global.donneesEnAffichage.heureCoucherDuSoleil {
+      if let heureLeverDuSoleil = self.heureLeverDuSoleil,
+        let heureCoucherDuSoleil = self.heureCoucherDuSoleil {
         if heureCourante < heureLeverDuSoleil || heureCourante > heureCoucherDuSoleil {
           return true
         }
         return false
       }
       
-    case .jour:
+    case .quotidien:
       if chainePeriode?.contains("night") ?? false {
         return true
       }
       return false
       
     case .horaire:
-      if let heureLeverDuSoleil = ImportateurPrevisions.global.donneesEnAffichage.heureLeverDuSoleil,
-        let heureCoucherDuSoleil = ImportateurPrevisions.global.donneesEnAffichage.heureCoucherDuSoleil {
+      if let heureLeverDuSoleil = self.heureLeverDuSoleil,
+        let heureCoucherDuSoleil = self.heureCoucherDuSoleil {
         // Avant le lever du jour actuel? C'est la nuit
         if self.heureDebut < heureLeverDuSoleil {
           return true
