@@ -169,7 +169,7 @@ class ParseurJSONNOAAForecast {
       
       // Créer la prévision
       var previsionEnEdition = Prevision()
-      previsionEnEdition.type = .jour
+      previsionEnEdition.type = .quotidien
       previsionEnEdition.source = .NOAA
       previsionEnEdition.heureDebut = heurePrevision
       previsionEnEdition.heureEmission = heureEmission
