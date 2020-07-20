@@ -145,7 +145,6 @@ class ParseurJSONNOAA: ParseurJSON {
   func parseJSONForecast(_ json: JSON) -> [Date : Prevision] {
     var previsionsParJour = [Date : Prevision]()
     
-    // aller chercher les infos
     let heureEmission = dateFormatter.date(from: json["properties"]["updated"].stringValue)
     
     let periods = json["properties"]["periods"].arrayValue
@@ -196,7 +195,50 @@ class ParseurJSONNOAA: ParseurJSON {
   
   func parseJSONHourlyForecast(_ json: JSON) -> [Date : Prevision]{
     var previsionsParHeure = [Date : Prevision]()
-    // aller chercher les infos et mettre dans self.previsionsParHeure
+    
+    let heureEmission = dateFormatter.date(from: json["properties"]["updated"].stringValue)
+    
+    let periods = json["properties"]["periods"].arrayValue
+    for objetPrevision in periods {
+      // Obtenir l'heure de la prévision
+      guard let heurePrevision = dateFormatter.date(from: objetPrevision["startTime"].stringValue) else {
+        continue
+      }
+      
+      // Créer la prévision
+      var previsionEnEdition = Prevision()
+      previsionEnEdition.type = .horaire
+      previsionEnEdition.source = .NOAA
+      previsionEnEdition.heureDebut = heurePrevision
+      previsionEnEdition.heureEmission = heureEmission
+      
+      let heureFinPrevision = dateFormatter.date(from: objetPrevision["endTime"].stringValue)
+      previsionEnEdition.heureFin = heureFinPrevision
+      previsionEnEdition.chainePeriode = objetPrevision["name"].stringValue
+      previsionEnEdition.nuit = objetPrevision["isDaytime"].boolValue
+      previsionEnEdition.temperature = fahrenheitVersCelsius(objetPrevision["temperature"].doubleValue)
+      
+      var chaineVitesseVent = objetPrevision["windSpeed"].stringValue
+      chaineVitesseVent = chaineVitesseVent.replacingOccurrences(of: " mph", with: "")
+      let composants = chaineVitesseVent.components(separatedBy: " to ")
+      if composants.count >= 1, let vitesseVent = Double(composants[0]) {
+        previsionEnEdition.vitesseVent = mphVersKmh(vitesseVent)
+      }
+      if composants.count >= 2, let vitesseVentMax = Double(composants[1]) {
+        previsionEnEdition.vitesseVentMax = mphVersKmh(vitesseVentMax)
+      }
+      previsionEnEdition.directionVent = PointCardinal(rawValue: objetPrevision["windDirection"].stringValue)
+      
+      let chaineCondition = nettoyerChaineCondition(objetPrevision["shortForecast"].stringValue)
+      previsionEnEdition.condition = Condition(rawValue: chaineCondition)
+      if previsionEnEdition.condition == nil {
+        print("Incapable de parser la condition \(chaineCondition)")
+      }
+      previsionEnEdition.detailsCondition = objetPrevision["detailedForecast"].stringValue
+      
+      // Ajouter la prévision
+      previsionsParHeure[heurePrevision] = previsionEnEdition
+    }
     
     return previsionsParHeure
   }
@@ -210,8 +252,31 @@ class ParseurJSONNOAA: ParseurJSON {
   
   func parseJSONObservations(_ json: JSON) -> Prevision {
     var conditionsActuelles = Prevision()
+    conditionsActuelles.type = .actuel
+    conditionsActuelles.source = .NOAA
     
-    // aller chercher les infos et mettre dans self.conditionsActuelles
+    let objetPrevision = json["properties"]
+
+    let heureObservation = dateFormatter.date(from: objetPrevision["timestamp"].stringValue)
+    conditionsActuelles.heureDebut = heureObservation
+    conditionsActuelles.heureEmission = heureObservation
+    
+    let chaineCondition = nettoyerChaineCondition(objetPrevision["textDescription"].stringValue)
+    conditionsActuelles.condition = Condition(rawValue: chaineCondition)
+    if conditionsActuelles.condition == nil {
+      print("Incapable de parser la condition \(chaineCondition)")
+    }
+    
+    conditionsActuelles.temperature = objetPrevision["temperature"]["value"].doubleValue // déjà en Celsius
+    conditionsActuelles.pointDeRosee = objetPrevision["dewpoint"]["value"].doubleValue // déjà en Celsius
+    conditionsActuelles.directionVentDegres = objetPrevision["windDirection"]["value"].doubleValue
+    conditionsActuelles.vitesseVent = objetPrevision["windSpeed"]["value"].doubleValue
+    conditionsActuelles.vitesseRafales = objetPrevision["windGust"]["value"].doubleValue
+    conditionsActuelles.pression = objetPrevision["barometricPressure"]["value"].doubleValue / 1000.0 // barometric ou sea level??? // divisé par 1000 car la valeur et en Pa
+    conditionsActuelles.visibilite = objetPrevision["visibility"]["value"].doubleValue / 1000.0 // divisé par 1000 car la valeur est en m
+    conditionsActuelles.humidite = objetPrevision["relativeHumidity"]["value"].doubleValue
+    conditionsActuelles.humidex = objetPrevision["heatIndex"]["value"].doubleValue
+    conditionsActuelles.refroidissementEolien = objetPrevision["windChill"]["value"].doubleValue
     
     return conditionsActuelles
   }

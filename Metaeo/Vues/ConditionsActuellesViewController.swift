@@ -74,9 +74,11 @@ class ConditionsActuellesViewController: UIViewController {
       if let condition = conditionsActuelles.condition {
         self.etiquetteCondition.text = condition.rawValue
       }
-      if let pression = conditionsActuelles.pression,
-        let tendancePression = conditionsActuelles.tendancePression {
-        self.etiquettePression.text = "\(pression) kPa, \(tendancePression)"
+      if let pression = conditionsActuelles.pression {
+        self.etiquettePression.text = "\(pression) kPa"
+        if let tendancePression = conditionsActuelles.tendancePression {
+          self.etiquettePression.text?.append(", \(tendancePression)")
+        }
       }
       if let chaineVitesseVent = conditionsActuelles.donneChaineVitesseVentArrondie() {
         self.etiquetteVent.text = chaineVitesseVent
