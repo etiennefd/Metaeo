@@ -25,6 +25,7 @@ struct DonneesPourLieu {
 }
 
 // Classe pour contrôler l'état général de l'app
+
 class StateController {
   
   //MARK: Properties
@@ -68,12 +69,14 @@ class StateController {
           guard let data = data, error == nil else {
             print(error ?? "Erreur inconnue")
             //self.handleClientError(error)
+            self.dispatchGroup.leave()
             return
           }
           guard let httpResponse = response as? HTTPURLResponse,
             (200...299).contains(httpResponse.statusCode) else {
               print(error ?? "Erreur inconnue")
               //self.handleServerError(response)
+              self.dispatchGroup.leave()
               return
           }
           // Parser le xml
@@ -106,35 +109,40 @@ class StateController {
           guard let data = data, error == nil else {
             print(error ?? "Erreur inconnue")
             //self.handleClientError(error)
+            self.dispatchGroup.leave()
             return
           }
           guard let httpResponse = response as? HTTPURLResponse,
             (200...299).contains(httpResponse.statusCode) else {
               print(error ?? "Erreur inconnue")
               //self.handleServerError(response)
+              self.dispatchGroup.leave()
               return
           }
           // Parser le JSON
           guard let parseur = self.parseurJSONPourSource(source) else {
+            self.dispatchGroup.leave()
             return
           }
           do {
             let json = try JSON(data: data)
-            parseur.parseJSON(json)
+            parseur.parseJSON(json) { conditionsActuelles, previsionsParJour, previsionsParHeure in
+              // Mettre à jour les données à afficher
+              if let conditionsActuelles = conditionsActuelles {
+                donneesImportees.conditionsActuelles[source] = conditionsActuelles
+              }
+              if let previsionsParJour = previsionsParJour {
+                donneesImportees.previsionsParJour[source] = previsionsParJour
+              }
+              if let previsionsParHeure = previsionsParHeure {
+                donneesImportees.previsionsParHeure[source] = previsionsParHeure
+              }
+              // coucher de soleil, etc.?
+            }
           } catch {
             // erreur
           }
-          // Mettre à jour les données à afficher
-          if let conditionsActuelles = parseur.conditionsActuelles {
-            donneesImportees.conditionsActuelles[source] = conditionsActuelles
-          }
-          if let previsionsParJour = parseur.previsionsParJour {
-            donneesImportees.previsionsParJour[source] = previsionsParJour
-          }
-          if let previsionsParHeure = parseur.previsionsParHeure {
-            donneesImportees.previsionsParHeure[source] = previsionsParHeure
-          }
-          // coucher de soleil, etc.?
+          
           self.dispatchGroup.leave()
         }
         task.resume()
@@ -145,7 +153,7 @@ class StateController {
       
     }
     // 4. appeler le completionHandler avec la struct de données complétée, mais seulement après que toutes les tâches du dispatchGroup sont finies
-    dispatchGroup.notify(queue: .main) {
+    self.dispatchGroup.notify(queue: .main) {
       self.toutesLesDonneesImportees[lieu] = donneesImportees
       completionHandler(donneesImportees)
     }

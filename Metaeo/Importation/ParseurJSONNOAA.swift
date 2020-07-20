@@ -1,5 +1,5 @@
 //
-//  ParseurJSONYrNo.swift
+//  ParseurJSONNOAAA.swift
 //  Metaeo
 //
 //  Created by Étienne Fortier-Dubois on 20-07-04.
@@ -10,153 +10,142 @@ import Foundation
 
 class ParseurJSONNOAA: ParseurJSON {
   
-  var conditionsActuelles: Prevision?
-  var previsionsParJour: [Date : Prevision]!
-  var previsionsParHeure: [Date : Prevision]!
+  let dateFormatter = DateFormatter()
   
-  func parseJSON(_ json: JSON) {
-    self.conditionsActuelles = Prevision()
-    self.previsionsParHeure = [Date : Prevision]()
-    self.previsionsParJour = [Date : Prevision]()
+  func parseJSON(_ json: JSON, completionHandler: @escaping (Prevision?, [Date : Prevision]?, [Date : Prevision]?) -> Void) {
+    
+    var conditionsActuelles = Prevision()
+    var previsionsParHeure = [Date : Prevision]()
+    var previsionsParJour = [Date : Prevision]()
+    
+    self.dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
     
     let urlForecast = json["properties"]["forecast"].stringValue
     let urlForecastHourly = json["properties"]["forecastHourly"].stringValue
     let urlStations = json["properties"]["observationStations"].stringValue
     
-    // 1. Importer le JSON des prévisions par jour (ex. https://api.weather.gov/gridpoints/LWX/96,70/forecast)
+    let dispatchGroup = DispatchGroup()
+    // il faut que cette fonction retourne uniquement une fois que tout a été parsé.
     
+    // 1. Importer le JSON des prévisions par jour (ex. https://api.weather.gov/gridpoints/LWX/96,70/forecast)
+    dispatchGroup.enter()
     let taskForecast = URLSession.shared.dataTask(with: URL(string: urlForecast)!) { data, response, error in
       guard let data = data, error == nil else {
         print(error ?? "Erreur inconnue")
         //self.handleClientError(error)
+        dispatchGroup.leave()
         return
       }
       guard let httpResponse = response as? HTTPURLResponse,
         (200...299).contains(httpResponse.statusCode) else {
           print(error ?? "Erreur inconnue")
           //self.handleServerError(response)
+          dispatchGroup.leave()
           return
       }
       // Parser le JSON
-      let parseur = ParseurJSONNOAAForecast()
       do {
         let json = try JSON(data: data)
-        parseur.parseJSON(json)
+        previsionsParJour = self.parseJSONForecast(json)
       } catch {
         // erreur
       }
-      // Mettre à jour les données à afficher
-      DispatchQueue.main.async {
-        if let previsionsParJour = parseur.previsionsParJour {
-          self.previsionsParJour = previsionsParJour
-        }
-      }
+      dispatchGroup.leave()
     }
     taskForecast.resume()
     
     // 2. Importer le JSON des prévisions par heure (ex. https://api.weather.gov/gridpoints/LWX/96,70/forecast/hourly)
-    
+    dispatchGroup.enter()
     let taskForecastHourly = URLSession.shared.dataTask(with: URL(string: urlForecastHourly)!) { data, response, error in
       guard let data = data, error == nil else {
         print(error ?? "Erreur inconnue")
         //self.handleClientError(error)
+        dispatchGroup.leave()
         return
       }
       guard let httpResponse = response as? HTTPURLResponse,
         (200...299).contains(httpResponse.statusCode) else {
           print(error ?? "Erreur inconnue")
           //self.handleServerError(response)
+          dispatchGroup.leave()
           return
       }
       // Parser le JSON
-      let parseur = ParseurJSONNOAAForecastHourly()
       do {
         let json = try JSON(data: data)
-        parseur.parseJSON(json)
+        previsionsParHeure = self.parseJSONHourlyForecast(json)
       } catch {
         // erreur
       }
-      // Mettre à jour les données à afficher
-      DispatchQueue.main.async {
-        if let previsionsParHeure = parseur.previsionsParHeure {
-          self.previsionsParHeure = previsionsParHeure
-        }
-      }
+      dispatchGroup.leave()
     }
     taskForecastHourly.resume()
     
-    // 3. mporter le JSON des stations, qui servira lui-même à importer le JSON des dernières observations
+    // 3. importer le JSON des stations, qui servira lui-même à importer le JSON des dernières observations
     // (ex. https://api.weather.gov/gridpoints/BTV/88,56/stations suivi de https://api.weather.gov/stations/KBTV/observations/latest)
-    
+    dispatchGroup.enter()
     let taskStations = URLSession.shared.dataTask(with: URL(string: urlStations)!) { data, response, error in
       guard let data = data, error == nil else {
         print(error ?? "Erreur inconnue")
         //self.handleClientError(error)
+        dispatchGroup.leave()
         return
       }
       guard let httpResponse = response as? HTTPURLResponse,
         (200...299).contains(httpResponse.statusCode) else {
           print(error ?? "Erreur inconnue")
           //self.handleServerError(response)
+          dispatchGroup.leave()
           return
       }
       // Parser le JSON
-      let parseur = ParseurJSONNOAAStations()
       do {
         let json = try JSON(data: data)
-        parseur.parseJSON(json)
+        let urlObservations = self.parseJSONStations(json)
+        
+        // 4. À l'intérieur du completion handler de la tâche des stations, faire la tâche des observations
+        dispatchGroup.enter()
+        let taskObservations = URLSession.shared.dataTask(with: URL(string: urlObservations)!) { data, response, error in
+          guard let data = data, error == nil else {
+            print(error ?? "Erreur inconnue")
+            //self.handleClientError(error)
+            dispatchGroup.leave()
+            return
+          }
+          guard let httpResponse = response as? HTTPURLResponse,
+            (200...299).contains(httpResponse.statusCode) else {
+              print(error ?? "Erreur inconnue")
+              //self.handleServerError(response)
+              dispatchGroup.leave()
+              return
+          }
+          // Parser le JSON
+          do {
+            let json = try JSON(data: data)
+            conditionsActuelles = self.parseJSONObservations(json)
+          } catch {
+            // erreur
+          }
+          dispatchGroup.leave()
+        }
+        taskObservations.resume()
       } catch {
         // erreur
       }
-      // Mettre à jour les données à afficher
-      DispatchQueue.main.async {
-        if let urlObservations = parseur.urlObservations {
-          let taskObservations = URLSession.shared.dataTask(with: URL(string: urlObservations)!) { data, response, error in
-            guard let data = data, error == nil else {
-              print(error ?? "Erreur inconnue")
-              //self.handleClientError(error)
-              return
-            }
-            guard let httpResponse = response as? HTTPURLResponse,
-              (200...299).contains(httpResponse.statusCode) else {
-                print(error ?? "Erreur inconnue")
-                //self.handleServerError(response)
-                return
-            }
-            // Parser le JSON
-            let parseur = ParseurJSONNOAAObservations()
-            do {
-              let json = try JSON(data: data)
-              parseur.parseJSON(json)
-            } catch {
-              // erreur
-            }
-            // Mettre à jour les données à afficher
-            DispatchQueue.main.async {
-              if let conditionsActuelles = parseur.conditionsActuelles {
-                self.conditionsActuelles = conditionsActuelles
-              }
-            }
-          }
-          taskObservations.resume()
-        }
-      }
+      dispatchGroup.leave()
     }
     taskStations.resume()
 
+    // Appeler le completionHandler une fois que toutes les tâches ont été complétées
+    dispatchGroup.notify(queue: .main) {
+      completionHandler(conditionsActuelles, previsionsParJour, previsionsParHeure)
+    }
   }
-}
-
-class ParseurJSONNOAAForecast {
-  var previsionsParJour: [Date : Prevision]!
   
-  func parseJSON(_ json: JSON) {
-    self.previsionsParJour = [Date : Prevision]()
+  func parseJSONForecast(_ json: JSON) -> [Date : Prevision] {
+    var previsionsParJour = [Date : Prevision]()
     
     // aller chercher les infos
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-    
     let heureEmission = dateFormatter.date(from: json["properties"]["updated"].stringValue)
     
     let periods = json["properties"]["periods"].arrayValue
@@ -173,7 +162,7 @@ class ParseurJSONNOAAForecast {
       previsionEnEdition.source = .NOAA
       previsionEnEdition.heureDebut = heurePrevision
       previsionEnEdition.heureEmission = heureEmission
-
+      
       let heureFinPrevision = dateFormatter.date(from: objetPrevision["endTime"].stringValue)
       previsionEnEdition.heureFin = heureFinPrevision
       previsionEnEdition.chainePeriode = objetPrevision["name"].stringValue
@@ -199,39 +188,32 @@ class ParseurJSONNOAAForecast {
       previsionEnEdition.detailsCondition = objetPrevision["detailedForecast"].stringValue
       
       // Ajouter la prévision
-      self.previsionsParJour[heurePrevision] = previsionEnEdition
+      previsionsParJour[heurePrevision] = previsionEnEdition
     }
-  }
-}
-
-class ParseurJSONNOAAForecastHourly {
-  var previsionsParHeure: [Date : Prevision]!
-  
-  func parseJSON(_ json: JSON) {
-    self.previsionsParHeure = [Date : Prevision]()
     
-    // aller chercher les infos
+    return previsionsParJour
   }
-}
-
-class ParseurJSONNOAAStations {
-  var urlObservations: String?
   
-  func parseJSON(_ json: JSON) {
+  func parseJSONHourlyForecast(_ json: JSON) -> [Date : Prevision]{
+    var previsionsParHeure = [Date : Prevision]()
+    // aller chercher les infos et mettre dans self.previsionsParHeure
+    
+    return previsionsParHeure
+  }
+  
+  func parseJSONStations(_ json: JSON) -> String {
     let listeStations = json["features"].arrayValue
     let stationLaPlusProche = listeStations[0]
     let urlStation = stationLaPlusProche["id"].stringValue
-    self.urlObservations = "\(urlStation)/observations/latest"
+    return "\(urlStation)/observations/latest"
   }
-}
-
-class ParseurJSONNOAAObservations {
-  var conditionsActuelles: Prevision!
   
-  func parseJSON(_ json: JSON) {
-    self.conditionsActuelles = Prevision()
+  func parseJSONObservations(_ json: JSON) -> Prevision {
+    var conditionsActuelles = Prevision()
     
-    // aller chercher les infos
+    // aller chercher les infos et mettre dans self.conditionsActuelles
+    
+    return conditionsActuelles
   }
 }
 

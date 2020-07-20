@@ -10,13 +10,9 @@ import Foundation
 
 class ParseurJSONYrNo: ParseurJSON {
   
-  var conditionsActuelles: Prevision? // pas utilisé pour yr.no
-  var previsionsParJour: [Date : Prevision]!
-  var previsionsParHeure: [Date : Prevision]!
-  
-  func parseJSON(_ json: JSON) {
-    self.previsionsParHeure = [Date : Prevision]()
-    self.previsionsParJour = [Date : Prevision]()
+  func parseJSON(_ json: JSON, completionHandler: @escaping (Prevision?, [Date : Prevision]?, [Date : Prevision]?) -> Void) {
+    var previsionsParHeure = [Date : Prevision]()
+    var previsionsParJour = [Date : Prevision]()
     
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
@@ -59,7 +55,8 @@ class ParseurJSONYrNo: ParseurJSON {
       previsionHoraireEnEdition.quantitePrecipitation = objetPrevision["data"]["next_1_hours"]["details"]["precipitation_amount"].doubleValue
       
       // Ajouter la prévision horaire
-      self.previsionsParHeure[heurePrevision] = previsionHoraireEnEdition
+      //cette ligne ne marche pas à cause d'un "bad access". Mettre les variables en local dans la fct plutôt que sur la classe?
+      previsionsParHeure[heurePrevision] = previsionHoraireEnEdition
       
       // Pour les prévisions par jour, c'est un peu plus compliqué
       
@@ -114,7 +111,7 @@ class ParseurJSONYrNo: ParseurJSON {
         previsionJourEnEdition!.temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
         previsionJourEnEdition!.quantitePrecipitation = objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
         
-        self.previsionsParJour[heureAjustee!] = previsionJourEnEdition
+        previsionsParJour[heureAjustee!] = previsionJourEnEdition
         aCreePrevisionDuJourMeme = true
         intHeurePrevisionDuJourMeme = intHeureUTCPrevision
         continue
@@ -136,7 +133,7 @@ class ParseurJSONYrNo: ParseurJSON {
         let precipitationsAvant = previsionJourEnEdition!.quantitePrecipitation ?? 0
         previsionJourEnEdition!.quantitePrecipitation = precipitationsAvant + objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
         
-        self.previsionsParJour[previsionJourEnEdition!.heureDebut] = previsionJourEnEdition
+        previsionsParJour[previsionJourEnEdition!.heureDebut] = previsionJourEnEdition
         doitAjusterSelonDeuxiemePeriodeDe6h = false
         continue
       }
@@ -169,7 +166,7 @@ class ParseurJSONYrNo: ParseurJSON {
         previsionJourEnEdition!.temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
         previsionJourEnEdition!.quantitePrecipitation = objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
         
-        self.previsionsParJour[heurePrevision] = previsionJourEnEdition
+        previsionsParJour[heurePrevision] = previsionJourEnEdition
         continue
       }
       
@@ -186,7 +183,7 @@ class ParseurJSONYrNo: ParseurJSON {
         let precipitationsAvant = previsionJourEnEdition!.quantitePrecipitation ?? 0
         previsionJourEnEdition!.quantitePrecipitation = precipitationsAvant + objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
         
-        self.previsionsParJour[previsionJourEnEdition!.heureDebut] = previsionJourEnEdition
+        previsionsParJour[previsionJourEnEdition!.heureDebut] = previsionJourEnEdition
         continue
       }
       
@@ -222,7 +219,7 @@ class ParseurJSONYrNo: ParseurJSON {
           previsionJourEnEdition!.temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
           previsionJourEnEdition!.quantitePrecipitation = objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
           
-          self.previsionsParJour[heureAjustee!] = previsionJourEnEdition
+          previsionsParJour[heureAjustee!] = previsionJourEnEdition
           continue
           
         case 12, 13, 14, 15, 16, 17, 0, 1, 2, 3, 4, 5:
@@ -237,7 +234,7 @@ class ParseurJSONYrNo: ParseurJSON {
           let precipitationsAvant = previsionJourEnEdition!.quantitePrecipitation ?? 0
           previsionJourEnEdition!.quantitePrecipitation = precipitationsAvant + objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
           
-          self.previsionsParJour[previsionJourEnEdition!.heureDebut] = previsionJourEnEdition
+          previsionsParJour[previsionJourEnEdition!.heureDebut] = previsionJourEnEdition
           continue
           
         default:
@@ -245,6 +242,8 @@ class ParseurJSONYrNo: ParseurJSON {
         }
       }
     }
+    
+    completionHandler(nil, previsionsParJour, previsionsParHeure)
   }
 }
 

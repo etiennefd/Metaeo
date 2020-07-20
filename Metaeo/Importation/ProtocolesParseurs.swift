@@ -28,9 +28,6 @@ protocol DelegueParseurXML: XMLParserDelegate {
 
 // Protocole pour le parsage d'un JSON
 protocol ParseurJSON {
-  var conditionsActuelles: Prevision? { get }
-  var previsionsParJour: [Date : Prevision]! { get }
-  var previsionsParHeure: [Date : Prevision]! { get }
   
-  func parseJSON(_ json: JSON) 
+  func parseJSON(_ json: JSON, completionHandler: @escaping (Prevision?, [Date : Prevision]?, [Date : Prevision]?) -> Void)
 }
