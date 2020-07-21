@@ -287,10 +287,18 @@ class ParseurJSONNOAA: ParseurJSON {
 
 // Mettre une condition en minuscules
 private func nettoyerChaineCondition(_ chaine: String) -> String {
-  let chaineNettoyee = chaine.lowercased()
-//  chaineNettoyee = chaineNettoyee.trimmingCharacters(in: .whitespaces)
-//  if chaineNettoyee.last == "." {
-//    chaineNettoyee = String(chaineNettoyee.dropLast())
-//  }
+  var chaineNettoyee = chaine.lowercased()
+  if chaineNettoyee == "sleet" {
+    return "sleet (NOAA)" // cas spécial pour distinguer du "sleet" de Yr.no
+  }
+  // Si la condition inclut une évolution dans le futur avec "then", considérer seulement ce qui vient avant
+  if chaineNettoyee.contains(" then ") {
+    chaineNettoyee = chaineNettoyee.components(separatedBy: " then ")[0]
+  }
+  // Assimiler les "slight chance" et "likely" à simplement "chance"
+  chaineNettoyee = chaineNettoyee.replacingOccurrences(of: "slight chance", with: "chance")
+  if chaineNettoyee.contains("likely") {
+    chaineNettoyee = "chance " + chaineNettoyee.replacingOccurrences(of: " likely", with: "")
+  }
   return chaineNettoyee
 }
