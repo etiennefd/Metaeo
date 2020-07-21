@@ -73,7 +73,7 @@ enum Condition: String {
   case lightDrizzle = "light drizzle"
   case heavyDrizzle = "heavy drizzle"
   case mainlyClear = "mainly clear"
-  case blowingSnow = "blowing Snow"
+  case blowingSnow = "blowing snow"
   case funnelCloud = "funnel cloud"
   case tornado = "tornado"
   case dustDevils = "dust devils"
@@ -227,9 +227,10 @@ extension Prevision {
     switch condition {
     case .sunny:
       return UIImage(named: "sunny")
-    case .clear:
-      return UIImage(named: "clear")
-    case .clearSkyYR:
+//    case .clear: //pour EC, "clear", c'est toujours la nuit mais pas forcément pour les autres
+//      return UIImage(named: "clear")
+    case .clear,
+         .clearSkyYR:
       return self.estNuit() ? UIImage(named: "clear") : UIImage(named: "sunny")
     case .mainlySunny,
          .aMixOfSunAndCloud,

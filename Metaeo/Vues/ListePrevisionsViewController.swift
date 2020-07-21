@@ -177,7 +177,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     cellule.etiquetteSource.text = prevision.source.rawValue
     cellule.etiquetteTemperature.text = prevision.donneChaineTemperature()
     cellule.vueIconeMeteo.image = prevision.donneIcone()
-    cellule.etiquetteCondition.text = prevision.condition?.rawValue
+    cellule.etiquetteCondition.text = prevision.chaineCondition
     
     return cellule
   }

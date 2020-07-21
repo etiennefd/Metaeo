@@ -71,8 +71,8 @@ class ConditionsActuellesViewController: UIViewController {
     if let conditionsActuelles = self.conditionsActuelles {
       self.etiquetteTemperature.text = "\(conditionsActuelles.donneTemperatureArrondie()) °C"
       self.iconeCondition.image = conditionsActuelles.donneIcone()
-      if let condition = conditionsActuelles.condition {
-        self.etiquetteCondition.text = condition.rawValue
+      if let condition = conditionsActuelles.chaineCondition {
+        self.etiquetteCondition.text = condition
       }
       if let pression = conditionsActuelles.pression {
         self.etiquettePression.text = "\(pression) kPa"

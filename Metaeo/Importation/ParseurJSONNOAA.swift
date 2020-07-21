@@ -179,8 +179,9 @@ class ParseurJSONNOAA: ParseurJSON {
       }
       previsionEnEdition.directionVent = PointCardinal(rawValue: objetPrevision["windDirection"].stringValue)
       
-      let chaineCondition = nettoyerChaineCondition(objetPrevision["shortForecast"].stringValue)
-      previsionEnEdition.condition = Condition(rawValue: chaineCondition)
+      let chaineCondition = objetPrevision["shortForecast"].stringValue
+      previsionEnEdition.chaineCondition = chaineCondition
+      previsionEnEdition.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
       if previsionEnEdition.condition == nil {
         print("Incapable de parser la condition \(chaineCondition)")
       }
@@ -229,9 +230,10 @@ class ParseurJSONNOAA: ParseurJSON {
       }
       previsionEnEdition.directionVent = PointCardinal(rawValue: objetPrevision["windDirection"].stringValue)
       
-      let chaineCondition = nettoyerChaineCondition(objetPrevision["shortForecast"].stringValue)
-      previsionEnEdition.condition = Condition(rawValue: chaineCondition)
-      if previsionEnEdition.condition == nil {
+      let chaineCondition = objetPrevision["shortForecast"].stringValue
+      previsionEnEdition.chaineCondition = chaineCondition
+      previsionEnEdition.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
+      if previsionEnEdition.condition == nil, chaineCondition != "" {
         print("Incapable de parser la condition \(chaineCondition)")
       }
       previsionEnEdition.detailsCondition = objetPrevision["detailedForecast"].stringValue
@@ -261,9 +263,10 @@ class ParseurJSONNOAA: ParseurJSON {
     conditionsActuelles.heureDebut = heureObservation
     conditionsActuelles.heureEmission = heureObservation
     
-    let chaineCondition = nettoyerChaineCondition(objetPrevision["textDescription"].stringValue)
-    conditionsActuelles.condition = Condition(rawValue: chaineCondition)
-    if conditionsActuelles.condition == nil {
+    let chaineCondition = objetPrevision["textDescription"].stringValue
+    conditionsActuelles.chaineCondition = chaineCondition
+    conditionsActuelles.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
+    if conditionsActuelles.condition == nil, chaineCondition != "" {
       print("Incapable de parser la condition \(chaineCondition)")
     }
     
@@ -272,7 +275,7 @@ class ParseurJSONNOAA: ParseurJSON {
     conditionsActuelles.directionVentDegres = objetPrevision["windDirection"]["value"].doubleValue
     conditionsActuelles.vitesseVent = objetPrevision["windSpeed"]["value"].doubleValue
     conditionsActuelles.vitesseRafales = objetPrevision["windGust"]["value"].doubleValue
-    conditionsActuelles.pression = objetPrevision["barometricPressure"]["value"].doubleValue / 1000.0 // barometric ou sea level??? // divisé par 1000 car la valeur et en Pa
+    conditionsActuelles.pression = objetPrevision["seaLevelPressure"]["value"].doubleValue / 1000.0 // barometric ou sea level??? // divisé par 1000 car la valeur et en Pa
     conditionsActuelles.visibilite = objetPrevision["visibility"]["value"].doubleValue / 1000.0 // divisé par 1000 car la valeur est en m
     conditionsActuelles.humidite = objetPrevision["relativeHumidity"]["value"].doubleValue
     conditionsActuelles.humidex = objetPrevision["heatIndex"]["value"].doubleValue

@@ -68,6 +68,7 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, DelegueParseurXML {
         if self.previsionEnEdition.condition == nil {
           print("Incapable de parser la condition \(data)")
         }
+        self.previsionEnEdition.chaineCondition = data
       case ("forecast", "textSummary"):
         self.previsionEnEdition.detailsCondition = data
       case (_, "dewpoint"):

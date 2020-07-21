@@ -26,6 +26,7 @@ struct Prevision: CustomDebugStringConvertible {
   var heureCoucherDuSoleil: Date?
   
   var condition: Condition? // ex : nuageux, ensoleillé, pluie
+  var chaineCondition: String?
   var detailsCondition: String? // texte pour donner plus de détails
 
   // En général, seule l'une de ces trois variables est requise.

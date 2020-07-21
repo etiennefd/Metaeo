@@ -50,8 +50,16 @@ class ParseurJSONYrNo: ParseurJSON {
       previsionHoraireEnEdition.vitesseVent = donneesInstantanees["wind_speed"].doubleValue
       
       let codeSymboleCondition = objetPrevision["data"]["next_1_hours"]["summary"]["symbol_code"].stringValue
-      let composants = codeSymboleCondition.components(separatedBy: "_")
-      previsionHoraireEnEdition.condition = Condition(rawValue: composants[0])
+      if codeSymboleCondition != "" {
+        let composants = codeSymboleCondition.components(separatedBy: "_")
+        let chaineCondition = composants[0]
+        previsionHoraireEnEdition.chaineCondition = chaineCondition
+        previsionHoraireEnEdition.condition = Condition(rawValue: chaineCondition)
+        if previsionHoraireEnEdition.condition == nil {
+          print("Incapable de parser la condition \(chaineCondition)")
+        }
+      }
+      
       previsionHoraireEnEdition.quantitePrecipitation = objetPrevision["data"]["next_1_hours"]["details"]["precipitation_amount"].doubleValue
       
       // Ajouter la prévision horaire
@@ -104,8 +112,15 @@ class ParseurJSONYrNo: ParseurJSON {
           codeSymboleCondition = objetPrevision["data"]["next_12_hours"]["summary"]["symbol_code"].stringValue
           doitAjusterSelonDeuxiemePeriodeDe6h = true
         }
-        let composants = codeSymboleCondition.components(separatedBy: "_")
-        previsionJourEnEdition!.condition = Condition(rawValue: composants[0])
+        if codeSymboleCondition != "" {
+          let composants = codeSymboleCondition.components(separatedBy: "_")
+          let chaineCondition = composants[0]
+          previsionJourEnEdition!.chaineCondition = chaineCondition
+          previsionJourEnEdition!.condition = Condition(rawValue: chaineCondition)
+          if previsionJourEnEdition!.condition == nil {
+            print("Incapable de parser la condition \(chaineCondition)")
+          }
+        }
         
         previsionJourEnEdition!.temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
         previsionJourEnEdition!.temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
@@ -160,8 +175,16 @@ class ParseurJSONYrNo: ParseurJSON {
         } else {
           codeSymboleCondition = objetPrevision["data"]["next_6_hours"]["summary"]["symbol_code"].stringValue
         }
-        let composants = codeSymboleCondition.components(separatedBy: "_")
-        previsionJourEnEdition!.condition = Condition(rawValue: composants[0])
+        if codeSymboleCondition != "" {
+          let composants = codeSymboleCondition.components(separatedBy: "_")
+          let chaineCondition = composants[0]
+          previsionJourEnEdition!.chaineCondition = chaineCondition
+          previsionJourEnEdition!.condition = Condition(rawValue: chaineCondition)
+          if previsionJourEnEdition!.condition == nil {
+            print("Incapable de parser la condition \(chaineCondition)")
+          }
+        }
+        
         previsionJourEnEdition!.temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
         previsionJourEnEdition!.temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
         previsionJourEnEdition!.quantitePrecipitation = objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
@@ -213,8 +236,16 @@ class ParseurJSONYrNo: ParseurJSON {
           } else {
             codeSymboleCondition = objetPrevision["data"]["next_6_hours"]["summary"]["symbol_code"].stringValue
           }
-          let composants = codeSymboleCondition.components(separatedBy: "_")
-          previsionJourEnEdition!.condition = Condition(rawValue: composants[0])
+          if codeSymboleCondition != "" {
+            let composants = codeSymboleCondition.components(separatedBy: "_")
+            let chaineCondition = composants[0]
+            previsionJourEnEdition!.chaineCondition = chaineCondition
+            previsionJourEnEdition!.condition = Condition(rawValue: chaineCondition)
+            if previsionJourEnEdition!.condition == nil {
+              print("Incapable de parser la condition \(chaineCondition)")
+            }
+          }
+          
           previsionJourEnEdition!.temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
           previsionJourEnEdition!.temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
           previsionJourEnEdition!.quantitePrecipitation = objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
