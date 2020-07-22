@@ -300,5 +300,7 @@ private func nettoyerChaineCondition(_ chaine: String) -> String {
   if chaineNettoyee.contains("likely") {
     chaineNettoyee = "chance " + chaineNettoyee.replacingOccurrences(of: " likely", with: "")
   }
+  // Assimiler les "scattered" à "isolated"
+  chaineNettoyee = chaineNettoyee.replacingOccurrences(of: "scattered", with: "isolated")
   return chaineNettoyee
 }

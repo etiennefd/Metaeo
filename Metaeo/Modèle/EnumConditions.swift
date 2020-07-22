@@ -305,7 +305,9 @@ enum Condition: String {
   case coldNOAA = "cold"
   
   // Pas dans les liste de la NOAA, mais néanmoins vues dans les JSON
+  case isolatedRainShowersNOAA = "isolated rain showers"
   case chanceShowersAndThunderstormsNOAA = "chance showers and thunderstorms"
+  case isolatedShowersAndThunderstormsNOAA = "isolated showers and thunderstorms"
 }
 
 // Fonction pour retourner une icône selon la condition météo.
@@ -361,6 +363,7 @@ extension Prevision {
          .lightRainShowersYR,
          .rainShowersYR,
          .chanceRainShowersNOAA,
+         .isolatedRainShowersNOAA,
          .chanceRainNOAA:
       return self.estNuit() ? UIImage(named: "chance of showers night") : UIImage(named: "chance of showers")
     case .lightRainShowerAndFlurries,
@@ -408,7 +411,8 @@ extension Prevision {
          .heavyRainShowersAndThunderYR,
          .chanceThunderstormsNOAA,
          .chanceShowersAndThunderstormsNOAA,
-         .isolatedThunderstormsNOAA:
+         .isolatedThunderstormsNOAA,
+         .isolatedShowersAndThunderstormsNOAA:
       return self.estNuit() ? UIImage(named: "chance of thunderstorms night") : UIImage(named: "chance of thunderstorms")
     case .cloudy,
          .overcast:
