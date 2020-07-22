@@ -53,12 +53,12 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     if !forcerImportation, self.donneesEnAffichage != nil {
       self.rechargeDonnees()
     }
-      // Les données sont déjà disponibles dans le state controller
+    // Les données sont déjà disponibles dans le state controller
     else if !forcerImportation, let donneesEnAffichage = self.stateController?.donneDonneesPourLieuEnAffichage() {
       self.donneesEnAffichage = donneesEnAffichage
       self.rechargeDonnees()
     }
-      // Les données ne sont pas disponibles et il faut les importer de manière asynchrone
+    // Les données ne sont pas disponibles et il faut les importer de manière asynchrone
     else {
       // Appeler la fonction du StateController, qui donnera les données du lieu actuel dans son completion handler
       self.stateController?.importeDonneesPourLieu("Montreal") { [weak self] (donneesPourLieu) in

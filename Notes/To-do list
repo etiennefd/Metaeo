@@ -1,7 +1,7 @@
 BOGUES
-[ ] Parfois le collectionView par période est vide
 [ ] Une prévision peut avoir une icône de jour ET une de nuit selon la source, si une dit "sunny" et l'autre "clear" et estNuit == vrai. Mais c'est rare.
 [x] EC a parfois des icônes avec orages alors que la condition dit seulement "Possibilité d'averses". Il faudrait peut-être ajuster la condition (Possibilité d'averses ou d'orages) si l'icône a un éclair, si le texte dit "orage" ou si les prévisions horaires incluent des possibilités d'orage.
+[ ] Les prévisions de la NOAA ne se retrouvent pas dans les prévisions stockées
 
 IMPORTATION DES DONNÉES
 [x] Trouver comment accéder aux données d'EC
@@ -16,12 +16,12 @@ IMPORTATION DES DONNÉES
   [x] Créer des conditions spécifiques à yr.no
 [ ] Créer des Prévisions à partir de l'API de la NOAA
   [x] Clarifier la différence entre les différents services de données
-  [ ] Créer un parseur JSON
-  [ ] Ajouter les conditions dans l'enum (https://graphical.weather.gov/xml/xml_fields_icon_weather_conditions.php)
-  [ ] Parser les prévisions selon les instructions à https://weather-gov.github.io/api/general-faqs
-    [ ] Par jour
-    [ ] Horaires
-  [ ] Parser les observations récentes (ex. https://api.weather.gov/stations/KDCA/observations/latest)
+  [x] Créer un parseur JSON
+  [x] Ajouter les conditions dans l'enum (https://graphical.weather.gov/xml/xml_fields_icon_weather_conditions.php)
+  [x] Parser les prévisions selon les instructions à https://weather-gov.github.io/api/general-faqs
+    [x] Par jour
+    [x] Horaires
+  [x] Parser les observations récentes (ex. https://api.weather.gov/stations/KDCA/observations/latest)
 [ ] Créer des Prévisions à partir de l'API de OpenWeatherMap
 [ ] Faire de la recherche sur les sources de données :
   [x] Environnement Canada

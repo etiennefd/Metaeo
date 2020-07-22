@@ -138,12 +138,12 @@ class StateController {
                 donneesImportees.previsionsParHeure[source] = previsionsParHeure
               }
               // coucher de soleil, etc.?
+              self.dispatchGroup.leave()
             }
           } catch {
             // erreur
-          }
-          
-          self.dispatchGroup.leave()
+            self.dispatchGroup.leave()
+          }          
         }
         task.resume()
         
