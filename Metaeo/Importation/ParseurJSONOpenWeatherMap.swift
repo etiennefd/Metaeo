@@ -178,7 +178,7 @@ class ParseurJSONOpenWeatherMap: ParseurJSON {
       previsionsParJour[previsionNuit.heureDebut] = previsionNuit
     }
     
-    completionHandler(nil, previsionsParJour, previsionsParHeure)
+    completionHandler(conditionsActuelles, previsionsParJour, previsionsParHeure)
   }
 }
 
