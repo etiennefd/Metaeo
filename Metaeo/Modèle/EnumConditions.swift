@@ -384,7 +384,8 @@ extension Prevision {
     case .sunny:
       return UIImage(named: "sunny")
     case .clear, // pour EC "clear" c'est toujours la nuit, mais pas pour les autres
-         .clearSkyYR:
+         .clearSkyYR,
+         .clearSkyOWM:
       return self.estNuit() ? UIImage(named: "clear") : UIImage(named: "sunny")
     case .mainlySunny,
          .aMixOfSunAndCloud,
@@ -397,16 +398,20 @@ extension Prevision {
          .partlyCloudy,
          .mainlyClear,
          .fairYR,
-         .mostlyClearNOAA:
-      return self.estNuit() ? UIImage(named: "a few clouds") : UIImage(named: "mainly sunny")
+         .mostlyClearNOAA,
+         .fewCloudsOWM,
+         .scatteredCloudsOWM:
+      return self.estNuit() ? UIImage(named: "a few clouds night") : UIImage(named: "mainly sunny")
     case .mainlyCloudy,
          .mostlyCloudy,
-         .partlyCloudyYR:
+         .partlyCloudyYR,
+         .brokenCloudsOWM:
       return self.estNuit() ? UIImage(named: "mostly cloudy night") : UIImage(named: "mostly cloudy")
     case .cloudyWithSunnyPeriods:
       return UIImage(named: "mostly cloudy")
     case .cloudy,
-         .overcast:
+         .overcast,
+         .overcastCloudsOWM:
       return UIImage(named: "cloudy")
     case .increasingCloudiness,
          .increasingCloudsNOAA,
@@ -431,7 +436,8 @@ extension Prevision {
          .rainShowersYR,
          .chanceRainShowersNOAA,
          .isolatedRainShowersNOAA,
-         .chanceRainNOAA:
+         .chanceRainNOAA,
+         .raggedShowerRainOWM:
       return self.estNuit() ? UIImage(named: "chance of showers night") : UIImage(named: "chance of showers")
     case .rainShower,
          .lightRainAndDrizzle,
@@ -441,7 +447,13 @@ extension Prevision {
          .showers,
          .aFewShowersOrDrizzle,
          .lightRainYR,
-         .rainShowersNOAA:
+         .rainShowersNOAA,
+         .lightIntensityDrizzleRainOWM,
+         .drizzleRainOWM,
+         .showerRainAndDrizzleOWM,
+         .moderateRainOWM,
+         .lightIntensityShowerRainOWM,
+         .showerRainOWM:
       return UIImage(named: "light rain")
     case .heavyRainShowersYR:
       return self.estNuit() ? UIImage(named: "chance of heavy rain night") : UIImage(named: "chance of heavy rain")
@@ -450,7 +462,13 @@ extension Prevision {
          .heavyRainAndDrizzle,
          .periodsOfRain,
          .rainAtTimesHeavy,
-         .heavyRainYR:
+         .heavyRainYR,
+         .heavyIntensityDrizzleRainOWM,
+         .heavyShowerRainAndDrizzleOWM,
+         .heavyIntensityRainOWM,
+         .veryHeavyRainOWM,
+         .extremeRainOWM,
+         .heavyIntensityShowerRainOWM:
       return UIImage(named: "heavy rain")
     case .snowGrains,
          .lightDrizzle,
@@ -459,7 +477,10 @@ extension Prevision {
          .drizzleOrFreezingDrizzle,
          .possibilityOfDrizzle,
          .possibilityOfDrizzleMixedWithFreezingDrizzle,
-         .chanceDrizzleNOAA:
+         .chanceDrizzleNOAA,
+         .lightIntensityDrizzleOWM,
+         .heavyIntensityDrizzleOWM,
+         .showerDrizzleOWM:
       return UIImage(named: "drizzle")
       
     //MARK: Neige et glace
@@ -474,7 +495,8 @@ extension Prevision {
          .heavySnowShowersYR,
          .snowShowersNOAA,
          .chanceSnowShowersNOAA,
-         .chanceFlurriesNOAA:
+         .chanceFlurriesNOAA,
+         .lightShowerSnowOWM:
       return self.estNuit() ? UIImage(named: "light flurries night") : UIImage(named: "light flurries")
     case .lightSnow,
          .snow,
@@ -484,7 +506,8 @@ extension Prevision {
          .chanceOfSnow,
          .periodsOfSnow,
          .lightSnowYR,
-         .chanceSnowNOAA:
+         .chanceSnowNOAA,
+         .showerSnowOWM:
       return UIImage(named: "snow")
     case .heavySnow,
          .snowAtTimesHeavy,
@@ -495,7 +518,8 @@ extension Prevision {
          .nearBlizzard,
          .snowAndBlizzard,
          .snowAtTimesHeavyAndBlowingSnow,
-         .heavySnowYR:
+         .heavySnowYR,
+         .heavyShowerSnowOWM:
       return UIImage(named: "heavy snow")
     case .lightRainShowerAndFlurries,
          .aFewRainShowersOrFlurries,
@@ -554,7 +578,9 @@ extension Prevision {
          .rainSleetNOAA,
          .chanceRainSleetNOAA,
          .snowSleetNOAA,
-         .chanceSnowSleetNOAA:
+         .chanceSnowSleetNOAA,
+         .lightShowerSleetOWM,
+         .showerSleetOWM:
       return UIImage(named: "hail")
     case .driftingSnow:
       return UIImage(named: "drifting snow")
@@ -590,7 +616,8 @@ extension Prevision {
          .chanceThunderstormsNOAA,
          .chanceShowersAndThunderstormsNOAA,
          .isolatedThunderstormsNOAA,
-         .isolatedShowersAndThunderstormsNOAA:
+         .isolatedShowersAndThunderstormsNOAA,
+         .raggedThunderstormOWM:
       return self.estNuit() ? UIImage(named: "chance of thunderstorms night") : UIImage(named: "chance of thunderstorms")
     case .thunderstorm,
          .thunderstormWithLightRain,
@@ -603,7 +630,11 @@ extension Prevision {
          .rainAndThunderYR,
          .heavyRainAndThunderYR,
          .thunderstormsNOAA,
-         .severeTstmsNOAA:
+         .severeTstmsNOAA,
+         .lightThunderstormOWM,
+         .thunderstormWithLightDrizzleOWM,
+         .thunderstormWithDrizzleOWM,
+         .thunderstormWithHeavyDrizzleOWM:
       return UIImage(named: "thunderstorm")
     case .lightSleetShowersAndThunderYR,
          .sleetShowersAndThunderYR,
@@ -664,7 +695,10 @@ extension Prevision {
          .blowingDust,
          .sandstorm,
          .driftingDust,
-         .blowingSandNOAA:
+         .blowingSandNOAA,
+         .sandOWM,
+         .dustOWM,
+         .sandDustWhirlsOWM:
       return UIImage(named: "sandstorm")
     case .volcanicAsh,
          .patchyAshNOAA,
