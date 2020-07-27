@@ -130,13 +130,17 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
           // prévisions horaires antérieures au moment présent
           // prévisions horaires postérieures à 24h dans le futur
           // prévisions par jour postérieures à 6 jours dans le futur
+          // prévisions par jour antérieures au moment présent lorsqu'il est bientôt 6h/18h
           let maintenant = Date()
+          let composantHeureMaintenant = Calendar.current.component(.hour, from: maintenant)
           guard let dans24h = Calendar.current.date(byAdding: .day, value: 1, to: maintenant),
             let dans6Jours = Calendar.current.date(byAdding: .day, value: 6, to: maintenant) else {
               continue
           }
-          if (prevision.type == .horaire && (date < maintenant || date > dans24h))
-            || (prevision.type == .quotidien && date > dans6Jours) {
+          if (prevision.type == .horaire && date < maintenant)
+            || (prevision.type == .horaire && date > dans24h)
+            || (prevision.type == .quotidien && date > dans6Jours)
+            || (prevision.type == .quotidien && date < maintenant && (composantHeureMaintenant == 5 || composantHeureMaintenant == 17)) {
             continue
           }
           previsionsParPeriodeAffichees.append(prevision)
