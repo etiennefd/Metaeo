@@ -66,7 +66,7 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, DelegueParseurXML {
       case (_, "condition") /*currentConditions et hourlyForecast*/, ("abbreviatedForecast", "textSummary") /*forecast*/:
         self.previsionEnEdition.condition = Condition(rawValue: nettoyerChaineCondition(data))
         if self.previsionEnEdition.condition == nil {
-          print("Incapable de parser la condition \(data)")
+          print("Incapable de parser la condition EC \(data)")
         }
         self.previsionEnEdition.chaineCondition = data
       case ("forecast", "textSummary"):

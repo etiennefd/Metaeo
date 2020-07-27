@@ -188,7 +188,6 @@ class StateController {
       return URL(string: "https://api.weather.gov/points/44.4759,-73.2121")! // Burlington
       //return URL(string: "https://api.weather.gov/points/44,-73")! //
     case .openWeatherMap:
-      //return URL(string: "https://api.weather.gov/points/44.4759,-73.2121")! // Burlington
       return URL(string: "https://api.openweathermap.org/data/2.5/onecall?lat=45.5088&lon=-73.5878&units=metric&appid=\(cleAPIOpenWeatherMap)")!
     default:
       return nil

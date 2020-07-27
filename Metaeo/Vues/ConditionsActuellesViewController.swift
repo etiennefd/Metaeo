@@ -14,7 +14,7 @@ class ConditionsActuellesViewController: UIViewController {
   //var conditionsActuelles: Prevision!
   var stateController: StateController?
   
-  var sourceEnAffichage: SourcePrevision? = .environnementCanada // à faire : mécanisme pour choisir par défaut une source
+  var sourceEnAffichage: SourcePrevision? = .environnementCanada //.openWeatherMap // à faire : mécanisme pour choisir par défaut une source
   var donneesEnAffichage: DonneesPourLieu?
   var conditionsActuelles: Prevision? {
     if let donneesEnAffichage = self.donneesEnAffichage, let sourceEnAffichage = self.sourceEnAffichage {

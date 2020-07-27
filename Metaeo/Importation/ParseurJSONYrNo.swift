@@ -56,7 +56,7 @@ class ParseurJSONYrNo: ParseurJSON {
         previsionHoraireEnEdition.chaineCondition = chaineCondition
         previsionHoraireEnEdition.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
         if previsionHoraireEnEdition.condition == nil {
-          print("Incapable de parser la condition \(chaineCondition)")
+          print("Incapable de parser la condition yr.no \(chaineCondition)")
         }
       }
       

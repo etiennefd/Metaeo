@@ -183,8 +183,8 @@ class ParseurJSONNOAA: ParseurJSON {
       let chaineCondition = objetPrevision["shortForecast"].stringValue
       previsionEnEdition.chaineCondition = chaineCondition
       previsionEnEdition.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
-      if previsionEnEdition.condition == nil {
-        print("Incapable de parser la condition \(chaineCondition)")
+      if previsionEnEdition.condition == nil, chaineCondition != "" {
+        print("Incapable de parser la condition NOAA \(chaineCondition)")
       }
       previsionEnEdition.detailsCondition = objetPrevision["detailedForecast"].stringValue
       
@@ -237,7 +237,7 @@ class ParseurJSONNOAA: ParseurJSON {
       previsionEnEdition.chaineCondition = chaineCondition
       previsionEnEdition.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
       if previsionEnEdition.condition == nil, chaineCondition != "" {
-        print("Incapable de parser la condition \(chaineCondition)")
+        print("Incapable de parser la condition NOAA \(chaineCondition)")
       }
       previsionEnEdition.detailsCondition = objetPrevision["detailedForecast"].stringValue
       
@@ -270,7 +270,7 @@ class ParseurJSONNOAA: ParseurJSON {
     conditionsActuelles.chaineCondition = chaineCondition
     conditionsActuelles.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
     if conditionsActuelles.condition == nil, chaineCondition != "" {
-      print("Incapable de parser la condition \(chaineCondition)")
+      print("Incapable de parser la condition NOAA \(chaineCondition)")
     }
     
     conditionsActuelles.temperature = objetPrevision["temperature"]["value"].doubleValue // déjà en Celsius
