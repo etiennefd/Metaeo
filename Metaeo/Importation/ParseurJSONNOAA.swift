@@ -291,9 +291,6 @@ class ParseurJSONNOAA: ParseurJSON {
 // Mettre une condition en minuscules et standardiser certaines conditions
 private func nettoyerChaineCondition(_ chaine: String) -> String {
   var chaineNettoyee = chaine.lowercased()
-  if chaineNettoyee == "sleet" {
-    return "sleet (NOAA)" // cas spécial pour distinguer du "sleet" de Yr.no
-  }
   // Si la condition inclut une évolution dans le futur avec "then", considérer seulement ce qui vient avant
   if chaineNettoyee.contains(" then ") {
     chaineNettoyee = chaineNettoyee.components(separatedBy: " then ")[0]
@@ -307,5 +304,9 @@ private func nettoyerChaineCondition(_ chaine: String) -> String {
   chaineNettoyee = chaineNettoyee.replacingOccurrences(of: "scattered", with: "isolated")
   // Assimiler les "areas of" à "areas"
   chaineNettoyee = chaineNettoyee.replacingOccurrences(of: "areas of", with: "areas")
+  // Identifier la sorte de sleet (aux États-Unis, ça signifie ice pellets)
+  if chaineNettoyee.contains("sleet") {
+    chaineNettoyee = chaineNettoyee + " (ice pellets)"
+  }
   return chaineNettoyee
 }

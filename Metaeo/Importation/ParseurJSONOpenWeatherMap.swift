@@ -48,9 +48,9 @@ class ParseurJSONOpenWeatherMap: ParseurJSON {
     if let objetCondition = objetCurrent["weather"].arrayValue.first {
       let chaineCondition = objetCondition["description"].stringValue
       conditionsActuelles.chaineCondition = chaineCondition
-      conditionsActuelles.condition = Condition(rawValue: chaineCondition)
+      conditionsActuelles.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
       if conditionsActuelles.condition == nil {
-        print("Incapable de parser la condition \(chaineCondition)")
+        print("Incapable de parser la condition OWM \(chaineCondition)")
       }
     }
     
@@ -90,9 +90,9 @@ class ParseurJSONOpenWeatherMap: ParseurJSON {
       if let objetCondition = objetHourly["weather"].arrayValue.first {
         let chaineCondition = objetCondition["description"].stringValue
         previsionHoraire.chaineCondition = chaineCondition
-        previsionHoraire.condition = Condition(rawValue: chaineCondition)
+        previsionHoraire.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
         if previsionHoraire.condition == nil {
-          print("Incapable de parser la condition \(chaineCondition)")
+          print("Incapable de parser la condition OWM \(chaineCondition)")
         }
       }
       previsionHoraire.probPrecipitation = objetHourly["pop"].double
@@ -164,10 +164,10 @@ class ParseurJSONOpenWeatherMap: ParseurJSON {
         let chaineCondition = objetCondition["description"].stringValue
         previsionJour.chaineCondition = chaineCondition
         previsionNuit.chaineCondition = chaineCondition
-        previsionJour.condition = Condition(rawValue: chaineCondition)
-        previsionNuit.condition = Condition(rawValue: chaineCondition)
+        previsionJour.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
+        previsionNuit.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
         if previsionJour.condition == nil {
-          print("Incapable de parser la condition \(chaineCondition)")
+          print("Incapable de parser la condition OWM \(chaineCondition)")
         }
       }
       previsionJour.probPrecipitation = objetDaily["pop"].double
@@ -182,3 +182,12 @@ class ParseurJSONOpenWeatherMap: ParseurJSON {
   }
 }
 
+// Identifier la sorte de sleet
+private func nettoyerChaineCondition(_ chaine: String) -> String {
+  var chaineNettoyee = chaine.lowercased()
+  // Identifier la sorte de sleet (pour OWM, ça semble être ice pellets)
+  if chaineNettoyee.contains("sleet") {
+    chaineNettoyee = chaineNettoyee + " (ice pellets)"
+  }
+  return chaineNettoyee
+}

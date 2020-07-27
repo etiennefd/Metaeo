@@ -212,16 +212,14 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, DelegueParseurXML {
     let dateAjustee = Calendar.current.date(bySettingHour: estSoir ? 18 : 6, minute: 0, second: 0, of: dateDecalee)
     return dateAjustee
   }
-  
-  // Mettre une condition en minuscules et enlever le point final s'il y a lieu
-  private func nettoyerChaineCondition(_ chaine: String) -> String {
-    var chaineNettoyee = chaine.lowercased()
-    chaineNettoyee = chaineNettoyee.trimmingCharacters(in: .whitespaces)
-    if chaineNettoyee.last == "." {
-      chaineNettoyee = String(chaineNettoyee.dropLast())
-    }
-    return chaineNettoyee
-  }
 }
 
-
+// Mettre une condition en minuscules et enlever le point final s'il y a lieu
+private func nettoyerChaineCondition(_ chaine: String) -> String {
+  var chaineNettoyee = chaine.lowercased()
+  chaineNettoyee = chaineNettoyee.trimmingCharacters(in: .whitespaces)
+  if chaineNettoyee.last == "." {
+    chaineNettoyee = String(chaineNettoyee.dropLast())
+  }
+  return chaineNettoyee
+}

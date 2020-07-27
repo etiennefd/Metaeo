@@ -54,7 +54,7 @@ class ParseurJSONYrNo: ParseurJSON {
         let composants = codeSymboleCondition.components(separatedBy: "_")
         let chaineCondition = composants[0]
         previsionHoraireEnEdition.chaineCondition = chaineCondition
-        previsionHoraireEnEdition.condition = Condition(rawValue: chaineCondition)
+        previsionHoraireEnEdition.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
         if previsionHoraireEnEdition.condition == nil {
           print("Incapable de parser la condition \(chaineCondition)")
         }
@@ -115,7 +115,7 @@ class ParseurJSONYrNo: ParseurJSON {
           let composants = codeSymboleCondition.components(separatedBy: "_")
           let chaineCondition = composants[0]
           previsionJourEnEdition!.chaineCondition = chaineCondition
-          previsionJourEnEdition!.condition = Condition(rawValue: chaineCondition)
+          previsionJourEnEdition!.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
           if previsionJourEnEdition!.condition == nil {
             print("Incapable de parser la condition \(chaineCondition)")
           }
@@ -239,7 +239,7 @@ class ParseurJSONYrNo: ParseurJSON {
             let composants = codeSymboleCondition.components(separatedBy: "_")
             let chaineCondition = composants[0]
             previsionJourEnEdition!.chaineCondition = chaineCondition
-            previsionJourEnEdition!.condition = Condition(rawValue: chaineCondition)
+            previsionJourEnEdition!.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
             if previsionJourEnEdition!.condition == nil {
               print("Incapable de parser la condition \(chaineCondition)")
             }
@@ -275,5 +275,15 @@ class ParseurJSONYrNo: ParseurJSON {
     
     completionHandler(nil, previsionsParJour, previsionsParHeure)
   }
+}
+
+// Identifier la sorte de sleet
+private func nettoyerChaineCondition(_ chaine: String) -> String {
+  var chaineNettoyee = chaine.lowercased()
+  // Identifier la sorte de sleet (pour yr.no, ça semble être un mélange de pluie et de neige)
+  if chaineNettoyee.contains("sleet") {
+    chaineNettoyee = chaineNettoyee + " (rain and snow)"
+  }
+  return chaineNettoyee
 }
 
