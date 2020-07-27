@@ -32,7 +32,7 @@ class StateController {
   
   let dispatchGroup = DispatchGroup()
   
-  let cleAPIOpenWeatherMap = "c97cdfd596b1a432192bb74a9e760bf6"
+  let cleAPIOpenWeatherMap = ProcessInfo.processInfo.environment["cleAPIOpenWeatherMap"]!
   
   // Données importées qui peuvent être utilisées dans les dans l'app
   var toutesLesDonneesImportees = [String : DonneesPourLieu]() // changer le String pour le type approprié pour les lieux
