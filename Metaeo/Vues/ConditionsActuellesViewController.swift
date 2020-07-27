@@ -33,6 +33,8 @@ class ConditionsActuellesViewController: UIViewController {
   @IBOutlet weak var etiquettePointDeRosee: UILabel!
   @IBOutlet weak var etiquetteIndiceUV: UILabel!
   @IBOutlet weak var etiquetteVisibilite: UILabel!
+  @IBOutlet weak var etiquetteSource: UILabel!
+  @IBOutlet weak var etiquetteHeureEmission: UILabel!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -96,15 +98,17 @@ class ConditionsActuellesViewController: UIViewController {
         self.etiquettePointDeRosee.text = "\(Int(pointDeRosee.rounded())) °C"
       }
       // ceci n'existe pas dans les condiditons actuelles d'EC!
-      if let indiceUV = conditionsActuelles.indiceUV {
+      if let indiceUV = conditionsActuelles.donneIndiceUV() {
         self.etiquetteIndiceUV.isHidden = false
-        self.etiquetteIndiceUV.text = "\(indiceUV) (???)"
+        self.etiquetteIndiceUV.text = "\(indiceUV)"
       } else {
         self.etiquetteIndiceUV.isHidden = true
       }
       if let visibilite = conditionsActuelles.visibilite {
         self.etiquetteVisibilite.text = "\(Int(visibilite.rounded())) km"
       }
+      self.etiquetteSource.text = "Source: \(conditionsActuelles.source.rawValue)"
+      self.etiquetteHeureEmission.text = "Conditions observed at \(conditionsActuelles.donneChaineHeure())"
     }
   }
   

@@ -431,13 +431,34 @@
                                 </subviews>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="peO-iF-dT6">
-                                <rect key="frame" x="113" y="91" width="157" height="30"/>
+                                <rect key="frame" x="131" y="753" width="157" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Recharger les données"/>
                                 <connections>
                                     <action selector="reimporterDonnees:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="blp-BJ-W4g"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Conditions observed at" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="47U-sh-ryL">
+                                <rect key="frame" x="20" y="703" width="374" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Source:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x93-8e-MUD">
+                                <rect key="frame" x="20" y="665" width="374" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Montréal (changer...)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ytM-dJ-21J">
+                                <rect key="frame" x="51" y="89" width="287" height="39"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
@@ -445,11 +466,13 @@
                     <tabBarItem key="tabBarItem" title="CURRENT" image="second" id="cPa-gy-q4n"/>
                     <connections>
                         <outlet property="etiquetteCondition" destination="v2L-m8-uXx" id="8YV-B1-k7w"/>
+                        <outlet property="etiquetteHeureEmission" destination="47U-sh-ryL" id="UTK-ga-pFu"/>
                         <outlet property="etiquetteHumidite" destination="Xjq-fR-gyf" id="ujU-D4-P7L"/>
                         <outlet property="etiquetteIndiceUV" destination="lNe-Cp-bNq" id="7Tm-P5-DMK"/>
                         <outlet property="etiquettePointDeRosee" destination="oQe-Ze-qIN" id="vSY-Tl-pmg"/>
                         <outlet property="etiquettePression" destination="pWd-I4-egV" id="v8K-LG-MSy"/>
                         <outlet property="etiquetteRafales" destination="f0o-RH-Zg3" id="RYy-MN-5Cl"/>
+                        <outlet property="etiquetteSource" destination="x93-8e-MUD" id="xaB-Oa-Y6g"/>
                         <outlet property="etiquetteTemperature" destination="rHI-aw-4BD" id="CXs-zX-YDB"/>
                         <outlet property="etiquetteVent" destination="7j2-az-wHw" id="9C1-uq-d7E"/>
                         <outlet property="etiquetteVisibilite" destination="DeI-hF-8uN" id="M0b-sL-0dQ"/>
