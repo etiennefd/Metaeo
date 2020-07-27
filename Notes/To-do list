@@ -1,7 +1,10 @@
 BOGUES
 [ ] Une prévision peut avoir une icône de jour ET une de nuit selon la source, si une dit "sunny" et l'autre "clear" et estNuit == vrai. Mais c'est rare.
 [x] EC a parfois des icônes avec orages alors que la condition dit seulement "Possibilité d'averses". Il faudrait peut-être ajuster la condition (Possibilité d'averses ou d'orages) si l'icône a un éclair, si le texte dit "orage" ou si les prévisions horaires incluent des possibilités d'orage.
-[ ] Les prévisions de la NOAA ne se retrouvent pas dans les prévisions stockées
+[x] Les prévisions de la NOAA ne se retrouvent pas dans les prévisions stockées -> problème d'asynchronicité.
+[ ] Les données de la NOAA sont parfois vieilles de plusieurs jours, sans doute un problème de cache.
+[ ] EstNuit ne marche plus pour yr.no/horaire car on n'a pas de données de coucher/lever de soleil (elles sont importées dans les prévisions). Solution = importer les heures de lever/coucher pour le lieu? En fait ça ne marche pas pour EC/horaire non plus.
+[ ] Pas sûr si ça vaut la peine, mais remplacer les doubleValue par double (etc.) pour avoir nil si l'importation ne marche pas? Dans les parseurs JSON de yr.no et la NOAA
 
 IMPORTATION DES DONNÉES
 [x] Trouver comment accéder aux données d'EC
@@ -14,7 +17,7 @@ IMPORTATION DES DONNÉES
   [ ] Créer des identifiants pour obtenir les données en respectant les termes (HTML header)
   [-] Associer les informations reçues à celles utilisées par EC pour harmoniser
   [x] Créer des conditions spécifiques à yr.no
-[ ] Créer des Prévisions à partir de l'API de la NOAA
+[x] Créer des Prévisions à partir de l'API de la NOAA
   [x] Clarifier la différence entre les différents services de données
   [x] Créer un parseur JSON
   [x] Ajouter les conditions dans l'enum (https://graphical.weather.gov/xml/xml_fields_icon_weather_conditions.php)
@@ -22,7 +25,8 @@ IMPORTATION DES DONNÉES
     [x] Par jour
     [x] Horaires
   [x] Parser les observations récentes (ex. https://api.weather.gov/stations/KDCA/observations/latest)
-[ ] Créer des Prévisions à partir de l'API de OpenWeatherMap
+[x] Créer des Prévisions à partir de l'API de OpenWeatherMap
+  [ ] Ajouter les conditions dans l'enum
 [ ] Faire de la recherche sur les sources de données :
   [x] Environnement Canada
   [x] Yr.no
@@ -78,7 +82,7 @@ VUE DE LA LISTE DE PRÉVISIONS
   [x] Sélectionner à l'aide d'un geste spécial (toucher longtemps)
 [ ] Choisir un gris pâle quand on sélectionne une cellule du table view
 [ ] Faire persister la sélection du CollectionView et du TableView même quand on change la sélection de l'autre
-[x] Permettre d'alternet entre les prévisions 7 jours et 24h avec un UISegmentedControl
+[x] Permettre d'alterner entre les prévisions 7 jours et 24h avec un UISegmentedControl
 
 PARAMÈTRES
 [ ] Créer une table view pour les paramètres

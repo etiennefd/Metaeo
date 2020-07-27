@@ -153,19 +153,20 @@ class ParseurJSONNOAA: ParseurJSON {
       guard let heurePrevision = dateFormatter.date(from: objetPrevision["startTime"].stringValue) else {
         continue
       }
+      
       // à faire : modifier si ce n'est pas 18h ou 6h
       
       // Créer la prévision
       var previsionEnEdition = Prevision()
       previsionEnEdition.type = .quotidien
       previsionEnEdition.source = .NOAA
-      previsionEnEdition.heureDebut = heurePrevision
+      previsionEnEdition.nuit = !objetPrevision["isDaytime"].boolValue
+      previsionEnEdition.heureDebut = Calendar.current.date(bySettingHour: (previsionEnEdition.nuit ?? false) ? 18 : 6, minute: 0, second: 0, of: heurePrevision)
       previsionEnEdition.heureEmission = heureEmission
-      
+
       let heureFinPrevision = dateFormatter.date(from: objetPrevision["endTime"].stringValue)
       previsionEnEdition.heureFin = heureFinPrevision
       previsionEnEdition.chainePeriode = objetPrevision["name"].stringValue
-      previsionEnEdition.nuit = objetPrevision["isDaytime"].boolValue
       previsionEnEdition.temperature = fahrenheitVersCelsius(objetPrevision["temperature"].doubleValue)
       
       var chaineVitesseVent = objetPrevision["windSpeed"].stringValue
@@ -202,21 +203,23 @@ class ParseurJSONNOAA: ParseurJSON {
     let periods = json["properties"]["periods"].arrayValue
     for objetPrevision in periods {
       // Obtenir l'heure de la prévision
+//      print(objetPrevision["startTime"].stringValue) // pour déboguer les problèmes de cache
       guard let heurePrevision = dateFormatter.date(from: objetPrevision["startTime"].stringValue) else {
         continue
       }
+//      print(heurePrevision)
       
       // Créer la prévision
       var previsionEnEdition = Prevision()
       previsionEnEdition.type = .horaire
       previsionEnEdition.source = .NOAA
-      previsionEnEdition.heureDebut = heurePrevision
+      previsionEnEdition.nuit = !objetPrevision["isDaytime"].boolValue
       previsionEnEdition.heureEmission = heureEmission
+      previsionEnEdition.heureDebut = heurePrevision
       
       let heureFinPrevision = dateFormatter.date(from: objetPrevision["endTime"].stringValue)
       previsionEnEdition.heureFin = heureFinPrevision
       previsionEnEdition.chainePeriode = objetPrevision["name"].stringValue
-      previsionEnEdition.nuit = objetPrevision["isDaytime"].boolValue
       previsionEnEdition.temperature = fahrenheitVersCelsius(objetPrevision["temperature"].doubleValue)
       
       var chaineVitesseVent = objetPrevision["windSpeed"].stringValue
@@ -275,7 +278,7 @@ class ParseurJSONNOAA: ParseurJSON {
     conditionsActuelles.directionVentDegres = objetPrevision["windDirection"]["value"].doubleValue
     conditionsActuelles.vitesseVent = objetPrevision["windSpeed"]["value"].doubleValue
     conditionsActuelles.vitesseRafales = objetPrevision["windGust"]["value"].doubleValue
-    conditionsActuelles.pression = objetPrevision["seaLevelPressure"]["value"].doubleValue / 1000.0 // barometric ou sea level??? // divisé par 1000 car la valeur et en Pa
+    conditionsActuelles.pression = objetPrevision["seaLevelPressure"]["value"].doubleValue / 1000.0 // divisé par 1000 car la valeur et en Pa
     conditionsActuelles.visibilite = objetPrevision["visibility"]["value"].doubleValue / 1000.0 // divisé par 1000 car la valeur est en m
     conditionsActuelles.humidite = objetPrevision["relativeHumidity"]["value"].doubleValue
     conditionsActuelles.humidex = objetPrevision["heatIndex"]["value"].doubleValue
@@ -285,7 +288,7 @@ class ParseurJSONNOAA: ParseurJSON {
   }
 }
 
-// Mettre une condition en minuscules
+// Mettre une condition en minuscules et standardiser certaines conditions
 private func nettoyerChaineCondition(_ chaine: String) -> String {
   var chaineNettoyee = chaine.lowercased()
   if chaineNettoyee == "sleet" {
@@ -302,5 +305,7 @@ private func nettoyerChaineCondition(_ chaine: String) -> String {
   }
   // Assimiler les "scattered" à "isolated"
   chaineNettoyee = chaineNettoyee.replacingOccurrences(of: "scattered", with: "isolated")
+  // Assimiler les "areas of" à "areas"
+  chaineNettoyee = chaineNettoyee.replacingOccurrences(of: "areas of", with: "areas")
   return chaineNettoyee
 }

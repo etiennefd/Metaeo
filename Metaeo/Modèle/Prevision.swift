@@ -53,8 +53,11 @@ struct Prevision: CustomDebugStringConvertible {
   var visibilite: Double? // km
   var indiceUV: Double?
   
+  var temperatureRessentie: Double? // utilisé quand on ignore si c'est l'humidex, le refroidissement éolien, etc.
   var humidex: Double?
   var refroidissementEolien: Double?
+  
+  var couvertureNuageuse: Double? // %
   
   var certitude: Int?
   
@@ -83,7 +86,7 @@ struct Prevision: CustomDebugStringConvertible {
   }
   
   func donneTemperatureRessentie() -> Double? {
-    return self.refroidissementEolien ?? self.humidex ?? nil
+    return self.temperatureRessentie ?? self.refroidissementEolien ?? self.humidex ?? nil
   }
   func donneTemperatureRessentieArrondie() -> Int? {
     if let temperatureRessentie = self.donneTemperatureRessentie() {
@@ -142,10 +145,6 @@ struct Prevision: CustomDebugStringConvertible {
     }
     return nil
   }
-  
- 
-  
-  
   
   
   // À raffiner selon les heures, et selon les autres sources de données, mais ceci devrait suffire pour Environnement Canada

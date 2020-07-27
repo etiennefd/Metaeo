@@ -32,6 +32,8 @@ class StateController {
   
   let dispatchGroup = DispatchGroup()
   
+  let cleAPIOpenWeatherMap = "c97cdfd596b1a432192bb74a9e760bf6"
+  
   // Données importées qui peuvent être utilisées dans les dans l'app
   var toutesLesDonneesImportees = [String : DonneesPourLieu]() // changer le String pour le type approprié pour les lieux
   var lieuEnSelection: String? = "Montreal"
@@ -169,7 +171,7 @@ class StateController {
   // Donne les services météo qui s'appliquent à une localisation donnée
   private func sourcesPourLieu(_ lieu: String) -> [SourcePrevision] {
     if lieu == "Montreal" {
-      return [.environnementCanada, .yrNo, .NOAA /* utilise présentement les données de Burlington */]
+      return [.environnementCanada, .yrNo, .NOAA, /* utilise présentement les données de Burlington */ .openWeatherMap]
     }
     return []
   }
@@ -184,6 +186,10 @@ class StateController {
       return URL(string: "https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=45.5088&lon=-73.5878&altitude=216")!
     case .NOAA:
       return URL(string: "https://api.weather.gov/points/44.4759,-73.2121")! // Burlington
+      //return URL(string: "https://api.weather.gov/points/44,-73")! //
+    case .openWeatherMap:
+      //return URL(string: "https://api.weather.gov/points/44.4759,-73.2121")! // Burlington
+      return URL(string: "https://api.openweathermap.org/data/2.5/onecall?lat=45.5088&lon=-73.5878&units=metric&appid=\(cleAPIOpenWeatherMap)")!
     default:
       return nil
     }
@@ -206,6 +212,8 @@ class StateController {
       return ParseurJSONYrNo()
     case .NOAA:
       return ParseurJSONNOAA()
+    case .openWeatherMap:
+      return ParseurJSONOpenWeatherMap()
     default:
       return nil
     }

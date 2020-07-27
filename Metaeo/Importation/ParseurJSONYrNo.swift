@@ -63,7 +63,6 @@ class ParseurJSONYrNo: ParseurJSON {
       previsionHoraireEnEdition.quantitePrecipitation = objetPrevision["data"]["next_1_hours"]["details"]["precipitation_amount"].doubleValue
       
       // Ajouter la prévision horaire
-      //cette ligne ne marche pas à cause d'un "bad access". Mettre les variables en local dans la fct plutôt que sur la classe?
       previsionsParHeure[heurePrevision] = previsionHoraireEnEdition
       
       // Pour les prévisions par jour, c'est un peu plus compliqué
