@@ -212,6 +212,7 @@ struct Prevision: CustomDebugStringConvertible {
   //MARK: Description
 
   var debugDescription: String {
-    return "Prévision pour \(lieu ?? "[erreur lieu]") à \(heureDebut ?? Date()) : \(temperature ?? temperatureMax ?? temperatureMin ?? -999) °C. "
+    //return "Prévision pour \(lieu ?? "[erreur lieu]") à \(heureDebut ?? Date()) : \(temperature ?? temperatureMax ?? temperatureMin ?? -999) °C. "
+    return "\(source.rawValue), \(lieu ?? "[erreur lieu]"), \(donneChaineHeure()), \(donneChaineTemperature())"
   }
 }

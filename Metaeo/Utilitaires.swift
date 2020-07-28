@@ -117,3 +117,12 @@ func degresVersPointCardinal(_ degres: Double) -> PointCardinal? {
     return nil
   }
 }
+
+// MARK: aide au débogage
+
+// Utile pour visualiser les prévisions d'un dict, car ça ne marche pas bien avec le débogueur
+func printPrevisionsParPeriode(_ previsionsParPeriode: [Date : Prevision]) {
+  for (date, prevision) in previsionsParPeriode {
+    print("\(date) : \(prevision.debugDescription)")
+  }
+}
