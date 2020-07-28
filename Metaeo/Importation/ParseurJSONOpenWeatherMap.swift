@@ -106,6 +106,10 @@ class ParseurJSONOpenWeatherMap: ParseurJSON {
     
     // Prévisions par jour
     
+    let calendrierLocal = Calendar.current
+    //calendar.timeZone = timeZone du lieu de la prévision
+    let joursDeLaSemaine = calendrierLocal.weekdaySymbols
+    
     let dailyForecasts = json["daily"].arrayValue
     for objetDaily in dailyForecasts {
       
@@ -124,6 +128,9 @@ class ParseurJSONOpenWeatherMap: ParseurJSON {
       let heureObjetPrevision = Date(timeIntervalSince1970: objetDaily["dt"].doubleValue)
       previsionJour.heureDebut = Calendar.current.date(bySettingHour: 6, minute: 0, second: 0, of: heureObjetPrevision)
       previsionNuit.heureDebut = Calendar.current.date(bySettingHour: 18, minute: 0, second: 0, of: heureObjetPrevision)
+      let chaineJourDeLaSemaine = joursDeLaSemaine[calendrierLocal.component(.weekday, from: heureObjetPrevision) - 1]
+      previsionJour.chainePeriode = chaineJourDeLaSemaine
+      previsionNuit.chainePeriode = chaineJourDeLaSemaine + " night"
       let heureLeverDuSoleil = Date(timeIntervalSince1970: objetDaily["sunrise"].doubleValue)
       let heureCoucherDuSoleil = Date(timeIntervalSince1970: objetDaily["sunset"].doubleValue)
       previsionJour.heureLeverDuSoleil = heureLeverDuSoleil
