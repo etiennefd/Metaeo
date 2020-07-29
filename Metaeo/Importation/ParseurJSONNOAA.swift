@@ -189,7 +189,7 @@ class ParseurJSONNOAA: ParseurJSON {
       previsionEnEdition.detailsCondition = objetPrevision["detailedForecast"].stringValue
       
       // Ajouter la prévision
-      previsionsParJour[heurePrevision] = previsionEnEdition
+      previsionsParJour[previsionEnEdition.heureDebut] = previsionEnEdition
     }
     
     return previsionsParJour
@@ -242,7 +242,7 @@ class ParseurJSONNOAA: ParseurJSON {
       previsionEnEdition.detailsCondition = objetPrevision["detailedForecast"].stringValue
       
       // Ajouter la prévision
-      previsionsParHeure[heurePrevision] = previsionEnEdition
+      previsionsParHeure[previsionEnEdition.heureDebut] = previsionEnEdition
     }
     
     return previsionsParHeure
