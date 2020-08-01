@@ -101,6 +101,10 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     self.sourceEnSelection = previsionsStockees.keys.first
     
     for (_, previsionsParPeriode) in previsionsStockees {
+      
+      // Pour déboguer en imprimant les prévisions, décommenter ceci :
+      //printPrevisionsParPeriode(previsionsParPeriode)
+      
       // remplir le tableau des prévisions par source selon la période choisie (table view)
       if let previsionPourPeriodeEnSelection = previsionsParPeriode[self.periodeEnSelection] {
         previsionsParSourceAffichees.append(previsionPourPeriodeEnSelection)
