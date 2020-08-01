@@ -106,9 +106,9 @@ class ParseurJSONYrNo: ParseurJSON {
         // La condition est soit celle des 6 ou des 12 prochaines heures, selon si on est assez tôt dans la journée/nuit
         var codeSymboleCondition: String
         if (intHeureLocaleActuelle > 6 && intHeureLocaleActuelle <= 12) || (intHeureLocaleActuelle > 18) {
-          codeSymboleCondition = objetPrevision["data"]["next_6_hours"]["summary"]["symbol_code"].stringValue
-        } else {
           codeSymboleCondition = objetPrevision["data"]["next_12_hours"]["summary"]["symbol_code"].stringValue
+        } else {
+          codeSymboleCondition = objetPrevision["data"]["next_6_hours"]["summary"]["symbol_code"].stringValue
           doitAjusterSelonDeuxiemePeriodeDe6h = true
         }
         if codeSymboleCondition != "" {
