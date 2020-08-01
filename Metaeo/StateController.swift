@@ -69,14 +69,14 @@ class StateController {
         }
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
           guard let data = data, error == nil else {
-            print(error ?? "Erreur inconnue")
+            print(error ?? "Erreur inconnue du côté client lors de l'importation de \(source)")
             //self.handleClientError(error)
             self.dispatchGroup.leave()
             return
           }
           guard let httpResponse = response as? HTTPURLResponse,
             (200...299).contains(httpResponse.statusCode) else {
-              print(error ?? "Erreur inconnue")
+              print(error ?? "Erreur inconnue du côté serveur (code HTTP pas dans les 200) lors de l'importation de \(source)")
               //self.handleServerError(response)
               self.dispatchGroup.leave()
               return

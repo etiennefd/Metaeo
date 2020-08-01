@@ -31,14 +31,14 @@ class ParseurJSONNOAA: ParseurJSON {
     dispatchGroup.enter()
     let taskForecast = URLSession.shared.dataTask(with: URL(string: urlForecast)!) { data, response, error in
       guard let data = data, error == nil else {
-        print(error ?? "Erreur inconnue")
+        print(error ?? "Erreur inconnue du côté client lors de l'importation des prévisions par jour de la NOAA")
         //self.handleClientError(error)
         dispatchGroup.leave()
         return
       }
       guard let httpResponse = response as? HTTPURLResponse,
         (200...299).contains(httpResponse.statusCode) else {
-          print(error ?? "Erreur inconnue")
+          print(error ?? "Erreur inconnue du côté serveur (code HTTP pas dans les 200) lors de l'importation des prévisions par jour de la NOAA")
           //self.handleServerError(response)
           dispatchGroup.leave()
           return
@@ -48,7 +48,7 @@ class ParseurJSONNOAA: ParseurJSON {
         let json = try JSON(data: data)
         previsionsParJour = self.parseJSONForecast(json)
       } catch {
-        // erreur
+        print("Erreur de parsage JSON pour les prévisions par jour de la NOAA")
       }
       dispatchGroup.leave()
     }
@@ -58,14 +58,14 @@ class ParseurJSONNOAA: ParseurJSON {
     dispatchGroup.enter()
     let taskForecastHourly = URLSession.shared.dataTask(with: URL(string: urlForecastHourly)!) { data, response, error in
       guard let data = data, error == nil else {
-        print(error ?? "Erreur inconnue")
+        print(error ?? "Erreur inconnue du côté client lors de l'importation des prévisions horaires de la NOAA")
         //self.handleClientError(error)
         dispatchGroup.leave()
         return
       }
       guard let httpResponse = response as? HTTPURLResponse,
         (200...299).contains(httpResponse.statusCode) else {
-          print(error ?? "Erreur inconnue")
+          print(error ?? "Erreur inconnue du côté serveur (code HTTP pas dans les 200) lors de l'importation des prévisions horaires de la NOAA")
           //self.handleServerError(response)
           dispatchGroup.leave()
           return
@@ -75,7 +75,7 @@ class ParseurJSONNOAA: ParseurJSON {
         let json = try JSON(data: data)
         previsionsParHeure = self.parseJSONHourlyForecast(json)
       } catch {
-        // erreur
+        print("Erreur de parsage JSON pour les prévisions horaires de la NOAA")
       }
       dispatchGroup.leave()
     }
@@ -86,14 +86,14 @@ class ParseurJSONNOAA: ParseurJSON {
     dispatchGroup.enter()
     let taskStations = URLSession.shared.dataTask(with: URL(string: urlStations)!) { data, response, error in
       guard let data = data, error == nil else {
-        print(error ?? "Erreur inconnue")
+        print(error ?? "Erreur inconnue du côté client lors de l'importation des stations de la NOAA")
         //self.handleClientError(error)
         dispatchGroup.leave()
         return
       }
       guard let httpResponse = response as? HTTPURLResponse,
         (200...299).contains(httpResponse.statusCode) else {
-          print(error ?? "Erreur inconnue")
+          print(error ?? "Erreur inconnue du côté serveur (code HTTP pas dans les 200) lors de l'importation des stations de la NOAA")
           //self.handleServerError(response)
           dispatchGroup.leave()
           return
@@ -107,14 +107,14 @@ class ParseurJSONNOAA: ParseurJSON {
         dispatchGroup.enter()
         let taskObservations = URLSession.shared.dataTask(with: URL(string: urlObservations)!) { data, response, error in
           guard let data = data, error == nil else {
-            print(error ?? "Erreur inconnue")
+            print(error ?? "Erreur inconnue du côté client lors de l'importation des observations de la NOAA")
             //self.handleClientError(error)
             dispatchGroup.leave()
             return
           }
           guard let httpResponse = response as? HTTPURLResponse,
             (200...299).contains(httpResponse.statusCode) else {
-              print(error ?? "Erreur inconnue")
+              print(error ?? "Erreur inconnue du côté serveur (code HTTP pas dans les 200) lors de l'importation des observations de la NOAA")
               //self.handleServerError(response)
               dispatchGroup.leave()
               return
@@ -124,13 +124,13 @@ class ParseurJSONNOAA: ParseurJSON {
             let json = try JSON(data: data)
             conditionsActuelles = self.parseJSONObservations(json)
           } catch {
-            // erreur
+            print("Erreur de parsage JSON pour les observations de la NOAA")
           }
           dispatchGroup.leave()
         }
         taskObservations.resume()
       } catch {
-        // erreur
+        print("Erreur de parsage JSON pour les stations de la NOAA")
       }
       dispatchGroup.leave()
     }
