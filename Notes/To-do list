@@ -14,7 +14,8 @@ IMPORTATION DES DONNÉES
   [x] Créer un parseur JSON
   [x] Parser les prévisions horaires
   [x] Parser les prévisions par jour
-  [ ] Créer des identifiants pour obtenir les données en respectant les termes (HTML header)
+  [x] Créer des identifiants pour obtenir les données en respectant les termes (HTML header)
+  [ ] Utiliser un proxy pour ne pas envoyer l'adresse IP de l'utilisateur
   [-] Associer les informations reçues à celles utilisées par EC pour harmoniser
   [x] Créer des conditions spécifiques à yr.no
 [x] Créer des Prévisions à partir de l'API de la NOAA

@@ -60,14 +60,20 @@ class StateController {
       guard let url = urlPourSource(source, lieu: lieu) else {
         continue
       }
+     
       self.dispatchGroup.enter()
+      
+      // Requête HTTPS avec header
+      var request = URLRequest(url: url)
+      request.addValue("Metaeo https://github.com/etiennefd/Metaeo", forHTTPHeaderField: "User-Agent")
+      
       let format = formatPourSource(source)
       switch format {
       case .xml:
         guard let delegueParseurXML = self.delegueParseurXMLPourSource(source) else {
           continue
         }
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
           guard let data = data, error == nil else {
             print(error ?? "Erreur inconnue du côté client lors de l'importation de \(source)")
             //self.handleClientError(error)
@@ -107,7 +113,7 @@ class StateController {
         task.resume()
         
       case .json:
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
           guard let data = data, error == nil else {
             print(error ?? "Erreur inconnue")
             //self.handleClientError(error)
