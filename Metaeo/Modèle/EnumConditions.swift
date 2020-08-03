@@ -167,13 +167,17 @@ enum Condition: String {
   case chanceOfShowersRiskOfThunderstorms = "chance of showers. risk of thunderstorms"
   case chanceOfShowersRiskOfSevereThunderstorms = "chance of showers. risk of severe thunderstorms"
   case showersRiskOfThunderstorms = "showers. risk of thunderstorms"
+  case showersRiskOfSevereThunderstorms = "showers. risk of severe thunderstorms"
   case aFewShowersRiskOfThunderstorms = "a few showers. risk of thunderstorms"
   case aFewShowersRiskOfSevereThunderstorms = "a few showers. risk of severe thunderstorms"
+  //case riskOfThunderstorms = "risk of thunderstorms" // à ajouter?
+  case riskOfSevereThunderstorms = "risk of severe thunderstorms"
   case lightRainshower = "light rainshower"
   case mainlyCloudy = "mainly cloudy"
   case rainShowersAndFlurries = "rain showers and flurries"
   case thunderstormWithLightRainshowers = "thunderstorm with light rainshowers"
   case thunderstormWithRainshowers = "thunderstorm with rainshowers"
+  case thunderstormWithHeavyRainshowers = "thunderstorm with heavy rainshowers"
   
   //MARK: yr.no
   // Les cas commentés sont ceux qui sont identiques à une condition déjà définie ci-dessus
@@ -613,6 +617,8 @@ extension Prevision {
          .aFewShowersRiskOfThunderstorms,
          .aFewShowersRiskOfSevereThunderstorms,
          .showersRiskOfThunderstorms,
+         .showersRiskOfSevereThunderstorms,
+         .riskOfSevereThunderstorms,
          .lightRainShowersAndThunderYR,
          .rainShowersAndThunderYR,
          .heavyRainShowersAndThunderYR,
@@ -630,6 +636,7 @@ extension Prevision {
          .heavyThunderstormWithRain,
          .thunderstormWithLightRainshowers,
          .thunderstormWithRainshowers,
+         .thunderstormWithHeavyRainshowers,
          .lightRainAndThunderYR,
          .rainAndThunderYR,
          .heavyRainAndThunderYR,
