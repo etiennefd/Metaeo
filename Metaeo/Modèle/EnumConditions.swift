@@ -170,6 +170,8 @@ enum Condition: String {
   case showersRiskOfSevereThunderstorms = "showers. risk of severe thunderstorms"
   case aFewShowersRiskOfThunderstorms = "a few showers. risk of thunderstorms"
   case aFewShowersRiskOfSevereThunderstorms = "a few showers. risk of severe thunderstorms"
+  case rainRiskOfThunderstorms = "rain. risk of thunderstorms"
+  case rainAtTimesHeavyRiskOfThunderstorms = "rain at times heavy. risk of thunderstorms"
   //case riskOfThunderstorms = "risk of thunderstorms" // à ajouter?
   case riskOfSevereThunderstorms = "risk of severe thunderstorms"
   case lightRainshower = "light rainshower"
@@ -315,7 +317,9 @@ enum Condition: String {
   case isolatedRainShowersNOAA = "isolated rain showers"
   case chanceShowersAndThunderstormsNOAA = "chance showers and thunderstorms"
   case isolatedShowersAndThunderstormsNOAA = "isolated showers and thunderstorms"
-  
+  case chanceLightRainNOAA = "chance light rain"
+  case chanceHeavyRainNOAA = "chance heavy rain"
+
   //MARK: OpenWeatherMap
   // Les cas commentés sont ceux qui sont identiques à une condition déjà définie ci-dessus.
   //case thunderstormWithLightRainOWM = "thunderstorm with light rain"
@@ -442,6 +446,7 @@ extension Prevision {
          .rainShowersYR,
          .chanceRainShowersNOAA,
          .isolatedRainShowersNOAA,
+         .chanceLightRainNOAA,
          .chanceRainNOAA,
          .raggedShowerRainOWM:
       return self.estNuit() ? UIImage(named: "chance of showers night") : UIImage(named: "chance of showers")
@@ -461,7 +466,8 @@ extension Prevision {
          .lightIntensityShowerRainOWM,
          .showerRainOWM:
       return UIImage(named: "light rain")
-    case .heavyRainShowersYR:
+    case .chanceHeavyRainNOAA,
+         .heavyRainShowersYR:
       return self.estNuit() ? UIImage(named: "chance of heavy rain night") : UIImage(named: "chance of heavy rain")
     case .heavyRain,
          .heavyRainShower,
@@ -612,8 +618,6 @@ extension Prevision {
          .aFewShowersOrThundershowers,
          .showersOrThunderstorms,
          .showersOrThundershowers,
-         .rainOrThunderstorms,
-         .rainOrThundershowers,
          .aFewShowersRiskOfThunderstorms,
          .aFewShowersRiskOfSevereThunderstorms,
          .showersRiskOfThunderstorms,
@@ -637,6 +641,10 @@ extension Prevision {
          .thunderstormWithLightRainshowers,
          .thunderstormWithRainshowers,
          .thunderstormWithHeavyRainshowers,
+         .rainOrThunderstorms,
+         .rainOrThundershowers,
+         .rainRiskOfThunderstorms,
+         .rainAtTimesHeavyRiskOfThunderstorms,
          .lightRainAndThunderYR,
          .rainAndThunderYR,
          .heavyRainAndThunderYR,
