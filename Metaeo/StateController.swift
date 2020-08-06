@@ -38,8 +38,12 @@ class StateController {
   var toutesLesDonneesImportees = [String : DonneesPourLieu]() // changer le String pour le type approprié pour les lieux
   var lieuEnSelection: String? = "Montreal"
   
-  // variables pour les paramètres
-  // var uniteTemperature etc.
+  // Variables pour les unités de mesure choisies par l'utilisateur
+  // à faire : remplacer les défauts selon la locale de l'utilisateur
+  var uniteTemperature: UniteTemperature = .celsius
+  var uniteDistance: UniteDistance = .km
+  var uniteVitesseVent: UniteVitesse = .kmParHeure
+  var unitePression: UnitePression = .kilopascal
   
   //MARK: Importation des données
   

@@ -13,6 +13,7 @@
 		8F0420A324C1081E00182235 /* ProtocolesParseurs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0420A224C1081E00182235 /* ProtocolesParseurs.swift */; };
 		8F0420A724C276A600182235 /* StateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0420A624C276A600182235 /* StateController.swift */; };
 		8F057E5E24B25F00009F8D78 /* Papier brouillon in Resources */ = {isa = PBXBuildFile; fileRef = 8F057E5D24B25F00009F8D78 /* Papier brouillon */; };
+		8F05CA3624D7A5610003E124 /* TemperatureTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F05CA3524D7A5610003E124 /* TemperatureTableViewController.swift */; };
 		8F095A6524B0FE1B000AC650 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F095A6424B0DAFA000AC650 /* SwiftyJSON.swift */; };
 		8F0D598F24369DFA004D4438 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D598E24369DFA004D4438 /* AppDelegate.swift */; };
 		8F0D599124369DFA004D4438 /* ListePrevisionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D599024369DFA004D4438 /* ListePrevisionsViewController.swift */; };
@@ -51,6 +52,7 @@
 		8F0420A224C1081E00182235 /* ProtocolesParseurs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtocolesParseurs.swift; sourceTree = "<group>"; };
 		8F0420A624C276A600182235 /* StateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateController.swift; sourceTree = "<group>"; };
 		8F057E5D24B25F00009F8D78 /* Papier brouillon */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Papier brouillon"; path = "Notes/Papier brouillon"; sourceTree = SOURCE_ROOT; };
+		8F05CA3524D7A5610003E124 /* TemperatureTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureTableViewController.swift; sourceTree = "<group>"; };
 		8F095A6424B0DAFA000AC650 /* SwiftyJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		8F0D598B24369DFA004D4438 /* Metaeo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Metaeo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F0D598E24369DFA004D4438 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -112,6 +114,16 @@
 				8F057E5D24B25F00009F8D78 /* Papier brouillon */,
 			);
 			path = Notes;
+			sourceTree = "<group>";
+		};
+		8F05CA3424D7A5390003E124 /* Paramètres */ = {
+			isa = PBXGroup;
+			children = (
+				8F04209B24BBBEB300182235 /* ParametresTableViewController.swift */,
+				8F05CA3524D7A5610003E124 /* TemperatureTableViewController.swift */,
+			);
+			name = "Paramètres";
+			path = "Paramètres";
 			sourceTree = "<group>";
 		};
 		8F095A6324B0DAF2000AC650 /* Packages */ = {
@@ -184,7 +196,7 @@
 				8F0D599224369DFA004D4438 /* ConditionsActuellesViewController.swift */,
 				8F0D599024369DFA004D4438 /* ListePrevisionsViewController.swift */,
 				8F04209D24BBBF2000182235 /* DetailsPrevisionViewController.swift */,
-				8F04209B24BBBEB300182235 /* ParametresTableViewController.swift */,
+				8F05CA3424D7A5390003E124 /* Paramètres */,
 				8F04209F24BBBF3200182235 /* Cellules */,
 			);
 			path = Vues;
@@ -321,6 +333,7 @@
 				8F04209C24BBBEB300182235 /* ParametresTableViewController.swift in Sources */,
 				8F0D59C22440C49F004D4438 /* Prevision.swift in Sources */,
 				8F0D599124369DFA004D4438 /* ListePrevisionsViewController.swift in Sources */,
+				8F05CA3624D7A5610003E124 /* TemperatureTableViewController.swift in Sources */,
 				8F0D59D424AB9941004D4438 /* EnumConditions.swift in Sources */,
 				8F0D59C8248B3233004D4438 /* PrevisionSourceTableViewCell.swift in Sources */,
 				8F0D59D024A3CEDF004D4438 /* PrevisionPeriodeCollectionViewCell.swift in Sources */,

@@ -18,6 +18,10 @@ enum PointCardinal: String {
   case N, NNE, NE, ENE, E, ESE, SE, SSE, S, SSW, SW, WSW, W, WNW, NW, NNW
 }
 
+enum TendancePression: String {
+  case falling, rising, steady
+}
+
 enum FormatDonnees {
   case xml, json
 }
@@ -41,11 +45,36 @@ func formatPourSource(_ source: SourcePrevision) -> FormatDonnees {
   }
 }
 
-//MARK: Conversion d'unités
+//MARK: Unités
 
-enum TendancePression: String {
-  case falling, rising, steady
+enum UniteTemperature: String {
+  case celsius = "°C"
+  case fahrenheit = "°F"
+  case kelvin = "K"
 }
+
+enum UniteDistance: String {
+  case km = "km"
+  case mile = "mi"
+}
+
+enum UniteVitesse: String {
+  case kmParHeure = "km/h"
+  case mileParHeure = "mph"
+  case metresParSeconde = "m/s"
+  case noeuds = "kn"
+  case beaufort = "Beaufort"
+}
+
+enum UnitePression: String {
+  case kilopascal = "kPa"
+  case hectopascal = "hPa"
+  case millibar = "mb"
+  case millimetreMercure = "mmHg"
+  case pouceMercure = "inHg"
+}
+
+//MARK: Conversion d'unités
 
 func celsiusVersFahrenheit(_ celsius: Double) -> Double {
   return celsius * 1.8 + 32
@@ -63,6 +92,14 @@ func kelvinVersCelsius(_ kelvin: Double) -> Double {
   return kelvin - 273.15
 }
 
+func kmVersMi(_ km: Double) -> Double {
+  return km * 0.621371
+}
+
+func miVersKm(_ mi: Double) -> Double {
+  return mi * 1.60934
+}
+
 func kmhVersMph(_ kmh: Double) -> Double {
   return kmh * 0.621371
 }
@@ -71,12 +108,53 @@ func mphVersKmh(_ mph: Double) -> Double {
   return mph * 1.60934
 }
 
+func kmhVersMs(_ kmh: Double) -> Double {
+  return kmh * 0.277778
+}
+
 func msVersKmh(_ ms: Double) -> Double {
   return ms * 3.6
 }
 
-func kmhVersMs(_ kmh: Double) -> Double {
-  return kmh * 0.277778
+func kmhVersNoeuds(_ kmh: Double) -> Double {
+  return kmh * 0.539957
+}
+
+func noeudsVersKmh(_ noeuds: Double) -> Double {
+  return noeuds * 1.852
+}
+
+func kmhVersBeaufort(_ kmh: Double) -> Double {
+  switch floor(kmh) {
+  case 0:
+    return 0
+  case 1...5:
+    return 1
+  case 6...11:
+    return 2
+  case 12...19:
+    return 3
+  case 20...28:
+    return 4
+  case 29...38:
+    return 5
+  case 39...49:
+    return 6
+  case 50...61:
+    return 7
+  case 62...74:
+    return 8
+  case 75...88:
+    return 9
+  case 89...102:
+    return 10
+  case 103...117:
+    return 11
+  case 118...:
+    return 12
+  default:
+    return 0
+  }
 }
 
 func degresVersPointCardinal(_ degres: Double) -> PointCardinal? {

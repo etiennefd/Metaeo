@@ -12,6 +12,11 @@ class ParametresTableViewController: UITableViewController {
   
   //MARK: Properties
   var stateController: StateController?
+
+  @IBOutlet weak var etiquetteUniteTemperature: UILabel!
+  @IBOutlet weak var etiquetteUniteDistance: UILabel!
+  @IBOutlet weak var etiquetteUniteVitesseVent: UILabel!
+  @IBOutlet weak var etiquetteUnitePression: UILabel!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -25,15 +30,15 @@ class ParametresTableViewController: UITableViewController {
   
   // MARK: - Table view data source
   
-  override func numberOfSections(in tableView: UITableView) -> Int {
-    // #warning Incomplete implementation, return the number of sections
-    return 0
-  }
-  
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    // #warning Incomplete implementation, return the number of rows
-    return 0
-  }
+//  override func numberOfSections(in tableView: UITableView) -> Int {
+//    // #warning Incomplete implementation, return the number of sections
+//    return 0
+//  }
+//  
+//  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//    // #warning Incomplete implementation, return the number of rows
+//    return 0
+//  }
   
   /*
    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

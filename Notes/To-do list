@@ -10,12 +10,11 @@ IMPORTATION DES DONNÉES
 [x] Trouver comment accéder aux données d'EC
 [x] Créer des Prévisions à partir des données d'EC (XML)
 [ ] Importer les données sur les avertissements et les veilles
-[ ] Créer des Prévisions à partir du JSON de yr.no
+[x] Créer des Prévisions à partir du JSON de yr.no
   [x] Créer un parseur JSON
   [x] Parser les prévisions horaires
   [x] Parser les prévisions par jour
   [x] Créer des identifiants pour obtenir les données en respectant les termes (HTML header)
-  [ ] Utiliser un proxy pour ne pas envoyer l'adresse IP de l'utilisateur
   [-] Associer les informations reçues à celles utilisées par EC pour harmoniser
   [x] Créer des conditions spécifiques à yr.no
 [x] Créer des Prévisions à partir de l'API de la NOAA
@@ -27,7 +26,7 @@ IMPORTATION DES DONNÉES
     [x] Horaires
   [x] Parser les observations récentes (ex. https://api.weather.gov/stations/KDCA/observations/latest)
 [x] Créer des Prévisions à partir de l'API de OpenWeatherMap
-  [ ] Ajouter les conditions dans l'enum
+  [x] Ajouter les conditions dans l'enum
 [ ] Faire de la recherche sur les sources de données :
   [x] Environnement Canada
   [x] Yr.no
@@ -50,7 +49,8 @@ IMPORTATION DES DONNÉES
 [ ] Garder les données importées en cache
 [ ] Réimporter automatiquement les données quand ça fait un certain temps (une heure? un délai d'expiration?)
 [ ] Gérer l'échec de l'importation (ex. : en cas d'absence de connection internet)
-[ ] Parser la température ressentie (humidex et refroidissement éolien)
+[ ] Utiliser un serveur proxy pour ne pas envoyer l'adresse IP de l'utilisateur aux API
+[x] Parser la température ressentie (humidex et refroidissement éolien)
 
 AFFICHAGE DES DONNÉES (EN GÉNÉRAL)
 [x] Afficher les bonnes conditions météo (plutôt que "Ensoleillé" partout)
@@ -63,6 +63,7 @@ VUE DES CONDITIONS ACTUELLES
 [ ] Afficher la source des données
 [ ] Afficher le lieu d'observation (ex : aéroport)
 [ ] Afficher les avertissements et veilles (de chaleur, d'orages, etc.)
+[ ] Permettre de changer la source des données lorsqu'il y en a plus d'une
 
 VUE DE LA LISTE DE PRÉVISIONS
 [x] Créer le TableView en suivant le modèle de l'app MealTracker
@@ -70,6 +71,7 @@ VUE DE LA LISTE DE PRÉVISIONS
   [x] Afficher la source, l'icône, la température
   [ ] Choisir les autres variables à montrer : ressenti, prob de précipitation, vent, indice UV?
   [?] Peut-être permettre à l'utilisateur de choisir la variable à montrer?
+  [ ] Afficher un disclosure indicator en haut à droite
 [x] Créer une CollectionView pour les prévisions par période ainsi que le CustomCellView
 [x] Ordonner les cellules du CollectionView selon la période (après conversion String -> Date)
 [x] Créer une vue pour donner des détails lorsqu'on touche une prévision dans la liste
@@ -86,18 +88,23 @@ VUE DE LA LISTE DE PRÉVISIONS
 [x] Permettre d'alterner entre les prévisions 7 jours et 24h avec un UISegmentedControl
 
 PARAMÈTRES
-[ ] Créer une table view pour les paramètres
-[ ] Permettre de choisir les unités
-  [ ] °C, °F
-    [?] autres échelles comme K?
-  [ ] km/h, m/s, mph, Beaufort, nœuds
-  [ ] hPa, kPa, mmHg
+[ ] Créer des table views pour les paramètres
+[x] Créer des enums pour les unités
+  [x] °C, °F, K
+  [x] km/h, m/s, mph, Beaufort, nœuds
+  [x] hPa, kPa, mmHg, inHg, mb
+  [x] km, mi
+[ ] Permettre de changer l'unité choisie dans le state controller selon la sélection
+[ ] Modifier l'affichage des données selon les unités choisies
 [ ] Sauvegarder les paramètres choisis par l'utilisateur
 
 GÉOGRAPHIE
 [ ] Permettre de choisir un lieu
+[ ] Afficher le lieu dans les deux vues principales
 [ ] Faire un mapping entre les lieux choisis par l'utilisateurs et les lieux disponibles selon les sources
 [ ] Utiliser la position de l'utilisateur pour déterminer le lieu
+[ ] Associer les coucher et lever de soleil avec le lieu
+[ ] Modifier la plupart des occurrences de Calendar.current pour utiliser le fuseau horaire du lieu de la prévision
 
 ÉLÉMENTS VISUELS
 [x] Obtenir/colorer les icônes pour toutes les conditions météo

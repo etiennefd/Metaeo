@@ -386,7 +386,7 @@ extension Prevision {
   func donneIcone() -> UIImage? {
     guard let condition = self.condition else {
       return UIImage(named: "na")
-    } //réorganiser l'ordre!!!! mettre chance of X proche de X
+    }
     switch condition {
       
     //MARK: Couverture nuageuse
