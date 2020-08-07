@@ -38,8 +38,8 @@ class DetailsPrevisionViewController: UIViewController {
       if let temperatureRessentie = prevision.donneTemperatureRessentieArrondie() {
         self.etiquetteTemperatureRessentie.text = "Feels like \(temperatureRessentie)"
       }
-      if let condition = prevision.condition {
-        self.etiquetteCondition.text = condition.rawValue
+      if let condition = prevision.chaineCondition {
+        self.etiquetteCondition.text = condition
       }
       if let probPrecipitation = prevision.probPrecipitation {
         self.etiquetteProbPrecipitation.text = "Chance of precipitation: \(probPrecipitation)%"
