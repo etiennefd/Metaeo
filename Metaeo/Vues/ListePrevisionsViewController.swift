@@ -11,6 +11,7 @@ import UIKit
 class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
 
   //MARK: Properties
+  
   var stateController: StateController?
 
   var montrerPrevisionsParHeure = false // pour alterner entre prévisions par jour et prévisions horaires
@@ -31,6 +32,11 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
   @IBOutlet weak var listePrevisionsTableView: UITableView!
   @IBOutlet weak var periodesCollectionView: UICollectionView!
   
+  var feedbackGeneratorSelectionSource : UIImpactFeedbackGenerator? = nil
+  var feedbackGeneratorSelectionPeriode : UISelectionFeedbackGenerator? = nil
+
+  //MARK: Initialisation
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
@@ -42,10 +48,14 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
     //longPressGesture.minimumPressDuration = 0.5
     self.listePrevisionsTableView.addGestureRecognizer(longPressGesture)
-    
+    self.feedbackGeneratorSelectionSource = UIImpactFeedbackGenerator(style: .light)
+    self.feedbackGeneratorSelectionPeriode = UISelectionFeedbackGenerator()
+
     // Charger les données du CollectionView et du TableView
     self.importeEtRechargeDonnees(forcerImportation: false)
   }
+  
+  //MARK: Chargement des données
   
   // Appelle la recharge des données en s'assurant d'avoir des données à montrer
   func importeEtRechargeDonnees(forcerImportation: Bool) {
@@ -162,12 +172,6 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     self.periodesCollectionView.reloadData()
   }
   
-  // Pour utiliser le bouton Edit/Done
-  override func setEditing(_ editing: Bool, animated: Bool) {
-    super.setEditing(editing, animated: animated)
-    listePrevisionsTableView.setEditing(editing, animated: animated)
-  }
-  
   //MARK: UITableViewDataSource
   
   func numberOfSections(in tableView: UITableView) -> Int {
@@ -245,13 +249,15 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
   {
+    self.feedbackGeneratorSelectionPeriode?.prepare()
     let index = indexPath.row
     let previsionSelectionnee = self.previsionsParPeriodeAffichees[index]
     self.periodeEnSelection = previsionSelectionnee.heureDebut
     self.rechargeDonneesTableView()
+    self.feedbackGeneratorSelectionPeriode?.selectionChanged()
   }
   
-  // MARK: - Navigation
+  // MARK: Navigation
   
   // In a storyboard-based application, you will often want to do a little preparation before navigation
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -274,7 +280,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     }
   }
   
-  //MARK: Actions
+  //MARK: Actions et boutons
   
   @IBAction func changerTypePeriode(_ sender: Any) {
     let segmentedControl = sender as? UISegmentedControl
@@ -289,17 +295,29 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     self.rechargeDonnees()
   }
   
+  // Pour utiliser le bouton Edit/Done
+  override func setEditing(_ editing: Bool, animated: Bool) {
+    super.setEditing(editing, animated: animated)
+    listePrevisionsTableView.setEditing(editing, animated: animated)
+  }
+  
   //MARK: Gestures
 
   // Tape longue pour sélectionner la source à utiliser dans les prévisions du CollectionView
-  @objc func longPress(longPressGestureRecognizer: UILongPressGestureRecognizer) {
-    if longPressGestureRecognizer.state == UIGestureRecognizer.State.began {
-      let touchPoint = longPressGestureRecognizer.location(in: self.listePrevisionsTableView)
+  @objc func longPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+    
+    self.feedbackGeneratorSelectionSource?.prepare()
+    
+    if gestureRecognizer.state == .began {
+      let touchPoint = gestureRecognizer.location(in: self.listePrevisionsTableView)
       if let indexPath = self.listePrevisionsTableView.indexPathForRow(at: touchPoint) {
         self.listePrevisionsTableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
         let prevision = previsionsParSourceAffichees[indexPath.row]
         self.sourceEnSelection = prevision.source
         self.rechargeDonneesCollectionView()
+//        self.feedbackGenerator?.selectionChanged()
+        self.feedbackGeneratorSelectionSource?.impactOccurred()
+        self.feedbackGeneratorSelectionSource?.prepare()
       }
     }
   }
