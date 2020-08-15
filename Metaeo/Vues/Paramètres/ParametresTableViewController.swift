@@ -87,14 +87,16 @@ class ParametresTableViewController: UITableViewController {
    }
    */
   
-  /*
-   // MARK: - Navigation
+   // MARK: Navigation
    
    // In a storyboard-based application, you will often want to do a little preparation before navigation
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-   // Get the new view controller using segue.destination.
-   // Pass the selected object to the new view controller.
+    // Get the new view controller using segue.destination.
+    // Pass the selected object to the new view controller.
+    super.prepare(for: segue, sender: sender)
+    if let temperatureTableViewController = segue.destination as? TemperatureTableViewController {
+      temperatureTableViewController.stateController = self.stateController
+    }
    }
-   */
   
 }

@@ -10,6 +10,9 @@ import UIKit
 
 class TemperatureTableViewController: UITableViewController {
   
+  //MARK: Properties
+  var stateController: StateController?
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -20,32 +23,44 @@ class TemperatureTableViewController: UITableViewController {
     // self.navigationItem.rightBarButtonItem = self.editButtonItem
   }
   
-  // MARK: - Table view data source
+  // MARK: Table view data source
   
-  override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-    if let cell = tableView.cellForRow(at: indexPath) {
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let section = indexPath.section
+    let numberOfRows = tableView.numberOfRows(inSection: section)
+    for row in 0..<numberOfRows {
+      if let cell = tableView.cellForRow(at: IndexPath(row: row, section: section)) {
+        if row == indexPath.row {
+          cell.accessoryType = .checkmark
+          if let identifier = cell.reuseIdentifier {
+            switch identifier {
+            case "CelluleUniteCelsius":
+              stateController?.uniteTemperature = .celsius
+            case "CelluleUniteFahrenheit":
+              stateController?.uniteTemperature = .fahrenheit
+            case "CelluleUniteKelvin":
+              stateController?.uniteTemperature = .kelvin
+            default: break
+            }
+          }
+        } else {
+          cell.accessoryType = .none
+        }
+      }
+    }
+    tableView.deselectRow(at: indexPath, animated: true)
+  }
+  
+  override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    switch (stateController?.uniteTemperature, cell.reuseIdentifier) {
+    case (.celsius, "CelluleUniteCelsius"),
+         (.fahrenheit, "CelluleUniteFahrenheit"),
+         (.kelvin, "CelluleUniteKelvin"):
+      cell.accessoryType = .checkmark
+    default:
       cell.accessoryType = .none
     }
   }
-  
-  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    if let cell = tableView.cellForRow(at: indexPath) {
-      cell.accessoryType = .checkmark
-    }
-  }
-  
-  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "cellData", for: indexPath)
-//    if (some condition to initially checkmark a row) {
-//      cell.accessoryType = .checkmark
-//      tableView.selectRow(at: indexPath, animated: false, scrollPosition: .bottom)
-//    } else {
-//      cell.accessoryType = .none
-//    }
-    
-    return cell
-  }
-
   
   //    override func numberOfSections(in tableView: UITableView) -> Int {
   //        // #warning Incomplete implementation, return the number of sections

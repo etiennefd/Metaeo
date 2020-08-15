@@ -51,6 +51,7 @@ IMPORTATION DES DONNÉES
 [ ] Gérer l'échec de l'importation (ex. : en cas d'absence de connection internet)
 [ ] Utiliser un serveur proxy pour ne pas envoyer l'adresse IP de l'utilisateur aux API
 [x] Parser la température ressentie (humidex et refroidissement éolien)
+[ ] Idéalement, importer les sources en parallèle pour ne pas attendre trop longtemps en cas de problème
 
 AFFICHAGE DES DONNÉES (EN GÉNÉRAL)
 [x] Afficher les bonnes conditions météo (plutôt que "Ensoleillé" partout)
@@ -83,6 +84,7 @@ VUE DE LA LISTE DE PRÉVISIONS
   [ ] Sauvegarder l'ordre choisi par l'utilisateur
 [x] Afficher dans la collection view les prévisions de la source sélectionnée, s'il y en a une? (Plutôt que la première source par défaut)
   [x] Sélectionner à l'aide d'un geste spécial (toucher longtemps)
+  [x] Ajouter un feedback tactile à ce geste
 [ ] Choisir un gris pâle quand on sélectionne une cellule du table view
 [ ] Faire persister la sélection du CollectionView et du TableView même quand on change la sélection de l'autre
 [x] Permettre d'alterner entre les prévisions 7 jours et 24h avec un UISegmentedControl
@@ -91,7 +93,7 @@ PARAMÈTRES
 [ ] Créer des table views pour les paramètres
 [x] Créer des enums pour les unités
   [x] °C, °F, K
-  [x] km/h, m/s, mph, Beaufort, nœuds
+  [x] km/h, m/s, mph, Beaufort, nœuds, ft/s
   [x] hPa, kPa, mmHg, inHg, mb
   [x] km, mi
 [ ] Permettre de changer l'unité choisie dans le state controller selon la sélection
@@ -134,7 +136,7 @@ MONÉTISATION
 [ ] Créer un modèle d'abonnement pour utiliser les API payantes
 
 DÉPLOIEMENT
-[ ] Acheter un ordinateur qui peut rouler les derniers systèmes d'exploitation
+[x] Acheter un ordinateur qui peut rouler les derniers systèmes d'exploitation
 [ ] S'inscrire au Apple Developer Program
 [ ] Déployer sur TestFlight
 [ ] Soumettre au Apple Store
