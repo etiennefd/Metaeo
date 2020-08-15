@@ -319,6 +319,7 @@ enum Condition: String {
   case isolatedShowersAndThunderstormsNOAA = "isolated showers and thunderstorms"
   case chanceLightRainNOAA = "chance light rain"
   case chanceHeavyRainNOAA = "chance heavy rain"
+  case thunderstormsAndRainNOAA = "thunderstorms and rain"
 
   //MARK: OpenWeatherMap
   // Les cas commentés sont ceux qui sont identiques à une condition déjà définie ci-dessus.
@@ -650,6 +651,7 @@ extension Prevision {
          .heavyRainAndThunderYR,
          .thunderstormsNOAA,
          .severeTstmsNOAA,
+         .thunderstormsAndRainNOAA,
          .lightThunderstormOWM,
          .thunderstormWithLightDrizzleOWM,
          .thunderstormWithDrizzleOWM,
