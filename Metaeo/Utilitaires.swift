@@ -45,7 +45,7 @@ func formatPourSource(_ source: SourcePrevision) -> FormatDonnees {
   }
 }
 
-//MARK: Unités
+//MARK: Enums des unités
 
 enum UniteTemperature: String {
   case celsius = "°C"
@@ -64,6 +64,7 @@ enum UniteVitesse: String {
   case metresParSeconde = "m/s"
   case noeuds = "kn"
   case beaufort = "Beaufort"
+  case piedParSeconde = "ft/s"
 }
 
 enum UnitePression: String {
@@ -122,6 +123,14 @@ func kmhVersNoeuds(_ kmh: Double) -> Double {
 
 func noeudsVersKmh(_ noeuds: Double) -> Double {
   return noeuds * 1.852
+}
+
+func kmhVersFts(_ kmh: Double) -> Double {
+  return kmh * 0.911344
+}
+
+func ftsVersKmh(_ fts: Double) -> Double {
+  return fts * 1.09728
 }
 
 func kmhVersBeaufort(_ kmh: Double) -> Double {
