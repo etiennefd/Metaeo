@@ -41,6 +41,8 @@ class ParametresTableViewController: UITableViewController {
     switch cell.reuseIdentifier {
     case "CelluleUniteTemperature":
       cell.detailTextLabel?.text = self.stateController?.uniteTemperature.symbol
+    case "CelluleUniteDistance":
+      cell.detailTextLabel?.text = self.stateController?.uniteDistance.symbol
     default: break
     }
   }
@@ -111,8 +113,8 @@ class ParametresTableViewController: UITableViewController {
     // Get the new view controller using segue.destination.
     // Pass the selected object to the new view controller.
     super.prepare(for: segue, sender: sender)
-    if let temperatureTableViewController = segue.destination as? TemperatureTableViewController {
-      temperatureTableViewController.stateController = self.stateController
+    if let selectionUniteTableViewController = segue.destination as? SelectionUniteTableViewController {
+      selectionUniteTableViewController.stateController = self.stateController
     }
   }
   
