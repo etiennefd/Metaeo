@@ -41,13 +41,21 @@ class ParseurJSONYrNo: ParseurJSON {
       previsionHoraireEnEdition.heureEmission = heureEmission
       
       let donneesInstantanees = objetPrevision["data"]["instant"]["details"]
-      previsionHoraireEnEdition.pression = donneesInstantanees["air_pressure_at_sea_level"].doubleValue / 10 // divisé par 10 car présenté en hPa
-      previsionHoraireEnEdition.temperature = donneesInstantanees["air_temperature"].doubleValue
-      previsionHoraireEnEdition.pointDeRosee = donneesInstantanees["dew_point_temperature"].doubleValue
+      if let pression = donneesInstantanees["air_pressure_at_sea_level"].double {
+        previsionHoraireEnEdition.pression = Measurement(value: pression, unit: UnitPressure.hectopascals) // valeur en hPa
+      }
+      if let temperature = donneesInstantanees["air_temperature"].double {
+        previsionHoraireEnEdition.temperature = Measurement(value: temperature, unit: UnitTemperature.celsius)
+      }
+      if let pointDeRosee = donneesInstantanees["dew_point_temperature"].double {
+        previsionHoraireEnEdition.pointDeRosee = Measurement(value: pointDeRosee, unit: UnitTemperature.celsius)
+      }
       previsionHoraireEnEdition.humidite = donneesInstantanees["relative_humidity"].doubleValue
       previsionHoraireEnEdition.indiceUV = donneesInstantanees["ultraviolet_index_clear_sky"].doubleValue
       previsionHoraireEnEdition.directionVentDegres = donneesInstantanees["wind_from_direction"].doubleValue
-      previsionHoraireEnEdition.vitesseVent = donneesInstantanees["wind_speed"].doubleValue
+      if let vitesseVent = donneesInstantanees["wind_speed"].double {
+        previsionHoraireEnEdition.vitesseVent = Measurement(value: vitesseVent, unit: UnitSpeed.kilometersPerHour)
+      }
       
       let codeSymboleCondition = objetPrevision["data"]["next_1_hours"]["summary"]["symbol_code"].stringValue
       if codeSymboleCondition != "" {
@@ -121,8 +129,12 @@ class ParseurJSONYrNo: ParseurJSON {
           }
         }
         
-        previsionJourEnEdition!.temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
-        previsionJourEnEdition!.temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
+        if let temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].double {
+          previsionJourEnEdition!.temperatureMin = Measurement(value: temperatureMin, unit: UnitTemperature.celsius)
+        }
+        if let temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].double {
+          previsionJourEnEdition!.temperatureMax = Measurement(value: temperatureMax, unit: UnitTemperature.celsius)
+        }
         previsionJourEnEdition!.quantitePrecipitation = objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
         
         previsionsParJour[heureAjustee!] = previsionJourEnEdition
@@ -136,13 +148,15 @@ class ParseurJSONYrNo: ParseurJSON {
         let intHeurePrevisionDuJourMeme = intHeurePrevisionDuJourMeme,
         (intHeureUTCPrevision - intHeurePrevisionDuJourMeme) % 24 == 6 {
         
-        let temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
-        let temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
-        if temperatureMin < previsionJourEnEdition!.temperatureMin ?? -999 {
-          previsionJourEnEdition!.temperatureMin = temperatureMin
+        if let temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].double {
+          if temperatureMin < previsionJourEnEdition!.temperatureMin?.value ?? -999 {
+            previsionJourEnEdition!.temperatureMin = Measurement(value: temperatureMin, unit: UnitTemperature.celsius)
+          }
         }
-        if temperatureMax > previsionJourEnEdition!.temperatureMax ?? -999 {
-          previsionJourEnEdition!.temperatureMax = temperatureMax
+        if let temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].double {
+          if temperatureMax > previsionJourEnEdition!.temperatureMax?.value ?? 999 {
+            previsionJourEnEdition!.temperatureMax = Measurement(value: temperatureMax, unit: UnitTemperature.celsius)
+          }
         }
         let precipitationsAvant = previsionJourEnEdition!.quantitePrecipitation ?? 0
         previsionJourEnEdition!.quantitePrecipitation = precipitationsAvant + objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
@@ -184,8 +198,12 @@ class ParseurJSONYrNo: ParseurJSON {
           }
         }
         
-        previsionJourEnEdition!.temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
-        previsionJourEnEdition!.temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
+        if let temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].double {
+          previsionJourEnEdition!.temperatureMin = Measurement(value: temperatureMin, unit: UnitTemperature.celsius)
+        }
+        if let temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].double {
+          previsionJourEnEdition!.temperatureMax = Measurement(value: temperatureMax, unit: UnitTemperature.celsius)
+        }
         previsionJourEnEdition!.quantitePrecipitation = objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
         
         previsionsParJour[heurePrevision] = previsionJourEnEdition
@@ -194,13 +212,15 @@ class ParseurJSONYrNo: ParseurJSON {
       
       // Ajustement en utilisant le next_6_hours de minuit ou midi
       if (intHeureLocalePrevision == 0 || intHeureLocalePrevision == 12), objetPrevision["data"]["next_6_hours"].exists() {
-        let temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
-        let temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
-        if temperatureMin < previsionJourEnEdition!.temperatureMin ?? -999 {
-          previsionJourEnEdition!.temperatureMin = temperatureMin
+        if let temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].double {
+          if temperatureMin < previsionJourEnEdition!.temperatureMin?.value ?? -999 {
+            previsionJourEnEdition!.temperatureMin = Measurement(value: temperatureMin, unit: UnitTemperature.celsius)
+          }
         }
-        if temperatureMax > previsionJourEnEdition!.temperatureMax ?? -999 {
-          previsionJourEnEdition!.temperatureMax = temperatureMax
+        if let temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].double {
+          if temperatureMax > previsionJourEnEdition!.temperatureMax?.value ?? 999 {
+            previsionJourEnEdition!.temperatureMax = Measurement(value: temperatureMax, unit: UnitTemperature.celsius)
+          }
         }
         let precipitationsAvant = previsionJourEnEdition!.quantitePrecipitation ?? 0
         previsionJourEnEdition!.quantitePrecipitation = precipitationsAvant + objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
@@ -245,21 +265,27 @@ class ParseurJSONYrNo: ParseurJSON {
             }
           }
           
-          previsionJourEnEdition!.temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
-          previsionJourEnEdition!.temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
+          if let temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].double {
+            previsionJourEnEdition!.temperatureMin = Measurement(value: temperatureMin, unit: UnitTemperature.celsius)
+          }
+          if let temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].double {
+            previsionJourEnEdition!.temperatureMax = Measurement(value: temperatureMax, unit: UnitTemperature.celsius)
+          }
           previsionJourEnEdition!.quantitePrecipitation = objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue
           
           previsionsParJour[heureAjustee!] = previsionJourEnEdition
           continue
           
         case 12, 13, 14, 15, 16, 17, 0, 1, 2, 3, 4, 5:
-          let temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].doubleValue
-          let temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].doubleValue
-          if temperatureMin < previsionJourEnEdition!.temperatureMin ?? -999 {
-            previsionJourEnEdition!.temperatureMin = temperatureMin
+          if let temperatureMin = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_min"].double {
+            if temperatureMin < previsionJourEnEdition!.temperatureMin?.value ?? -999 {
+              previsionJourEnEdition!.temperatureMin = Measurement(value: temperatureMin, unit: UnitTemperature.celsius)
+            }
           }
-          if temperatureMax > previsionJourEnEdition!.temperatureMax ?? -999 {
-            previsionJourEnEdition!.temperatureMax = temperatureMax
+          if let temperatureMax = objetPrevision["data"]["next_6_hours"]["details"]["air_temperature_max"].double {
+            if temperatureMax > previsionJourEnEdition!.temperatureMax?.value ?? 999 {
+              previsionJourEnEdition!.temperatureMax = Measurement(value: temperatureMax, unit: UnitTemperature.celsius)
+            }
           }
           let precipitationsAvant = previsionJourEnEdition!.quantitePrecipitation ?? 0
           previsionJourEnEdition!.quantitePrecipitation = precipitationsAvant + objetPrevision["data"]["next_6_hours"]["details"]["precipitation_amount"].doubleValue

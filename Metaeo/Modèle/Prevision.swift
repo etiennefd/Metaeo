@@ -31,31 +31,31 @@ struct Prevision: CustomDebugStringConvertible {
 
   // En général, seule l'une de ces trois variables est requise.
   // Dans de rares cas (tendance inverse de la température), on a besoin de Min et Max
-  var temperature: Double? // °C
-  var temperatureMax: Double?
-  var temperatureMin: Double?
+  var temperature: Measurement<UnitTemperature>? // °C
+  var temperatureMax: Measurement<UnitTemperature>?
+  var temperatureMin: Measurement<UnitTemperature>?
   
   var probPrecipitation: Double? // %
   var quantitePrecipitation: Double? // mm
   
   var directionVent: PointCardinal?
   var directionVentDegres: Double? // degrés
-  var vitesseVent: Double? // km/h
-  var vitesseVentMax: Double? // km/h, pour les cas comme "10 à 15 km/h"
-  var vitesseRafales: Double? // km/h
+  var vitesseVent: Measurement<UnitSpeed>? // km/h
+  var vitesseVentMax: Measurement<UnitSpeed>? // km/h, pour les cas comme "10 à 15 km/h"
+  var vitesseRafales: Measurement<UnitSpeed>? // km/h
   
-  var pression: Double? // kPa
+  var pression: Measurement<UnitPressure>? // kPa
   var tendancePression: TendancePression? // à la hausse, à la baisse, stable
-  var changementPression: Double?
+  var changementPression: Measurement<UnitPressure>?
   
   var humidite: Double? // %
-  var pointDeRosee: Double? // °C
-  var visibilite: Double? // km
+  var pointDeRosee: Measurement<UnitTemperature>? // °C
+  var visibilite: Measurement<UnitLength>? // km
   var indiceUV: Double?
   
-  var temperatureRessentie: Double? // utilisé quand on ignore si c'est l'humidex, le refroidissement éolien, etc.
-  var humidex: Double?
-  var refroidissementEolien: Double?
+  var temperatureRessentie: Measurement<UnitTemperature>? // utilisé quand on ignore si c'est l'humidex, le refroidissement éolien, etc.
+  var humidex: Measurement<UnitTemperature>?
+  var refroidissementEolien: Measurement<UnitTemperature>?
   
   var couvertureNuageuse: Double? // %
   
@@ -75,24 +75,12 @@ struct Prevision: CustomDebugStringConvertible {
   //MARK: Getters
   
   // À faire : considérer les fahrenheit
-  func donneTemperature() -> Double {
-    return self.temperature ?? (self.estNuit() ? self.temperatureMin : self.temperatureMax) ?? 99.9
-  }
-  func donneTemperatureArrondie() -> Int {
-    return Int(self.donneTemperature().rounded())
-  }
-  func donneChaineTemperature() -> String {
-    return "\(self.donneTemperatureArrondie()) °C"
+  func donneTemperature() -> Measurement<UnitTemperature> {
+    return self.temperature ?? (self.estNuit() ? self.temperatureMin : self.temperatureMax)!
   }
   
-  func donneTemperatureRessentie() -> Double? {
+  func donneTemperatureRessentie() -> Measurement<UnitTemperature>? {
     return self.temperatureRessentie ?? self.refroidissementEolien ?? self.humidex ?? nil
-  }
-  func donneTemperatureRessentieArrondie() -> Int? {
-    if let temperatureRessentie = self.donneTemperatureRessentie() {
-      return Int(temperatureRessentie.rounded())
-    }
-    return nil
   }
   
   func donneHeure() -> Date {
@@ -117,17 +105,24 @@ struct Prevision: CustomDebugStringConvertible {
     }
   }
   
-  // Modifier avec les unités mph, etc.
-  func donneChaineVitesseVentArrondie() -> String? {
-    let chaineDirectionVent = self.donneDirectionVent() != nil ? " \(self.donneDirectionVent()!.rawValue)" : ""
-    if let vitesseVent = self.vitesseVent {
-      if let vitesseVentMax = self.vitesseVentMax {
-        return "\(Int(vitesseVent.rounded()))-\(Int(vitesseVentMax.rounded())) km/h\(chaineDirectionVent)"
-      }
-      return "\(Int(vitesseVent.rounded())) km/h\(chaineDirectionVent)"
-    }
-    return nil
+  func donneVitesseVent() -> Measurement<UnitSpeed>? {
+    return self.vitesseVent
   }
+  
+  func donneVitesseRafales() -> Measurement<UnitSpeed>? {
+    return self.vitesseRafales
+  }
+  // À FAIRE : réimplémenter la fonctionnalité qui met ensemble vitesseVent et VitesseVentMax
+//  func donneChaineVitesseVentArrondie() -> String? {
+//    let chaineDirectionVent = self.donneDirectionVent() != nil ? " \(self.donneDirectionVent()!.rawValue)" : ""
+//    if let vitesseVent = self.vitesseVent {
+//      if let vitesseVentMax = self.vitesseVentMax {
+//        return "\(Int(vitesseVent.rounded()))-\(Int(vitesseVentMax.rounded())) km/h\(chaineDirectionVent)"
+//      }
+//      return "\(Int(vitesseVent.rounded())) km/h\(chaineDirectionVent)"
+//    }
+//    return nil
+//  }
   
   func donneDirectionVent() -> PointCardinal? {
     if let directionVent = self.directionVent {
@@ -213,6 +208,6 @@ struct Prevision: CustomDebugStringConvertible {
 
   var debugDescription: String {
     //return "Prévision pour \(lieu ?? "[erreur lieu]") à \(heureDebut ?? Date()) : \(temperature ?? temperatureMax ?? temperatureMin ?? -999) °C. "
-    return "\(source.rawValue), \(lieu ?? "[erreur lieu]"), \(donneChaineHeure()), \(donneChaineTemperature())"
+    return "\(source.rawValue), \(lieu ?? "[erreur lieu]"), \(donneChaineHeure()), \(donneTemperature().value)"
   }
 }

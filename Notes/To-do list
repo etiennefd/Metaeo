@@ -5,6 +5,7 @@ BOGUES
 [ ] Les données de la NOAA sont parfois vieilles de plusieurs jours, sans doute un problème de cache.
 [ ] EstNuit ne marche plus pour yr.no/horaire car on n'a pas de données de coucher/lever de soleil (elles sont importées dans les prévisions). Solution = importer les heures de lever/coucher pour le lieu? En fait ça ne marche pas pour EC/horaire non plus.
 [ ] Pas sûr si ça vaut la peine, mais remplacer les doubleValue par double (etc.) pour avoir nil si l'importation ne marche pas? Dans les parseurs JSON de yr.no et la NOAA
+[ ] Voir si la locale FR met une espace avant "°C" tel que requis
 
 IMPORTATION DES DONNÉES
 [x] Trouver comment accéder aux données d'EC

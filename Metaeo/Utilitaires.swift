@@ -47,91 +47,91 @@ func formatPourSource(_ source: SourcePrevision) -> FormatDonnees {
 
 //MARK: Enums des unités
 
-enum UniteTemperature: String {
-  case celsius = "°C"
-  case fahrenheit = "°F"
-  case kelvin = "K"
-}
+//enum UniteTemperature: String {
+//  case celsius = "°C"
+//  case fahrenheit = "°F"
+//  case kelvin = "K"
+//}
 
-enum UniteDistance: String {
-  case km = "km"
-  case mile = "mi"
-}
+//enum UniteDistance: String {
+//  case km = "km"
+//  case mile = "mi"
+//}
 
-enum UniteVitesse: String {
-  case kmParHeure = "km/h"
-  case mileParHeure = "mph"
-  case metresParSeconde = "m/s"
-  case noeuds = "kn"
-  case beaufort = "Beaufort"
-  case piedParSeconde = "ft/s"
-}
+//enum UniteVitesse: String {
+//  case kmParHeure = "km/h"
+//  case mileParHeure = "mph"
+//  case metresParSeconde = "m/s"
+//  case noeuds = "kn"
+//  case beaufort = "Beaufort"
+//  case piedParSeconde = "ft/s"
+//}
 
-enum UnitePression: String {
-  case kilopascal = "kPa"
-  case hectopascal = "hPa"
-  case millibar = "mb"
-  case millimetreMercure = "mmHg"
-  case pouceMercure = "inHg"
-}
+//enum UnitePression: String {
+//  case kilopascal = "kPa"
+//  case hectopascal = "hPa"
+//  case millibar = "mb"
+//  case millimetreMercure = "mmHg"
+//  case pouceMercure = "inHg"
+//}
 
 //MARK: Conversion d'unités
 
-func celsiusVersFahrenheit(_ celsius: Double) -> Double {
-  return celsius * 1.8 + 32
-}
+//func celsiusVersFahrenheit(_ celsius: Double) -> Double {
+//  return celsius * 1.8 + 32
+//}
+//
+//func fahrenheitVersCelsius(_ fahrenheit: Double) -> Double {
+//  return (fahrenheit - 32) / 1.8
+//}
+//
+//func celsiusVersKelvin(_ celsius: Double) -> Double {
+//  return celsius + 273.15
+//}
+//
+//func kelvinVersCelsius(_ kelvin: Double) -> Double {
+//  return kelvin - 273.15
+//}
 
-func fahrenheitVersCelsius(_ fahrenheit: Double) -> Double {
-  return (fahrenheit - 32) / 1.8
-}
-
-func celsiusVersKelvin(_ celsius: Double) -> Double {
-  return celsius + 273.15
-}
-
-func kelvinVersCelsius(_ kelvin: Double) -> Double {
-  return kelvin - 273.15
-}
-
-func kmVersMi(_ km: Double) -> Double {
-  return km * 0.621371
-}
-
-func miVersKm(_ mi: Double) -> Double {
-  return mi * 1.60934
-}
-
-func kmhVersMph(_ kmh: Double) -> Double {
-  return kmh * 0.621371
-}
-
-func mphVersKmh(_ mph: Double) -> Double {
-  return mph * 1.60934
-}
-
-func kmhVersMs(_ kmh: Double) -> Double {
-  return kmh * 0.277778
-}
-
-func msVersKmh(_ ms: Double) -> Double {
-  return ms * 3.6
-}
-
-func kmhVersNoeuds(_ kmh: Double) -> Double {
-  return kmh * 0.539957
-}
-
-func noeudsVersKmh(_ noeuds: Double) -> Double {
-  return noeuds * 1.852
-}
-
-func kmhVersFts(_ kmh: Double) -> Double {
-  return kmh * 0.911344
-}
-
-func ftsVersKmh(_ fts: Double) -> Double {
-  return fts * 1.09728
-}
+//func kmVersMi(_ km: Double) -> Double {
+//  return km * 0.621371
+//}
+//
+//func miVersKm(_ mi: Double) -> Double {
+//  return mi * 1.60934
+//}
+//
+//func kmhVersMph(_ kmh: Double) -> Double {
+//  return kmh * 0.621371
+//}
+//
+//func mphVersKmh(_ mph: Double) -> Double {
+//  return mph * 1.60934
+//}
+//
+//func kmhVersMs(_ kmh: Double) -> Double {
+//  return kmh * 0.277778
+//}
+//
+//func msVersKmh(_ ms: Double) -> Double {
+//  return ms * 3.6
+//}
+//
+//func kmhVersNoeuds(_ kmh: Double) -> Double {
+//  return kmh * 0.539957
+//}
+//
+//func noeudsVersKmh(_ noeuds: Double) -> Double {
+//  return noeuds * 1.852
+//}
+//
+//func kmhVersFts(_ kmh: Double) -> Double {
+//  return kmh * 0.911344
+//}
+//
+//func ftsVersKmh(_ fts: Double) -> Double {
+//  return fts * 1.09728
+//}
 
 func kmhVersBeaufort(_ kmh: Double) -> Double {
   switch floor(kmh) {

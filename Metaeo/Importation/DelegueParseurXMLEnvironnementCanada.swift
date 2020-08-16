@@ -72,39 +72,55 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, DelegueParseurXML {
       case ("forecast", "textSummary"):
         self.previsionEnEdition.detailsCondition = data
       case (_, "dewpoint"):
-        self.previsionEnEdition.pointDeRosee = Double(data)
+        if let pointDeRosee = Double(data) {
+          self.previsionEnEdition.pointDeRosee = Measurement(value: pointDeRosee, unit: UnitTemperature.celsius)
+        }
       case (_, "humidex") /*currentConditions et hourlyForecast*/, ("humidex", "calculated") /*forecase*/:
-        self.previsionEnEdition.humidex = Double(data)
+        if let humidex = Double(data) {
+          self.previsionEnEdition.humidex = Measurement(value: humidex, unit: UnitTemperature.celsius)
+        }
       case (_, "lop"):
         self.previsionEnEdition.probPrecipitation = Double(data)
       case (_, "period"):
         self.previsionEnEdition.chainePeriode = data
       case (_, "pressure"):
-        self.previsionEnEdition.pression = Double(data)
+        if let pression = Double(data) {
+          self.previsionEnEdition.pression = Measurement(value: pression, unit: UnitPressure.kilopascals)
+        }
         self.previsionEnEdition.tendancePression = TendancePression(rawValue: self.elementXMLEnEdition?.attributs["tendency"] ?? "")
-        self.previsionEnEdition.changementPression = Double(self.elementXMLEnEdition?.attributs["change"] ?? "")
+        if let changementPression = Double(self.elementXMLEnEdition?.attributs["change"] ?? "") {
+          self.previsionEnEdition.changementPression = Measurement(value: changementPression, unit: UnitPressure.kilopascals)
+        }
       case (_, "pop"):
         self.previsionEnEdition.probPrecipitation = Double(data)
       case (_, "relativeHumidity"):
         self.previsionEnEdition.humidite = Double(data)
       case (_, "temperature"): // parent == "temperatures" pour forecast et currentConditions, mais pas pour hourlyForecast
-        if self.elementXMLEnEdition?.attributs["class"] == "high" {
-          self.previsionEnEdition.temperatureMax = Double(data)
-        } else if self.elementXMLEnEdition?.attributs["class"] == "low" {
-          self.previsionEnEdition.temperatureMin = Double(data)
-        } else {
-          self.previsionEnEdition.temperature = Double(data)
+        if self.elementXMLEnEdition?.attributs["class"] == "high", let temperatureMax = Double(data) {
+          self.previsionEnEdition.temperatureMax = Measurement(value: temperatureMax, unit: UnitTemperature.celsius)
+        } else if self.elementXMLEnEdition?.attributs["class"] == "low", let temperatureMin = Double(data) {
+          self.previsionEnEdition.temperatureMin = Measurement(value: temperatureMin, unit: UnitTemperature.celsius)
+        } else if let temperature = Double(data) {
+          self.previsionEnEdition.temperature = Measurement(value: temperature, unit: UnitTemperature.celsius)
         }
       case (_, "visibility"):
-        self.previsionEnEdition.visibilite = Double(data)
+        if let visibilite = Double(data) {
+          self.previsionEnEdition.visibilite = Measurement(value: visibilite, unit: UnitLength.kilometers)
+        }
       case (_, "windChill"):
-        self.previsionEnEdition.refroidissementEolien = Double(data)
+        if let refroidissementEolien = Double(data) {
+          self.previsionEnEdition.refroidissementEolien = Measurement(value: refroidissementEolien, unit: UnitTemperature.celsius)
+        }
       case ("uv", "index"):
         self.previsionEnEdition.indiceUV = Double(data)
       case ("wind", "speed"):
-        self.previsionEnEdition.vitesseVent = Double(data)
+        if let vitesseVent = Double(data) {
+          self.previsionEnEdition.vitesseVent = Measurement(value: vitesseVent, unit: UnitSpeed.kilometersPerHour)
+        }
       case ("wind", "gust"):
-        self.previsionEnEdition.vitesseRafales = Double(data)
+        if let vitesseRafales = Double(data) {
+          self.previsionEnEdition.vitesseRafales = Measurement(value: vitesseRafales, unit: UnitSpeed.kilometersPerHour)
+        }
       case ("wind", "direction"):
         self.previsionEnEdition.directionVent = PointCardinal(rawValue: data)
       case ("dateTime", "timeStamp"):

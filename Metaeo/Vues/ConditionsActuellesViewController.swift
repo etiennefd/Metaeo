@@ -43,6 +43,7 @@ class ConditionsActuellesViewController: UIViewController {
   }
   
   override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
     self.importeEtRechargeDonnees(forcerImportation: false)
   }
   
@@ -71,23 +72,23 @@ class ConditionsActuellesViewController: UIViewController {
   
   func rechargeDonnees() {
     if let conditionsActuelles = self.conditionsActuelles {
-      self.etiquetteTemperature.text = "\(conditionsActuelles.donneTemperatureArrondie()) °C"
+      self.etiquetteTemperature.text = stateController?.donneChaineTemperatureConvertie(conditionsActuelles.donneTemperature())
       self.iconeCondition.image = conditionsActuelles.donneIcone()
       if let condition = conditionsActuelles.chaineCondition {
         self.etiquetteCondition.text = condition
       }
       if let pression = conditionsActuelles.pression {
-        self.etiquettePression.text = "\(pression) kPa"
+        self.etiquettePression.text = stateController?.donneChainePressionConvertie(pression)
         if let tendancePression = conditionsActuelles.tendancePression {
           self.etiquettePression.text?.append(", \(tendancePression)")
         }
       }
-      if let chaineVitesseVent = conditionsActuelles.donneChaineVitesseVentArrondie() {
-        self.etiquetteVent.text = chaineVitesseVent
+      if let vitesseVent = conditionsActuelles.donneVitesseVent() {
+        self.etiquetteVent.text = stateController?.donneChaineVitesseConvertie(vitesseVent)
       }
       if let vitesseRafales = conditionsActuelles.vitesseRafales {
         self.etiquetteRafales.isHidden = false
-        self.etiquetteRafales.text = "\(Int(vitesseRafales.rounded())) km/h"
+        self.etiquetteRafales.text = stateController?.donneChaineVitesseConvertie(vitesseRafales)
       } else {
         self.etiquetteRafales.isHidden = true
       }
@@ -95,7 +96,7 @@ class ConditionsActuellesViewController: UIViewController {
         self.etiquetteHumidite.text = "\(Int(humidite.rounded())) %"
       }
       if let pointDeRosee = conditionsActuelles.pointDeRosee {
-        self.etiquettePointDeRosee.text = "\(Int(pointDeRosee.rounded())) °C"
+        self.etiquettePointDeRosee.text = stateController?.donneChaineTemperatureConvertie(pointDeRosee)
       }
       // ceci n'existe pas dans les condiditons actuelles d'EC!
       if let indiceUV = conditionsActuelles.donneIndiceUV() {
@@ -105,7 +106,7 @@ class ConditionsActuellesViewController: UIViewController {
         self.etiquetteIndiceUV.isHidden = true
       }
       if let visibilite = conditionsActuelles.visibilite {
-        self.etiquetteVisibilite.text = "\(Int(visibilite.rounded())) km"
+        self.etiquetteVisibilite.text = stateController?.donneChaineDistanceConvertie(visibilite)
       }
       self.etiquetteSource.text = "Source: \(conditionsActuelles.source.rawValue)"
       self.etiquetteHeureEmission.text = "Conditions observed at \(conditionsActuelles.donneChaineHeure())"

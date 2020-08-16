@@ -30,7 +30,24 @@ class ParametresTableViewController: UITableViewController {
     // self.navigationItem.rightBarButtonItem = self.editButtonItem
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    tableView.reloadData()
+  }
+  
   // MARK: Table view data source
+  
+  override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    switch cell.reuseIdentifier {
+    case "CelluleUniteTemperature":
+      cell.detailTextLabel?.text = self.stateController?.uniteTemperature.symbol
+    default: break
+    }
+  }
+  
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: true)
+  }
   
 //  override func numberOfSections(in tableView: UITableView) -> Int {
 //    // #warning Incomplete implementation, return the number of sections
@@ -89,14 +106,22 @@ class ParametresTableViewController: UITableViewController {
   
    // MARK: Navigation
    
-   // In a storyboard-based application, you will often want to do a little preparation before navigation
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+  // In a storyboard-based application, you will often want to do a little preparation before navigation
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     // Get the new view controller using segue.destination.
     // Pass the selected object to the new view controller.
     super.prepare(for: segue, sender: sender)
     if let temperatureTableViewController = segue.destination as? TemperatureTableViewController {
       temperatureTableViewController.stateController = self.stateController
     }
-   }
+  }
+  
+//  private func metAJourDetailDeCellule(_ cell: UITableViewCell) {
+//    switch cell.reuseIdentifier {
+//    case "CelluleUniteTemperature":
+//      cell.detailTextLabel?.text = self.stateController?.uniteTemperature.symbol
+//    default: break
+//    }
+//  }
   
 }

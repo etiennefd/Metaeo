@@ -36,10 +36,13 @@ class TemperatureTableViewController: UITableViewController {
             switch identifier {
             case "CelluleUniteCelsius":
               stateController?.uniteTemperature = .celsius
+              stateController?.doitRechargerListePrevision = true
             case "CelluleUniteFahrenheit":
               stateController?.uniteTemperature = .fahrenheit
+              stateController?.doitRechargerListePrevision = true
             case "CelluleUniteKelvin":
               stateController?.uniteTemperature = .kelvin
+              stateController?.doitRechargerListePrevision = true
             default: break
             }
           }
@@ -52,13 +55,15 @@ class TemperatureTableViewController: UITableViewController {
   }
   
   override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-    switch (stateController?.uniteTemperature, cell.reuseIdentifier) {
-    case (.celsius, "CelluleUniteCelsius"),
-         (.fahrenheit, "CelluleUniteFahrenheit"),
-         (.kelvin, "CelluleUniteKelvin"):
-      cell.accessoryType = .checkmark
-    default:
-      cell.accessoryType = .none
+    if let uniteTemperature = stateController?.uniteTemperature {
+      switch (uniteTemperature, cell.reuseIdentifier) {
+      case (.celsius, "CelluleUniteCelsius"),
+           (.fahrenheit, "CelluleUniteFahrenheit"),
+           (.kelvin, "CelluleUniteKelvin"):
+        cell.accessoryType = .checkmark
+      default:
+        cell.accessoryType = .none
+      }
     }
   }
   

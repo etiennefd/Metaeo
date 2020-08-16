@@ -11,6 +11,7 @@ import UIKit
 class DetailsPrevisionViewController: UIViewController {
   
   //MARK: Properties
+  var stateController: StateController?
   var previsionAffichee: Prevision!
 
   @IBOutlet weak var etiquettePrevision: UILabel!
@@ -34,9 +35,9 @@ class DetailsPrevisionViewController: UIViewController {
       self.etiquettePrevision.text = "Forecast for \(prevision.donneChainePeriode() ?? "???") in \(prevision.lieu ?? "???")"
       self.etiquetteSource.text = "Source: \(prevision.source.rawValue)"
       self.iconeCondition.image = prevision.donneIcone()
-      self.etiquetteTemperature.text = "\(prevision.donneChaineTemperature())" // à faire : afficher max ou min?
-      if let temperatureRessentie = prevision.donneTemperatureRessentieArrondie() {
-        self.etiquetteTemperatureRessentie.text = "Feels like \(temperatureRessentie)"
+      self.etiquetteTemperature.text = stateController?.donneChaineTemperatureConvertie(prevision.donneTemperature()) // à faire : afficher max ou min?
+      if let temperatureRessentie = prevision.donneTemperatureRessentie() {
+        self.etiquetteTemperatureRessentie.text = "Feels like \(stateController!.donneChaineTemperatureConvertie(temperatureRessentie))"
       }
       if let condition = prevision.chaineCondition {
         self.etiquetteCondition.text = condition
@@ -50,10 +51,10 @@ class DetailsPrevisionViewController: UIViewController {
       if let indiceUV = prevision.donneIndiceUV() {
         self.etiquetteIndiceUV.text = "Indice UV: \(indiceUV)"
       }
-      if let chaineVitesseVent = prevision.donneChaineVitesseVentArrondie() {
+      if let chaineVitesseVent = stateController?.donneChaineVent(prevision) {
         self.etiquetteVent.text = "Wind: \(chaineVitesseVent)"
         if let vitesseRafales = prevision.vitesseRafales {
-          self.etiquetteVent.text?.append(" gusting at \(Int(vitesseRafales.rounded())) km/h")
+          self.etiquetteVent.text?.append(" gusting at \(stateController!.donneChaineVitesseConvertie(vitesseRafales)))")
         }
       }
       self.etiquetteHeureEmission.text = "Forecast issued at \(prevision.donneChaineHeureEmission() ?? "???")"

@@ -26,23 +26,29 @@ class ParseurJSONOpenWeatherMap: ParseurJSON {
     let heureCoucherDuSoleil = Date(timeIntervalSince1970: objetCurrent["sunset"].doubleValue)
     conditionsActuelles.heureLeverDuSoleil = heureLeverDuSoleil
     conditionsActuelles.heureCoucherDuSoleil = heureCoucherDuSoleil
-    conditionsActuelles.temperature = objetCurrent["temp"].double
-    conditionsActuelles.temperatureRessentie = objetCurrent["feels_like"].double
+    if let temperature = objetCurrent["temp"].double {
+      conditionsActuelles.temperature = Measurement(value: temperature, unit: UnitTemperature.celsius)
+    }
+    if let temperatureRessentie = objetCurrent["feels_like"].double {
+      conditionsActuelles.temperatureRessentie = Measurement(value: temperatureRessentie, unit: UnitTemperature.celsius)
+    }
     if let pression = objetCurrent["pressure"].double {
-      conditionsActuelles.pression = pression / 10.0 // divisé car la valeur est en hPa
+      conditionsActuelles.pression = Measurement(value: pression, unit: UnitPressure.hectopascals) // la valeur est en hPa
     }
     conditionsActuelles.humidite = objetCurrent["humidity"].double
-    conditionsActuelles.pointDeRosee = objetCurrent["dew_point"].double
+    if let pointDeRosee = objetCurrent["dew_point"].double {
+      conditionsActuelles.pointDeRosee = Measurement(value: pointDeRosee, unit: UnitTemperature.celsius)
+    }
     conditionsActuelles.couvertureNuageuse = objetCurrent["clouds"].double
     conditionsActuelles.indiceUV = objetCurrent["uvi"].double
     if let visibilite = objetCurrent["visibility"].double {
-      conditionsActuelles.visibilite = visibilite / 1000.0 // divisé car la valeur est en m
+      conditionsActuelles.visibilite = Measurement(value: visibilite, unit: UnitLength.meters) // la valeur est en m
     }
     if let vitesseVent = objetCurrent["wind_speed"].double {
-      conditionsActuelles.vitesseVent = msVersKmh(vitesseVent)
+      conditionsActuelles.vitesseVent = Measurement(value: vitesseVent, unit: UnitSpeed.kilometersPerHour)
     }
     if let vitesseRafales = objetCurrent["wind_gust"].double {
-      conditionsActuelles.vitesseRafales = msVersKmh(vitesseRafales)
+      conditionsActuelles.vitesseRafales = Measurement(value: vitesseRafales, unit: UnitSpeed.kilometersPerHour)
     }
     conditionsActuelles.directionVentDegres = objetCurrent["wind_deg"].double
     if let objetCondition = objetCurrent["weather"].arrayValue.first {
@@ -69,22 +75,28 @@ class ParseurJSONOpenWeatherMap: ParseurJSON {
       previsionHoraire.heureDebut = heurePrevision
       previsionHoraire.heureLeverDuSoleil = heureLeverDuSoleil
       previsionHoraire.heureCoucherDuSoleil = heureCoucherDuSoleil
-      previsionHoraire.temperature = objetHourly["temp"].double
-      previsionHoraire.temperatureRessentie = objetHourly["feels_like"].double
+      if let temperature = objetCurrent["temp"].double {
+        previsionHoraire.temperature = Measurement(value: temperature, unit: UnitTemperature.celsius)
+      }
+      if let temperatureRessentie = objetHourly["feels_like"].double {
+        previsionHoraire.temperatureRessentie = Measurement(value: temperatureRessentie, unit: UnitTemperature.celsius)
+      }
       if let pression = objetHourly["pressure"].double {
-        previsionHoraire.pression = pression / 10 // divisé car la valeur est en hPa
+        previsionHoraire.pression = Measurement(value: pression, unit: UnitPressure.hectopascals) // la valeur est en hPa
       }
       previsionHoraire.humidite = objetHourly["humidity"].double
-      previsionHoraire.pointDeRosee = objetHourly["dew_point"].double
+      if let pointDeRosee = objetHourly["dew_point"].double {
+        previsionHoraire.pointDeRosee = Measurement(value: pointDeRosee, unit: UnitTemperature.celsius)
+      }
       previsionHoraire.couvertureNuageuse = objetHourly["clouds"].double
-      if let visibilite = objetHourly["visibility"].double {
-        previsionHoraire.visibilite = visibilite / 1000.0 // divisé car la valeur est en m
+      if let visibilite = objetCurrent["visibility"].double {
+        previsionHoraire.visibilite = Measurement(value: visibilite, unit: UnitLength.meters) // la valeur est en m
       }
-      if let vitesseVent = objetHourly["wind_speed"].double {
-        previsionHoraire.vitesseVent = msVersKmh(vitesseVent)
+      if let vitesseVent = objetCurrent["wind_speed"].double {
+        previsionHoraire.vitesseVent = Measurement(value: vitesseVent, unit: UnitSpeed.kilometersPerHour)
       }
-      if let vitesseRafales = objetHourly["wind_gust"].double {
-        previsionHoraire.vitesseRafales = msVersKmh(vitesseRafales)
+      if let vitesseRafales = objetCurrent["wind_gust"].double {
+        previsionHoraire.vitesseRafales = Measurement(value: vitesseRafales, unit: UnitSpeed.kilometersPerHour)
       }
       previsionHoraire.directionVentDegres = objetHourly["wind_deg"].double
       if let objetCondition = objetHourly["weather"].arrayValue.first {
@@ -137,33 +149,43 @@ class ParseurJSONOpenWeatherMap: ParseurJSON {
       previsionNuit.heureLeverDuSoleil = heureLeverDuSoleil
       previsionJour.heureCoucherDuSoleil = heureCoucherDuSoleil
       previsionNuit.heureCoucherDuSoleil = heureCoucherDuSoleil
-      previsionJour.temperature = objetDaily["temp"]["max"].double // peut être différent de ["temp"]["day"]
-      previsionNuit.temperature = objetDaily["temp"]["min"].double // peut être différent de ["temp"]["night"]
-      previsionJour.temperatureRessentie = objetDaily["feels_like"]["day"].double
-      previsionNuit.temperatureRessentie = objetDaily["feels_like"]["night"].double
+      if let temperatureMax = objetDaily["temp"]["max"].double { // peut être différent de ["temp"]["day"]
+        previsionJour.temperature = Measurement(value: temperatureMax, unit: UnitTemperature.celsius)
+      }
+      if let temperatureMin = objetDaily["temp"]["min"].double { // peut être différent de ["temp"]["night"]
+        previsionNuit.temperature = Measurement(value: temperatureMin, unit: UnitTemperature.celsius)
+      }
+      if let temperatureRessentieJour = objetDaily["feels_like"]["day"].double {
+        previsionJour.temperatureRessentie = Measurement(value: temperatureRessentieJour, unit: UnitTemperature.celsius)
+      }
+      if let temperatureRessentieNuit = objetDaily["feels_like"]["night"].double {
+        previsionNuit.temperatureRessentie = Measurement(value: temperatureRessentieNuit, unit: UnitTemperature.celsius)
+      }
       if let pression = objetDaily["pressure"].double {
-        previsionJour.pression = pression / 10.0 // divisé car la valeur est en hPa
-        previsionNuit.pression = pression / 10.0
+        previsionJour.pression = Measurement(value: pression, unit: UnitPressure.hectopascals) // la valeur est en hPa
+        previsionNuit.pression = Measurement(value: pression, unit: UnitPressure.hectopascals)
       }
       previsionJour.humidite = objetDaily["humidity"].double
       previsionNuit.humidite = objetDaily["humidity"].double
-      previsionJour.pointDeRosee = objetDaily["dew_point"].double
-      previsionNuit.pointDeRosee = objetDaily["dew_point"].double
+      if let pointDeRosee = objetDaily["dew_point"].double {
+        previsionJour.pointDeRosee = Measurement(value: pointDeRosee, unit: UnitTemperature.celsius)
+        previsionNuit.pointDeRosee = Measurement(value: pointDeRosee, unit: UnitTemperature.celsius)
+      }
       previsionJour.couvertureNuageuse = objetDaily["clouds"].double
       previsionNuit.couvertureNuageuse = objetDaily["clouds"].double
-      if let visibilite = objetDaily["visibility"].double {
-        previsionJour.visibilite = visibilite / 1000.0 // divisé car la valeur est en m
-        previsionNuit.visibilite = visibilite / 1000.0
-      }
       previsionJour.indiceUV = objetDaily["uvi"].double
       previsionNuit.indiceUV = objetDaily["uvi"].double
-      if let vitesseVent = objetDaily["wind_speed"].double {
-        previsionJour.vitesseVent = msVersKmh(vitesseVent)
-        previsionNuit.vitesseVent = msVersKmh(vitesseVent)
+      if let visibilite = objetCurrent["visibility"].double {
+        previsionJour.visibilite = Measurement(value: visibilite, unit: UnitLength.meters) // la valeur est en m
+        previsionNuit.visibilite = Measurement(value: visibilite, unit: UnitLength.meters) // la valeur est en m
       }
-      if let vitesseRafales = objetDaily["wind_gust"].double {
-        previsionJour.vitesseRafales = msVersKmh(vitesseRafales)
-        previsionNuit.vitesseRafales = msVersKmh(vitesseRafales)
+      if let vitesseVent = objetCurrent["wind_speed"].double {
+        previsionJour.vitesseVent = Measurement(value: vitesseVent, unit: UnitSpeed.kilometersPerHour)
+        previsionNuit.vitesseVent = Measurement(value: vitesseVent, unit: UnitSpeed.kilometersPerHour)
+      }
+      if let vitesseRafales = objetCurrent["wind_gust"].double {
+        previsionJour.vitesseRafales = Measurement(value: vitesseRafales, unit: UnitSpeed.kilometersPerHour)
+        previsionNuit.vitesseRafales = Measurement(value: vitesseRafales, unit: UnitSpeed.kilometersPerHour)
       }
       previsionJour.directionVentDegres = objetDaily["wind_deg"].double
       previsionNuit.directionVentDegres = objetDaily["wind_deg"].double

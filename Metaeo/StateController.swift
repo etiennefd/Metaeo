@@ -40,10 +40,60 @@ class StateController {
   
   // Variables pour les unités de mesure choisies par l'utilisateur
   // à faire : remplacer les défauts selon la locale de l'utilisateur
-  var uniteTemperature: UniteTemperature = .celsius
-  var uniteDistance: UniteDistance = .km
-  var uniteVitesseVent: UniteVitesse = .kmParHeure
-  var unitePression: UnitePression = .kilopascal
+  var uniteTemperature: UnitTemperature = .celsius
+  var uniteDistance: UnitLength = .kilometers
+  var uniteVitesseVent: UnitSpeed = .kilometersPerHour
+  var unitePression: UnitPressure = .kilopascals
+  
+  var measurementFormatter: MeasurementFormatter {
+    let formatter = MeasurementFormatter()
+    formatter.unitOptions = .providedUnit
+    formatter.numberFormatter.maximumFractionDigits = 0
+    return formatter
+  }
+  
+  var doitRechargerListePrevision = false // pour recharger après avoir changé les unités
+  
+  //MARK: Chaines pour l'interface
+  
+  func donneChaineTemperatureConvertie(_ mesure: Measurement<UnitTemperature>) -> String {
+    let mesureConvertie = mesure.converted(to: self.uniteTemperature)
+    return measurementFormatter.string(from: mesureConvertie)
+  }
+  
+  func donneChaineDistanceConvertie(_ mesure: Measurement<UnitLength>) -> String {
+    let mesureConvertie = mesure.converted(to: self.uniteDistance)
+    return measurementFormatter.string(from: mesureConvertie)
+  }
+  
+  func donneChaineVitesseConvertie(_ mesure: Measurement<UnitSpeed>) -> String {
+    let mesureConvertie = mesure.converted(to: self.uniteVitesseVent)
+    return measurementFormatter.string(from: mesureConvertie)
+  }
+  
+  func donneChainePressionConvertie(_ mesure: Measurement<UnitPressure>) -> String {
+    let mesureConvertie = mesure.converted(to: self.unitePression)
+    let measurementFormatter = self.measurementFormatter
+    if self.unitePression == .kilopascals {
+      measurementFormatter.numberFormatter.maximumFractionDigits = 1
+    } else {
+      measurementFormatter.numberFormatter.maximumFractionDigits = 0
+    }
+    let chaine = measurementFormatter.string(from: mesureConvertie)
+    return chaine
+  }
+  
+  func donneChaineVent(_ prevision: Prevision) -> String? {
+    let chaineDirectionVent = prevision.donneDirectionVent() != nil ? "\(prevision.donneDirectionVent()!.rawValue)" : ""
+    if let vitesseVent = prevision.vitesseVent {
+      if let vitesseVentMax = prevision.vitesseVentMax {
+        let vitesseVentSansUnite = vitesseVent.converted(to: self.uniteVitesseVent).value
+        return "\(vitesseVentSansUnite)-\(donneChaineVitesseConvertie(vitesseVentMax)) \(chaineDirectionVent)"
+      }
+      return "\(donneChaineVitesseConvertie(vitesseVent)) \(chaineDirectionVent)"
+    }
+    return nil
+  }
   
   //MARK: Importation des données
   

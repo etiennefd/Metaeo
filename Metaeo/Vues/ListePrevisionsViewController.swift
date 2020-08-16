@@ -55,6 +55,14 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     self.importeEtRechargeDonnees(forcerImportation: false)
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    if stateController?.doitRechargerListePrevision ?? false {
+      self.rechargeDonnees()
+      stateController?.doitRechargerListePrevision = false
+    }
+  }
+  
   //MARK: Chargement des données
   
   // Appelle la recharge des données en s'assurant d'avoir des données à montrer
@@ -192,7 +200,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     let prevision = previsionsParSourceAffichees[indexPath.row]
     
     cellule.etiquetteSource.text = prevision.source.rawValue
-    cellule.etiquetteTemperature.text = prevision.donneChaineTemperature()
+    cellule.etiquetteTemperature.text = stateController?.donneChaineTemperatureConvertie(prevision.donneTemperature())
     cellule.vueIconeMeteo.image = prevision.donneIcone()
     cellule.etiquetteCondition.text = prevision.chaineCondition
     
@@ -241,7 +249,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
 //      cellule.etiquettePeriode.text = prevision.chainePeriode
 //    }
     cellule.etiquettePeriode.text = prevision.donneChainePeriode()
-    cellule.etiquetteTemperature.text = prevision.donneChaineTemperature()
+    cellule.etiquetteTemperature.text = stateController?.donneChaineTemperatureConvertie(prevision.donneTemperature())
     cellule.vueIconeMeteo.image = prevision.donneIcone()
     
     return cellule
@@ -275,6 +283,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
       }
       let previsionSelectionnee = self.previsionsParSourceAffichees[indexPath.row]
       detailsPrevisionViewController.previsionAffichee = previsionSelectionnee
+      detailsPrevisionViewController.stateController = self.stateController
     default:
       fatalError("Unexpected segue identifier: \(segue.identifier ?? "")")
     }
