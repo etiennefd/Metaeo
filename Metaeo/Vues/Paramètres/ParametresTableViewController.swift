@@ -43,6 +43,10 @@ class ParametresTableViewController: UITableViewController {
       cell.detailTextLabel?.text = self.stateController?.uniteTemperature.symbol
     case "CelluleUniteDistance":
       cell.detailTextLabel?.text = self.stateController?.uniteDistance.symbol
+    case "CelluleUniteVitesseVent":
+      cell.detailTextLabel?.text = self.stateController?.uniteVitesseVent.symbol
+    case "CelluleUnitePression":
+      cell.detailTextLabel?.text = self.stateController?.unitePression.symbol
     default: break
     }
   }

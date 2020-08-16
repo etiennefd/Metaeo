@@ -47,6 +47,32 @@ class SelectionUniteTableViewController: UITableViewController {
               stateController?.uniteDistance = .kilometers
             case "CelluleUniteMi":
               stateController?.uniteDistance = .miles
+            case "CelluleUniteMs":
+              stateController?.uniteVitesseVent = .metersPerSecond
+            case "CelluleUniteKmh":
+              stateController?.uniteVitesseVent = .kilometersPerHour
+            case "CelluleUniteMph":
+              stateController?.uniteVitesseVent = .milesPerHour
+            case "CelluleUniteFts":
+              stateController?.uniteVitesseVent = .feetPerSecond
+            case "CelluleUniteKnots":
+              stateController?.uniteVitesseVent = .knots
+            case "CelluleUniteBeaufort":
+              stateController?.uniteVitesseVent = .beaufort
+            case "CelluleUniteKPa":
+              stateController?.unitePression = .kilopascals
+            case "CelluleUniteHPa":
+              stateController?.unitePression = .hectopascals
+            case "CelluleUniteMillibar":
+              stateController?.unitePression = .millibars
+            case "CelluleUniteMmHg":
+              stateController?.unitePression = .millimetersOfMercury
+            case "CelluleUniteInHg":
+              stateController?.unitePression = .inchesOfMercury
+            case "CelluleUnitePsi":
+              stateController?.unitePression = .poundsForcePerSquareInch
+            case "CelluleUniteAtm":
+              stateController?.unitePression = .atmosphere
             default: break
             }
           }
@@ -73,6 +99,33 @@ class SelectionUniteTableViewController: UITableViewController {
       switch (uniteDistance, cell.reuseIdentifier) {
       case (.kilometers, "CelluleUniteKm"),
            (.miles, "CelluleUniteMi"):
+        cell.accessoryType = .checkmark
+        return
+      default: break
+      }
+    }
+    if let uniteVitesseVent = stateController?.uniteVitesseVent {
+      switch (uniteVitesseVent, cell.reuseIdentifier) {
+      case (.metersPerSecond, "CelluleUniteMs"),
+           (.kilometersPerHour, "CelluleUniteKmh"),
+           (.milesPerHour, "CelluleUniteMph"),
+           (.feetPerSecond, "CelluleUniteFts"),
+           (.knots, "CelluleUniteKnots"),
+           (.beaufort, "CelluleUniteBeaufort"):
+        cell.accessoryType = .checkmark
+        return
+      default: break
+      }
+    }
+    if let unitePression = stateController?.unitePression {
+      switch (unitePression, cell.reuseIdentifier) {
+      case (.kilopascals, "CelluleUniteKPa"),
+           (.hectopascals, "CelluleUniteHPa"),
+           (.millibars, "CelluleUniteMillibar"),
+           (.millimetersOfMercury, "CelluleUniteMmHg"),
+           (.inchesOfMercury, "CelluleUniteInHg"),
+           (.poundsForcePerSquareInch, "CelluleUnitePsi"),
+           (.atmosphere, "CelluleUniteAtm"):
         cell.accessoryType = .checkmark
         return
       default: break

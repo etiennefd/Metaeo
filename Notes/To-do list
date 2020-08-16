@@ -92,13 +92,17 @@ VUE DE LA LISTE DE PRÉVISIONS
 
 PARAMÈTRES
 [ ] Créer des table views pour les paramètres
+  [x] Unités
+  [ ] Options d'affichage
+  [ ] Écrans d'information (crédits, etc.)
 [x] Créer des enums pour les unités
   [x] °C, °F, K
   [x] km/h, m/s, mph, Beaufort, nœuds, ft/s
   [x] hPa, kPa, mmHg, inHg, mb
   [x] km, mi
-[ ] Permettre de changer l'unité choisie dans le state controller selon la sélection
-[ ] Modifier l'affichage des données selon les unités choisies
+[x] Convertir les unités pour utiliser les Measurements
+[x] Permettre de changer l'unité choisie dans le state controller selon la sélection
+[x] Modifier l'affichage des données selon les unités choisies
 [ ] Sauvegarder les paramètres choisis par l'utilisateur
 
 GÉOGRAPHIE

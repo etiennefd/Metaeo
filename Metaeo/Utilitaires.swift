@@ -45,7 +45,57 @@ func formatPourSource(_ source: SourcePrevision) -> FormatDonnees {
   }
 }
 
-//MARK: Enums des unités
+//MARK: Unités de mesure en extra
+
+extension UnitSpeed {
+  static let feetPerSecond = UnitSpeed(symbol: "ft/s", converter: UnitConverterLinear(coefficient: 0.3048))
+  
+  static let beaufort = UnitSpeed(symbol: "Beaufort", converter: UnitConverterBeaufort())
+  
+  class UnitConverterBeaufort: UnitConverter {
+    override func baseUnitValue(fromValue value: Double) -> Double {
+      return 0.836 * pow(value, 1.5) // ne devrait jamais être utilisé, mais défini au cas où
+    }
+    
+    override func value(fromBaseUnitValue baseUnitValue: Double) -> Double {
+      let kmh = baseUnitValue * 3.6 // la base est en m/s mais mon échelle est en km/h
+      switch floor(kmh) {
+      case 0:
+        return 0
+      case 1...5:
+        return 1
+      case 6...11:
+        return 2
+      case 12...19:
+        return 3
+      case 20...28:
+        return 4
+      case 29...38:
+        return 5
+      case 39...49:
+        return 6
+      case 50...61:
+        return 7
+      case 62...74:
+        return 8
+      case 75...88:
+        return 9
+      case 89...102:
+        return 10
+      case 103...117:
+        return 11
+      case 118...:
+        return 12
+      default:
+        return 0
+      }
+    }
+  }
+}
+
+extension UnitPressure {
+  static let atmosphere = UnitPressure(symbol: "atm", converter: UnitConverterLinear(coefficient: 101325))
+}
 
 //enum UniteTemperature: String {
 //  case celsius = "°C"
@@ -132,39 +182,39 @@ func formatPourSource(_ source: SourcePrevision) -> FormatDonnees {
 //func ftsVersKmh(_ fts: Double) -> Double {
 //  return fts * 1.09728
 //}
-
-func kmhVersBeaufort(_ kmh: Double) -> Double {
-  switch floor(kmh) {
-  case 0:
-    return 0
-  case 1...5:
-    return 1
-  case 6...11:
-    return 2
-  case 12...19:
-    return 3
-  case 20...28:
-    return 4
-  case 29...38:
-    return 5
-  case 39...49:
-    return 6
-  case 50...61:
-    return 7
-  case 62...74:
-    return 8
-  case 75...88:
-    return 9
-  case 89...102:
-    return 10
-  case 103...117:
-    return 11
-  case 118...:
-    return 12
-  default:
-    return 0
-  }
-}
+//
+//func kmhVersBeaufort(_ kmh: Double) -> Double {
+//  switch floor(kmh) {
+//  case 0:
+//    return 0
+//  case 1...5:
+//    return 1
+//  case 6...11:
+//    return 2
+//  case 12...19:
+//    return 3
+//  case 20...28:
+//    return 4
+//  case 29...38:
+//    return 5
+//  case 39...49:
+//    return 6
+//  case 50...61:
+//    return 7
+//  case 62...74:
+//    return 8
+//  case 75...88:
+//    return 9
+//  case 89...102:
+//    return 10
+//  case 103...117:
+//    return 11
+//  case 118...:
+//    return 12
+//  default:
+//    return 0
+//  }
+//}
 
 func degresVersPointCardinal(_ degres: Double) -> PointCardinal? {
   switch degres {

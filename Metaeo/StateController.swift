@@ -74,21 +74,26 @@ class StateController {
   func donneChainePressionConvertie(_ mesure: Measurement<UnitPressure>) -> String {
     let mesureConvertie = mesure.converted(to: self.unitePression)
     let measurementFormatter = self.measurementFormatter
-    if self.unitePression == .kilopascals {
+    switch self.unitePression {
+    case .kilopascals:
       measurementFormatter.numberFormatter.maximumFractionDigits = 1
-    } else {
+    case .atmosphere:
+      measurementFormatter.numberFormatter.maximumFractionDigits = 3
+    default:
       measurementFormatter.numberFormatter.maximumFractionDigits = 0
     }
-    let chaine = measurementFormatter.string(from: mesureConvertie)
-    return chaine
+    return measurementFormatter.string(from: mesureConvertie)
   }
   
   func donneChaineVent(_ prevision: Prevision) -> String? {
     let chaineDirectionVent = prevision.donneDirectionVent() != nil ? "\(prevision.donneDirectionVent()!.rawValue)" : ""
     if let vitesseVent = prevision.vitesseVent {
       if let vitesseVentMax = prevision.vitesseVentMax {
-        let vitesseVentSansUnite = vitesseVent.converted(to: self.uniteVitesseVent).value
-        return "\(vitesseVentSansUnite)-\(donneChaineVitesseConvertie(vitesseVentMax)) \(chaineDirectionVent)"
+        let chaineVitesseVentSansUnite = String(Int(vitesseVent.converted(to: self.uniteVitesseVent).value.rounded()))
+        let chaineVitesseVentMax = donneChaineVitesseConvertie(vitesseVentMax)
+        if (chaineVitesseVentSansUnite != chaineVitesseVentMax) {
+          return "\(chaineVitesseVentSansUnite)-\(chaineVitesseVentMax) \(chaineDirectionVent)"
+        }
       }
       return "\(donneChaineVitesseConvertie(vitesseVent)) \(chaineDirectionVent)"
     }

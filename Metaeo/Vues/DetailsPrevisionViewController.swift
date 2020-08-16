@@ -30,7 +30,17 @@ class DetailsPrevisionViewController: UIViewController {
     super.viewDidLoad()
     
     // Do any additional setup after loading the view.
-    
+    self.rechargeDonnees()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    if stateController?.doitRechargerListePrevision ?? false {
+      self.rechargeDonnees()
+    }
+  }
+  
+  func rechargeDonnees() {
     if let prevision = self.previsionAffichee {
       self.etiquettePrevision.text = "Forecast for \(prevision.donneChainePeriode() ?? "???") in \(prevision.lieu ?? "???")"
       self.etiquetteSource.text = "Source: \(prevision.source.rawValue)"
@@ -53,14 +63,13 @@ class DetailsPrevisionViewController: UIViewController {
       }
       if let chaineVitesseVent = stateController?.donneChaineVent(prevision) {
         self.etiquetteVent.text = "Wind: \(chaineVitesseVent)"
-        if let vitesseRafales = prevision.vitesseRafales {
-          self.etiquetteVent.text?.append(" gusting at \(stateController!.donneChaineVitesseConvertie(vitesseRafales)))")
+        if let vitesseRafales = prevision.vitesseRafales, vitesseRafales.value > 0 {
+          self.etiquetteVent.text?.append(" gusting at \(stateController!.donneChaineVitesseConvertie(vitesseRafales))")
         }
       }
       self.etiquetteHeureEmission.text = "Forecast issued at \(prevision.donneChaineHeureEmission() ?? "???")"
     }
   }
-  
   
   /*
    // MARK: - Navigation
