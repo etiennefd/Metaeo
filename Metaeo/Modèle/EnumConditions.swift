@@ -164,6 +164,7 @@ enum Condition: String {
   
   //MARK: Environnement Canada (autres)
   //Pas dans les listes officielles d'EC, mais néanmoins vues dans les XML
+  case rainshower = "rainshower"
   case chanceOfShowersRiskOfThunderstorms = "chance of showers. risk of thunderstorms"
   case chanceOfShowersRiskOfSevereThunderstorms = "chance of showers. risk of severe thunderstorms"
   case showersRiskOfThunderstorms = "showers. risk of thunderstorms"
@@ -452,6 +453,7 @@ extension Prevision {
          .raggedShowerRainOWM:
       return self.estNuit() ? UIImage(named: "chance of showers night") : UIImage(named: "chance of showers")
     case .rainShower,
+         .rainshower,
          .lightRainAndDrizzle,
          .lightRain,
          .rain,
