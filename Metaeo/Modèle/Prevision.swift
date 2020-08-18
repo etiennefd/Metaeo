@@ -74,7 +74,6 @@ struct Prevision: CustomDebugStringConvertible {
   
   //MARK: Getters
   
-  // À faire : considérer les fahrenheit
   func donneTemperature() -> Measurement<UnitTemperature> {
     return self.temperature ?? (self.estNuit() ? self.temperatureMin : self.temperatureMax)!
   }
@@ -112,17 +111,6 @@ struct Prevision: CustomDebugStringConvertible {
   func donneVitesseRafales() -> Measurement<UnitSpeed>? {
     return self.vitesseRafales
   }
-  // À FAIRE : réimplémenter la fonctionnalité qui met ensemble vitesseVent et VitesseVentMax
-//  func donneChaineVitesseVentArrondie() -> String? {
-//    let chaineDirectionVent = self.donneDirectionVent() != nil ? " \(self.donneDirectionVent()!.rawValue)" : ""
-//    if let vitesseVent = self.vitesseVent {
-//      if let vitesseVentMax = self.vitesseVentMax {
-//        return "\(Int(vitesseVent.rounded()))-\(Int(vitesseVentMax.rounded())) km/h\(chaineDirectionVent)"
-//      }
-//      return "\(Int(vitesseVent.rounded())) km/h\(chaineDirectionVent)"
-//    }
-//    return nil
-//  }
   
   func donneDirectionVent() -> PointCardinal? {
     if let directionVent = self.directionVent {

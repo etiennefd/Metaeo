@@ -75,10 +75,10 @@ class StateController {
     let mesureConvertie = mesure.converted(to: self.unitePression)
     let measurementFormatter = self.measurementFormatter
     switch self.unitePression {
-    case .kilopascals:
+    case .kilopascals, .inchesOfMercury, .poundsForcePerSquareInch:
       measurementFormatter.numberFormatter.maximumFractionDigits = 1
     case .atmosphere:
-      measurementFormatter.numberFormatter.maximumFractionDigits = 3
+      measurementFormatter.numberFormatter.maximumFractionDigits = 4
     default:
       measurementFormatter.numberFormatter.maximumFractionDigits = 0
     }
