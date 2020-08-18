@@ -141,6 +141,13 @@ struct Prevision: CustomDebugStringConvertible {
     return nil
   }
   
+  func donneProbPrecipitationArrondie() -> Int? {
+    if let probPrecipitation = self.probPrecipitation?.rounded() {
+      return Int(probPrecipitation)
+    }
+    return nil
+  }
+  
   
   // À raffiner selon les heures, et selon les autres sources de données, mais ceci devrait suffire pour Environnement Canada
   func estNuit() -> Bool {

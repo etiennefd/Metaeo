@@ -52,7 +52,7 @@ class DetailsPrevisionViewController: UIViewController {
       if let condition = prevision.chaineCondition {
         self.etiquetteCondition.text = condition
       }
-      if let probPrecipitation = prevision.probPrecipitation {
+      if let probPrecipitation = prevision.donneProbPrecipitationArrondie() {
         self.etiquetteProbPrecipitation.text = "Chance of precipitation: \(probPrecipitation)%"
       }
       if let detailsCondition = prevision.detailsCondition {
