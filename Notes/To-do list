@@ -127,6 +127,8 @@ GÉOGRAPHIE
   [-] Modifier l'icône d'app selon les conditions actuelles
 [ ] Créer des icônes pour la barre d'onglets en bas
 [ ] Mode sombre
+  [x] Mettre à jour les couleurs de fond pour qu'elles s'adaptent
+  [ ] Créer une couleur custom pour la sélection des cellules (gris très pâle, peut être secondarySystemGroupedBackground pour le dark mode)
 
 FUN STUFF
 [.] Inventer une liste d'achievements
@@ -134,8 +136,14 @@ FUN STUFF
 [.] Créer une page de statistiques (nombre de jours ensoleillés vécus par l'utilisateur, etc.)
 
 LOCALISATION
-[ ] Avoir une version française et anglaise pour toutes les chaines de l'app
+[x] Créer les fichiers Localizable.string, etc.
+[ ] Remplacer tous les usages de chaines dans l'app par NSLocalizedString
+[ ] Traduire toutes les chaines de l'app en français
+  [x] Conditions météo
+  [ ] Chaines d'interface
+[ ] Obtenir directement les informations en français dans le cas d'EC, si la locale est FR
 [ ] Afficher les heures correctement selon la locale
+[ ] Sélectionner les unités par défaut selon la locale
 
 MONÉTISATION
 [ ] Créer un modèle d'abonnement pour utiliser les API payantes

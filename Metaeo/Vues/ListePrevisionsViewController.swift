@@ -199,10 +199,12 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     
     let prevision = previsionsParSourceAffichees[indexPath.row]
     
-    cellule.etiquetteSource.text = prevision.source.rawValue
+    cellule.etiquetteSource.text = prevision.source.localizedString
     cellule.etiquetteTemperature.text = stateController?.donneChaineTemperatureConvertie(prevision.donneTemperature())
     cellule.vueIconeMeteo.image = prevision.donneIcone()
-    cellule.etiquetteCondition.text = prevision.chaineCondition
+    if let chaineCondition = prevision.chaineCondition {
+      cellule.etiquetteCondition.text = localiseChaineCondition(chaineCondition.lowercased())
+    }
     
     return cellule
   }

@@ -74,8 +74,8 @@ class ConditionsActuellesViewController: UIViewController {
     if let conditionsActuelles = self.conditionsActuelles {
       self.etiquetteTemperature.text = stateController?.donneChaineTemperatureConvertie(conditionsActuelles.donneTemperature())
       self.iconeCondition.image = conditionsActuelles.donneIcone()
-      if let condition = conditionsActuelles.chaineCondition {
-        self.etiquetteCondition.text = condition
+      if let chaineCondition = conditionsActuelles.chaineCondition {
+        self.etiquetteCondition.text = localiseChaineCondition(chaineCondition.lowercased())
       }
       if let pression = conditionsActuelles.pression {
         self.etiquettePression.text = stateController?.donneChainePressionConvertie(pression)
@@ -108,7 +108,7 @@ class ConditionsActuellesViewController: UIViewController {
       if let visibilite = conditionsActuelles.visibilite {
         self.etiquetteVisibilite.text = stateController?.donneChaineDistanceConvertie(visibilite)
       }
-      self.etiquetteSource.text = "Source: \(conditionsActuelles.source.rawValue)"
+      self.etiquetteSource.text = "Source: \(conditionsActuelles.source.localizedString)"
       self.etiquetteHeureEmission.text = "Conditions observed at \(conditionsActuelles.donneChaineHeure())"
     }
   }

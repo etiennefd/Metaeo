@@ -43,14 +43,14 @@ class DetailsPrevisionViewController: UIViewController {
   func rechargeDonnees() {
     if let prevision = self.previsionAffichee {
       self.etiquettePrevision.text = "Forecast for \(prevision.donneChainePeriode() ?? "???") in \(prevision.lieu ?? "???")"
-      self.etiquetteSource.text = "Source: \(prevision.source.rawValue)"
+      self.etiquetteSource.text = "Source: \(prevision.source.localizedString)"
       self.iconeCondition.image = prevision.donneIcone()
       self.etiquetteTemperature.text = stateController?.donneChaineTemperatureConvertie(prevision.donneTemperature()) // à faire : afficher max ou min?
       if let temperatureRessentie = prevision.donneTemperatureRessentie() {
         self.etiquetteTemperatureRessentie.text = "Feels like \(stateController!.donneChaineTemperatureConvertie(temperatureRessentie))"
       }
       if let condition = prevision.chaineCondition {
-        self.etiquetteCondition.text = condition
+        self.etiquetteCondition.text = localiseChaineCondition(condition.lowercased())
       }
       if let probPrecipitation = prevision.donneProbPrecipitationArrondie() {
         self.etiquetteProbPrecipitation.text = "Chance of precipitation: \(probPrecipitation)%"

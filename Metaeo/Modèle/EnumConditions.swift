@@ -379,7 +379,6 @@ enum Condition: String {
   case scatteredCloudsOWM = "scattered clouds"
   case brokenCloudsOWM = "broken clouds"
   case overcastCloudsOWM = "overcast clouds"
-
 }
 
 // Fonction pour retourner une icône selon la condition météo.

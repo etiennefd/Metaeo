@@ -20,10 +20,20 @@ class PrevisionPeriodeCollectionViewCell: UICollectionViewCell {
     didSet {
       if self.isSelected {
         super.isSelected = true
-        self.contentView.backgroundColor = UIColor(red:0.92, green:0.92, blue:0.92, alpha:0.7)
+        if #available(iOS 13.0, *) {
+          self.contentView.backgroundColor = .secondarySystemGroupedBackground
+        } else {
+          // Fallback on earlier versions
+          self.contentView.backgroundColor = UIColor(red:0.92, green:0.92, blue:0.92, alpha:0.7)
+        }
       } else {
         super.isSelected = false
-        self.contentView.backgroundColor = UIColor.white
+        if #available(iOS 13.0, *) {
+          self.contentView.backgroundColor = .systemBackground
+        } else {
+          // Fallback on earlier versions
+          self.contentView.backgroundColor = UIColor.white
+        }
       }
     }
   }

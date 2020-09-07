@@ -209,8 +209,10 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, DelegueParseurXML {
   
   // Convertit par exemple "Wednesday night" en Date en utilisant la date de création du XML
   private func dateDepuisChaineJour(_ chaine: String) -> Date? {
-    let joursDeLaSemaine = Calendar.current.weekdaySymbols
-    let indexJourActuel = Calendar.current.component(.weekday, from: self.heureLocaleCreationXML) - 1
+    var calendrierAnglais = Calendar.current
+    calendrierAnglais.locale = Locale(identifier: "en_US_POSIX")
+    let joursDeLaSemaine = calendrierAnglais.weekdaySymbols
+    let indexJourActuel = calendrierAnglais.component(.weekday, from: self.heureLocaleCreationXML) - 1
     let composantsChaine = chaine.components(separatedBy: " ")
     let symboleJourDeLaChaine = composantsChaine[0]
     guard let indexJourDeLaChaine = joursDeLaSemaine.firstIndex(of: symboleJourDeLaChaine) else {

@@ -27,11 +27,35 @@ enum FormatDonnees {
 }
 
 enum SourcePrevision: String {
+    // Ne pas oublier de tout mettre dans le fichier Localizable.strings
   case environnementCanada = "Meteorological Service of Canada"
   case yrNo = "MET Norway"
   case NOAA = "National Weather Service"
   case openWeatherMap = "OpenWeatherMap"
   //case
+  
+  var localizedString: String {
+    return NSLocalizedString(self.rawValue, comment: "")
+  }
+}
+
+/*
+ Donne la chaine localisée d'une condition, avec un peu de traitement pour certaines conditions complexes (de la NOAA)
+ */
+func localiseChaineCondition(_ condition: String) -> String {
+  if Condition(rawValue: condition) != nil {
+    return NSLocalizedString(condition, comment: "")
+  }
+  if condition.contains(" then ") {
+    let composants = condition.components(separatedBy: " then ")
+    if let premier = composants.first, let dernier = composants.last {
+      return localiseChaineCondition(premier) + NSLocalizedString(" then ", comment: "") + localiseChaineCondition(dernier).lowercased()
+    }
+  }
+  if condition.hasPrefix("slight ") {
+    return NSLocalizedString("slight ", comment: "") + localiseChaineCondition(String(condition.dropFirst("slight ".count))).lowercased()
+  }
+  return NSLocalizedString(condition, comment: "")
 }
 
 func formatPourSource(_ source: SourcePrevision) -> FormatDonnees {
@@ -96,125 +120,6 @@ extension UnitSpeed {
 extension UnitPressure {
   static let atmosphere = UnitPressure(symbol: "atm", converter: UnitConverterLinear(coefficient: 101325))
 }
-
-//enum UniteTemperature: String {
-//  case celsius = "°C"
-//  case fahrenheit = "°F"
-//  case kelvin = "K"
-//}
-
-//enum UniteDistance: String {
-//  case km = "km"
-//  case mile = "mi"
-//}
-
-//enum UniteVitesse: String {
-//  case kmParHeure = "km/h"
-//  case mileParHeure = "mph"
-//  case metresParSeconde = "m/s"
-//  case noeuds = "kn"
-//  case beaufort = "Beaufort"
-//  case piedParSeconde = "ft/s"
-//}
-
-//enum UnitePression: String {
-//  case kilopascal = "kPa"
-//  case hectopascal = "hPa"
-//  case millibar = "mb"
-//  case millimetreMercure = "mmHg"
-//  case pouceMercure = "inHg"
-//}
-
-//MARK: Conversion d'unités
-
-//func celsiusVersFahrenheit(_ celsius: Double) -> Double {
-//  return celsius * 1.8 + 32
-//}
-//
-//func fahrenheitVersCelsius(_ fahrenheit: Double) -> Double {
-//  return (fahrenheit - 32) / 1.8
-//}
-//
-//func celsiusVersKelvin(_ celsius: Double) -> Double {
-//  return celsius + 273.15
-//}
-//
-//func kelvinVersCelsius(_ kelvin: Double) -> Double {
-//  return kelvin - 273.15
-//}
-
-//func kmVersMi(_ km: Double) -> Double {
-//  return km * 0.621371
-//}
-//
-//func miVersKm(_ mi: Double) -> Double {
-//  return mi * 1.60934
-//}
-//
-//func kmhVersMph(_ kmh: Double) -> Double {
-//  return kmh * 0.621371
-//}
-//
-//func mphVersKmh(_ mph: Double) -> Double {
-//  return mph * 1.60934
-//}
-//
-//func kmhVersMs(_ kmh: Double) -> Double {
-//  return kmh * 0.277778
-//}
-//
-//func msVersKmh(_ ms: Double) -> Double {
-//  return ms * 3.6
-//}
-//
-//func kmhVersNoeuds(_ kmh: Double) -> Double {
-//  return kmh * 0.539957
-//}
-//
-//func noeudsVersKmh(_ noeuds: Double) -> Double {
-//  return noeuds * 1.852
-//}
-//
-//func kmhVersFts(_ kmh: Double) -> Double {
-//  return kmh * 0.911344
-//}
-//
-//func ftsVersKmh(_ fts: Double) -> Double {
-//  return fts * 1.09728
-//}
-//
-//func kmhVersBeaufort(_ kmh: Double) -> Double {
-//  switch floor(kmh) {
-//  case 0:
-//    return 0
-//  case 1...5:
-//    return 1
-//  case 6...11:
-//    return 2
-//  case 12...19:
-//    return 3
-//  case 20...28:
-//    return 4
-//  case 29...38:
-//    return 5
-//  case 39...49:
-//    return 6
-//  case 50...61:
-//    return 7
-//  case 62...74:
-//    return 8
-//  case 75...88:
-//    return 9
-//  case 89...102:
-//    return 10
-//  case 103...117:
-//    return 11
-//  case 118...:
-//    return 12
-//  default:
-//    return 0
-//  }
-//}
 
 func degresVersPointCardinal(_ degres: Double) -> PointCardinal? {
   switch degres {
