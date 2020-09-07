@@ -6,7 +6,7 @@
 //  Copyright © 2020 Étienne Fortier-Dubois. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct DonneesPourLieu {
   var heureEmission: Date?
@@ -29,6 +29,8 @@ struct DonneesPourLieu {
 class StateController {
   
   //MARK: Properties
+  
+  var window: UIWindow?
   
   let dispatchGroup = DispatchGroup()
   
@@ -53,6 +55,18 @@ class StateController {
   }
   
   var doitRechargerListePrevision = false // pour recharger après avoir changé les unités
+  
+  // Variables pour l'affichage
+  var modeSombre: UIUserInterfaceStyle = .unspecified
+  func changeModeSombre(_ modeSombre: UIUserInterfaceStyle) {
+    self.modeSombre = modeSombre
+    if #available(iOS 13.0, *) {
+      self.window?.overrideUserInterfaceStyle = modeSombre
+    } else {
+      // Fallback on earlier versions
+    }
+  }
+  
   
   //MARK: Chaines pour l'interface
   

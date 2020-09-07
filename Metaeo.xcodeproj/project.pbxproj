@@ -34,6 +34,7 @@
 		8F854BB924CC50190066E169 /* ParseurJSONOpenWeatherMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F854BB824CC50190066E169 /* ParseurJSONOpenWeatherMap.swift */; };
 		8F8625C224E8DC3E008471DF /* SelectionUniteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8625C124E8DC3E008471DF /* SelectionUniteTableViewController.swift */; };
 		8F8625C724EC8F27008471DF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F8625C924EC8F27008471DF /* Localizable.strings */; };
+		8FBA1C272506F29000BF78F2 /* SelectionAffichageTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBA1C262506F29000BF78F2 /* SelectionAffichageTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		8F8625C424EC86C7008471DF /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		8F8625C824EC8F27008471DF /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		8F8625CA24EC8F3D008471DF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8FBA1C262506F29000BF78F2 /* SelectionAffichageTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionAffichageTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 			children = (
 				8F04209B24BBBEB300182235 /* ParametresTableViewController.swift */,
 				8F8625C124E8DC3E008471DF /* SelectionUniteTableViewController.swift */,
+				8FBA1C262506F29000BF78F2 /* SelectionAffichageTableViewController.swift */,
 			);
 			name = "Paramètres";
 			path = "Paramètres";
@@ -337,6 +340,7 @@
 				8F0420A124C0FF7800182235 /* ParseurJSONNOAA.swift in Sources */,
 				8F8625C224E8DC3E008471DF /* SelectionUniteTableViewController.swift in Sources */,
 				8F0420A724C276A600182235 /* StateController.swift in Sources */,
+				8FBA1C272506F29000BF78F2 /* SelectionAffichageTableViewController.swift in Sources */,
 				8F5EFD3324B106C6002353B3 /* ParseurJSONYrNo.swift in Sources */,
 				8F0D598F24369DFA004D4438 /* AppDelegate.swift in Sources */,
 				8F04209C24BBBEB300182235 /* ParametresTableViewController.swift in Sources */,

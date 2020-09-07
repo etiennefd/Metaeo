@@ -6,7 +6,7 @@
 //  Copyright © 2020 Étienne Fortier-Dubois. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 //MARK: Enums
 
@@ -24,6 +24,10 @@ enum TendancePression: String {
 
 enum FormatDonnees {
   case xml, json
+}
+
+enum ParametreModeSombre {
+  case auto, on, off
 }
 
 enum SourcePrevision: String {
@@ -166,5 +170,20 @@ func degresVersPointCardinal(_ degres: Double) -> PointCardinal? {
 func printPrevisionsParPeriode(_ previsionsParPeriode: [Date : Prevision]) {
   for (date, prevision) in previsionsParPeriode {
     print("\(date) : \(prevision.debugDescription)")
+  }
+}
+
+extension UIUserInterfaceStyle {
+  var chaineModeSombre: String {
+    switch self {
+    case .unspecified:
+      return NSLocalizedString("Auto", comment: "")
+    case .dark:
+      return NSLocalizedString("On", comment: "")
+    case .light:
+      return NSLocalizedString("Off", comment: "")
+    default:
+      return ""
+    }
   }
 }

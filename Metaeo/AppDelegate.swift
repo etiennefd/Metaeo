@@ -35,6 +35,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       }
     }
     
+//    let defaults = UserDefaults.standard
+//    window?.overrideUserInterfaceStyle =
+    stateController.window = self.window
+    if #available(iOS 13.0, *) {
+      self.window?.overrideUserInterfaceStyle = stateController.modeSombre
+    } else {
+      // Fallback on earlier versions
+    }
+    
     //ImportateurPrevisions.global.importePrevisions()
     return true
   }

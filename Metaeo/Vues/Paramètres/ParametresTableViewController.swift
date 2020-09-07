@@ -47,6 +47,8 @@ class ParametresTableViewController: UITableViewController {
       cell.detailTextLabel?.text = self.stateController?.uniteVitesseVent.symbol
     case "CelluleUnitePression":
       cell.detailTextLabel?.text = self.stateController?.unitePression.symbol
+    case "CelluleModeSombre":
+      cell.detailTextLabel?.text = self.stateController?.modeSombre.chaineModeSombre
     default: break
     }
   }
@@ -119,6 +121,9 @@ class ParametresTableViewController: UITableViewController {
     super.prepare(for: segue, sender: sender)
     if let selectionUniteTableViewController = segue.destination as? SelectionUniteTableViewController {
       selectionUniteTableViewController.stateController = self.stateController
+    }
+    else if let selectionAffichageTableViewController = segue.destination as? SelectionAffichageTableViewController {
+      selectionAffichageTableViewController.stateController = self.stateController
     }
   }
   
