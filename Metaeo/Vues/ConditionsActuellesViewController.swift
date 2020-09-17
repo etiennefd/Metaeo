@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import MapKit
 
 class ConditionsActuellesViewController: UIViewController {
   
   //MARK: Properties
   //var conditionsActuelles: Prevision!
-  var stateController: StateController?
+  var stateController: StateController!
   
   var sourceEnAffichage: SourcePrevision? = .environnementCanada //.openWeatherMap // à faire : mécanisme pour choisir par défaut une source
   var donneesEnAffichage: DonneesPourLieu?
@@ -40,6 +41,11 @@ class ConditionsActuellesViewController: UIViewController {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
     //self.importeEtRechargeDonnees(forcerImportation: false)
+    
+    stateController.locationManager.delegate = stateController
+    stateController.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+    stateController.locationManager.requestWhenInUseAuthorization()
+    stateController.locationManager.requestLocation()
   }
   
   override func viewWillAppear(_ animated: Bool) {

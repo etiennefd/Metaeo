@@ -236,8 +236,8 @@
 /* Class = "UITableViewController"; title = "Distance"; ObjectID = "ySl-TW-ssH"; */
 "ySl-TW-ssH.title" = "Distance";
 
-/* Class = "UILabel"; text = "Montréal (changer...)"; ObjectID = "ytM-dJ-21J"; */
-"ytM-dJ-21J.text" = "Montréal (changer...)";
+/* Class = "UILabel"; text = "Montréal"; ObjectID = "ytM-dJ-21J"; */
+"ytM-dJ-21J.text" = "Montréal";
 
 /* Class = "UILabel"; text = "UV index: "; ObjectID = "zaw-os-zgz"; */
 "zaw-os-zgz.text" = "UV index: ";

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 struct DonneesPourLieu {
   var heureEmission: Date?
@@ -26,13 +27,14 @@ struct DonneesPourLieu {
 
 // Classe pour contrôler l'état général de l'app
 
-class StateController {
+class StateController: NSObject {
   
   //MARK: Properties
   
   var window: UIWindow?
   
   let dispatchGroup = DispatchGroup()
+  var locationManager = CLLocationManager()
   
   let cleAPIOpenWeatherMap = ProcessInfo.processInfo.environment["cleAPIOpenWeatherMap"]!
   
@@ -260,14 +262,15 @@ class StateController {
   private func urlPourSource(_ source: SourcePrevision, lieu: String?) -> URL? {
     switch source {
     case .environnementCanada:
-      return URL(string: "https://dd.meteo.gc.ca/citypage_weather/xml/QC/s0000635_e.xml")!
+      return URL(string: "https://dd.meteo.gc.ca/citypage_weather/xml/QC/s0000635_e.xml")! // Montréal
+//      return URL(string: "https://dd.meteo.gc.ca/citypage_weather/xml/BC/s0000141_e.xml")! // Vancouver
     case .yrNo:
-      return URL(string: "https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=45.5088&lon=-73.5878&altitude=216")!
+      return URL(string: "https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=45.5088&lon=-73.5878&altitude=216")! // Montréal
     case .NOAA:
       return URL(string: "https://api.weather.gov/points/44.4759,-73.2121")! // Burlington
       //return URL(string: "https://api.weather.gov/points/44,-73")! //
     case .openWeatherMap:
-      return URL(string: "https://api.openweathermap.org/data/2.5/onecall?lat=45.5088&lon=-73.5878&units=metric&appid=\(cleAPIOpenWeatherMap)")!
+      return URL(string: "https://api.openweathermap.org/data/2.5/onecall?lat=45.5088&lon=-73.5878&units=metric&appid=\(cleAPIOpenWeatherMap)")! // Montréal
     default:
       return nil
     }
@@ -295,5 +298,24 @@ class StateController {
     default:
       return nil
     }
+  }
+}
+
+extension StateController: CLLocationManagerDelegate {
+  
+  func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+    if status == .authorizedWhenInUse {
+      locationManager.requestLocation()
+    }
+  }
+  
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    if let location = locations.first {
+      print("location: \(location)")
+    }
+  }
+  
+  func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    print("error:: (error)")
   }
 }
