@@ -125,7 +125,7 @@ class ParseurJSONYrNo: ParseurJSON {
           previsionJourEnEdition!.chaineCondition = chaineCondition
           previsionJourEnEdition!.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
           if previsionJourEnEdition!.condition == nil {
-            print("Incapable de parser la condition \(chaineCondition)")
+            print("Incapable de parser la condition yr.no \(chaineCondition)")
           }
         }
         
@@ -194,7 +194,7 @@ class ParseurJSONYrNo: ParseurJSON {
           previsionJourEnEdition!.chaineCondition = chaineCondition
           previsionJourEnEdition!.condition = Condition(rawValue: chaineCondition)
           if previsionJourEnEdition!.condition == nil {
-            print("Incapable de parser la condition \(chaineCondition)")
+            print("Incapable de parser la condition yr.no \(chaineCondition)")
           }
         }
         
@@ -261,7 +261,7 @@ class ParseurJSONYrNo: ParseurJSON {
             previsionJourEnEdition!.chaineCondition = chaineCondition
             previsionJourEnEdition!.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
             if previsionJourEnEdition!.condition == nil {
-              print("Incapable de parser la condition \(chaineCondition)")
+              print("Incapable de parser la condition yr.no \(chaineCondition)")
             }
           }
           
