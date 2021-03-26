@@ -75,7 +75,7 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, DelegueParseurXML {
         if let pointDeRosee = Double(data) {
           self.previsionEnEdition.pointDeRosee = Measurement(value: pointDeRosee, unit: UnitTemperature.celsius)
         }
-      case (_, "humidex") /*currentConditions et hourlyForecast*/, ("humidex", "calculated") /*forecase*/:
+      case (_, "humidex") /*currentConditions et hourlyForecast*/, ("humidex", "calculated") /*forecast*/:
         if let humidex = Double(data) {
           self.previsionEnEdition.humidex = Measurement(value: humidex, unit: UnitTemperature.celsius)
         }
