@@ -72,9 +72,14 @@ class StateController: NSObject {
   
   //MARK: Chaines pour l'interface
   
-  func donneChaineTemperatureConvertie(_ mesure: Measurement<UnitTemperature>) -> String {
+  func donneChaineTemperatureConvertie(_ mesure: Measurement<UnitTemperature>?) -> String {
+    guard let mesure = mesure else {
+      return "N/A"
+    }
     let mesureConvertie = mesure.converted(to: self.uniteTemperature)
-    return measurementFormatter.string(from: mesureConvertie)
+    var chaine = measurementFormatter.string(from: mesureConvertie)
+    chaine = chaine.replacingOccurrences(of: "-0", with: "0")
+    return chaine
   }
   
   func donneChaineDistanceConvertie(_ mesure: Measurement<UnitLength>) -> String {
