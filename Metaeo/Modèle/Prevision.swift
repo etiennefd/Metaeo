@@ -74,8 +74,8 @@ struct Prevision: CustomDebugStringConvertible {
   
   //MARK: Getters
   
-  func donneTemperature() -> Measurement<UnitTemperature> {
-    return self.temperature ?? (self.estNuit() ? self.temperatureMin : self.temperatureMax)!
+  func donneTemperature() -> Measurement<UnitTemperature>? {
+    return self.temperature ?? (self.estNuit() ? self.temperatureMin : self.temperatureMax)
   }
   
   func donneTemperatureRessentie() -> Measurement<UnitTemperature>? {
@@ -203,6 +203,6 @@ struct Prevision: CustomDebugStringConvertible {
 
   var debugDescription: String {
     //return "Prévision pour \(lieu ?? "[erreur lieu]") à \(heureDebut ?? Date()) : \(temperature ?? temperatureMax ?? temperatureMin ?? -999) °C. "
-    return "\(source.rawValue), \(lieu ?? "[erreur lieu]"), \(donneChaineHeure()), \(donneTemperature().value)"
+    return "\(source.rawValue), \(lieu ?? "[erreur lieu]"), \(donneChaineHeure()), \(donneTemperature()?.value ?? -99)"
   }
 }
