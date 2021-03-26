@@ -7,6 +7,24 @@ BOGUES
 [ ] Pas sûr si ça vaut la peine, mais remplacer les doubleValue par double (etc.) pour avoir nil si l'importation ne marche pas? Dans les parseurs JSON de yr.no et la NOAA
 [x] Voir si la locale FR met une espace avant "°C" tel que requis
 
+[ ] Incapable de parser :
+
+[x] Incapable de parser la condition NOAA Chance Light Snow then Mostly Cloudy
+[x] Incapable de parser la condition NOAA Slight Chance Very Light Rain
+[x] Incapable de parser la condition NOAA Slight Chance Very Light Rain then Mostly Cloudy
+[x] Incapable de parser la condition NOAA Light Snow Likely
+[x] Incapable de parser la condition NOAA Chance Light Snow
+[x] Incapable de parser la condition NOAA Slight Chance Light Snow
+[x] Incapable de parser la condition NOAA Slight Chance Light Snow then Mostly Sunny
+[x] Incapable de parser la condition NOAA Slight Chance Rain And Snow
+[x] Incapable de parser la condition NOAA Chance Rain And Snow
+[x] Incapable de parser la condition NOAA Showers And Thunderstorms
+[ ] ---> Incapable de parser la condition yr.no lightsleetshowers
+[x] Incapable de parser la condition EC Snow or rain
+[x] Incapable de parser la condition EC Chance of flurries. Risk of freezing drizzle
+[x] Incapable de parser la condition EC Flurries at times heavy
+
+
 IMPORTATION DES DONNÉES
 [x] Trouver comment accéder aux données d'EC
 [x] Créer des Prévisions à partir des données d'EC (XML)
