@@ -1,3 +1,7 @@
+==========================================
+OBSOLÈTE
+DÉPLACÉ DANS OBSIDIAN
+==========================================
 
 Déterminer quoi faire avec la fonction ImportePrevisions. La déplacer dans StateController?
 Il faut appeler DispatchQueue seulement lorsqu'on load/recharge les vues dans les viewcontrollers.

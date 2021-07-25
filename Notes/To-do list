@@ -1,3 +1,8 @@
+==========================================
+OBSOLÈTE
+DÉPLACÉ DANS OBSIDIAN
+==========================================
+
 BOGUES
 [ ] Une prévision peut avoir une icône de jour ET une de nuit selon la source, si une dit "sunny" et l'autre "clear" et estNuit == vrai. Mais c'est rare.
 [x] EC a parfois des icônes avec orages alors que la condition dit seulement "Possibilité d'averses". Il faudrait peut-être ajuster la condition (Possibilité d'averses ou d'orages) si l'icône a un éclair, si le texte dit "orage" ou si les prévisions horaires incluent des possibilités d'orage.
