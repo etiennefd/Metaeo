@@ -25,14 +25,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Mettre le state controller dans chaque view controller (en passant par le navigation controller s'il y a lieu)
     for viewController in viewControllers {
       if let navigationController = viewController as? UINavigationController {
-        if let listePrevisionsViewController = navigationController.viewControllers.first as? ListePrevisionsViewController {
+        if let conditionsActuellesViewController = navigationController.viewControllers.first as? ConditionsActuellesViewController {
+          conditionsActuellesViewController.stateController = stateController
+        } else if let listePrevisionsViewController = navigationController.viewControllers.first as? ListePrevisionsViewController {
           listePrevisionsViewController.stateController = stateController
         } else if let parametresTableViewController = navigationController.viewControllers.first as? ParametresTableViewController {
           parametresTableViewController.stateController = stateController
         }
-      } else if let conditionsActuellesViewController = viewController as? ConditionsActuellesViewController {
-        conditionsActuellesViewController.stateController = stateController
       }
+      // ceci servait quand les conditions actuelles n'Avaient pas de navigation controller
+//      else if let conditionsActuellesViewController = viewController as? ConditionsActuellesViewController {
+//        conditionsActuellesViewController.stateController = stateController
+//      }
     }
     
 //    let defaults = UserDefaults.standard

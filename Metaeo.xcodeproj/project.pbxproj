@@ -55,7 +55,7 @@
 		8F0420A624C276A600182235 /* StateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateController.swift; sourceTree = "<group>"; };
 		8F057E5D24B25F00009F8D78 /* Papier brouillon */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Papier brouillon"; path = "Notes/Papier brouillon"; sourceTree = SOURCE_ROOT; };
 		8F095A6424B0DAFA000AC650 /* SwiftyJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
-		8F0D598B24369DFA004D4438 /* Metaeo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Metaeo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F0D598B24369DFA004D4438 /* Rainprism.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rainprism.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F0D598E24369DFA004D4438 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8F0D599024369DFA004D4438 /* ListePrevisionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListePrevisionsViewController.swift; sourceTree = "<group>"; };
 		8F0D599224369DFA004D4438 /* ConditionsActuellesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionsActuellesViewController.swift; sourceTree = "<group>"; };
@@ -155,7 +155,7 @@
 		8F0D598C24369DFA004D4438 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8F0D598B24369DFA004D4438 /* Metaeo.app */,
+				8F0D598B24369DFA004D4438 /* Rainprism.app */,
 				8F0D59A124369DFC004D4438 /* MetaeoTests.xctest */,
 			);
 			name = Products;
@@ -240,7 +240,7 @@
 			);
 			name = Metaeo;
 			productName = Metaeo;
-			productReference = 8F0D598B24369DFA004D4438 /* Metaeo.app */;
+			productReference = 8F0D598B24369DFA004D4438 /* Rainprism.app */;
 			productType = "com.apple.product-type.application";
 		};
 		8F0D59A024369DFC004D4438 /* MetaeoTests */ = {
@@ -458,6 +458,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = Rainprism;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -514,6 +515,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = Rainprism;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -533,7 +535,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.efd.Metaeo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Rainprism;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -551,7 +553,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.efd.Metaeo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Rainprism;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
