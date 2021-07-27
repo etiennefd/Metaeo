@@ -26,10 +26,6 @@ enum FormatDonnees {
   case xml, json
 }
 
-enum ParametreModeSombre {
-  case auto, on, off
-}
-
 enum SourcePrevision: String {
     // Ne pas oublier de tout mettre dans le fichier Localizable.strings
   case environnementCanada = "Meteorological Service of Canada"
