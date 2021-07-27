@@ -33,6 +33,7 @@ class StateController: NSObject {
   
   var window: UIWindow?
   
+  // Concurrency
   let dispatchGroup = DispatchGroup()
   var locationManager = CLLocationManager()
   
@@ -60,6 +61,7 @@ class StateController: NSObject {
   
   // Variables pour l'affichage
   var modeSombre: UIUserInterfaceStyle = .unspecified
+  
   func changeModeSombre(_ modeSombre: UIUserInterfaceStyle) {
     self.modeSombre = modeSombre
     if #available(iOS 13.0, *) {
@@ -68,7 +70,6 @@ class StateController: NSObject {
       // Fallback on earlier versions
     }
   }
-  
   
   //MARK: Chaines pour l'interface
   

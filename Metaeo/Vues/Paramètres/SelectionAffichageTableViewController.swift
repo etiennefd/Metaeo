@@ -36,13 +36,10 @@ class SelectionAffichageTableViewController: UITableViewController {
             switch identifier {
             case "CelluleModeSombreAuto":
               stateController?.changeModeSombre(.unspecified)
-//              stateController?.modeSombre = .unspecified
             case "CelluleModeSombreOn":
               stateController?.changeModeSombre(.dark)
-//              stateController?.modeSombre = .dark
             case "CelluleModeSombreOff":
               stateController?.changeModeSombre(.light)
-//              stateController?.modeSombre = .light
             default: break
             }
           }

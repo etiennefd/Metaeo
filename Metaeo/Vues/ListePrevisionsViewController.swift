@@ -12,7 +12,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
 
   //MARK: Properties
   
-  var stateController: StateController?
+  var stateController: StateController!
 
   var montrerPrevisionsParHeure = false // pour alterner entre prévisions par jour et prévisions horaires
   
