@@ -27,26 +27,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       if let navigationController = viewController as? UINavigationController {
         if let conditionsActuellesViewController = navigationController.viewControllers.first as? ConditionsActuellesViewController {
           conditionsActuellesViewController.stateController = stateController
+//          for viewControllerEnfant in conditionsActuellesViewController.view {
+//            if let navigationController = viewControllerEnfant as? UINavigationController {
+//              if let rechercheLieuTableViewController = navigationController.viewControllers.first as? RechercheLieuTableViewController {
+//                rechercheLieuTableViewController.stateController = stateController
+//              }
+//            }
+//          }
         } else if let listePrevisionsViewController = navigationController.viewControllers.first as? ListePrevisionsViewController {
           listePrevisionsViewController.stateController = stateController
         } else if let parametresTableViewController = navigationController.viewControllers.first as? ParametresTableViewController {
           parametresTableViewController.stateController = stateController
         }
+        // ceci servait quand les conditions actuelles n'Avaient pas de navigation controller
+  //      else if let conditionsActuellesViewController = viewController as? ConditionsActuellesViewController {
+  //        conditionsActuellesViewController.stateController = stateController
+  //      }
+        
       }
-      // ceci servait quand les conditions actuelles n'Avaient pas de navigation controller
-//      else if let conditionsActuellesViewController = viewController as? ConditionsActuellesViewController {
-//        conditionsActuellesViewController.stateController = stateController
-//      }
+
     }
     
 //    let defaults = UserDefaults.standard
 //    window?.overrideUserInterfaceStyle =
     stateController.window = self.window
-    if #available(iOS 13.0, *) {
+//    if #available(iOS 13.0, *) {
       self.window?.overrideUserInterfaceStyle = stateController.modeSombre
-    } else {
+//    } else {
       // Fallback on earlier versions
-    }
+//    }
     
     //ImportateurPrevisions.global.importePrevisions()
     return true

@@ -35,13 +35,17 @@ class StateController: NSObject {
   
   // Concurrency
   let dispatchGroup = DispatchGroup()
-  var locationManager = CLLocationManager()
   
   let cleAPIOpenWeatherMap = ProcessInfo.processInfo.environment["cleAPIOpenWeatherMap"]!
   
   // Données importées qui peuvent être utilisées dans les dans l'app
-  var toutesLesDonneesImportees = [String : DonneesPourLieu]() // changer le String pour le type approprié pour les lieux
-  var lieuEnSelection: String? = "Montreal"
+  var toutesLesDonneesImportees = [CLPlacemark : DonneesPourLieu]()
+  
+  // Géographie
+  var locationManager = CLLocationManager()
+//  var lieuUtilisateur: CLLocation = CLLocation(latitude: 45.52, longitude: -73.58)
+  var lieuUtilisateur: CLLocation = CLLocation(latitude: 45.52, longitude: 73.58)
+  var lieuEnAffichage: CLPlacemark? // contient les infos du lieu
   
   // Variables pour les unités de mesure choisies par l'utilisateur
   // à faire : remplacer les défauts selon la locale de l'utilisateur
@@ -126,19 +130,21 @@ class StateController: NSObject {
   
   // Fonction avec completion handler qui va chercher les données
   
-  func importeDonneesPourLieu(_ lieu: String, completionHandler: @escaping (DonneesPourLieu) -> Void) {
+  func importeDonneesPourLieu(_ lieu: CLPlacemark, completionHandler: @escaping (DonneesPourLieu) -> Void) {
     // 1. créer la struct qui va contenir les données
     var donneesImportees = DonneesPourLieu()
 
     // 1.5 déterminer la localisation (ou alors mettre ça en paramètre?)
-    let lieu = lieuEnSelection ?? "Montreal"
+//    guard let lieu = lieuEnAffichage else {
+//      return
+//    }
     
     // 2. obtenir les services météo pertinents pour cette localisation
     let sources = sourcesPourLieu(lieu)
     
     // 3. boucle pour importer les données de chaque source
     for source in sources {
-      guard let url = urlPourSource(source, lieu: lieu) else {
+      guard let url = urlPourSource(source) else {
         continue
       }
      
@@ -249,23 +255,30 @@ class StateController: NSObject {
   }
   
   func donneDonneesPourLieuEnAffichage() -> DonneesPourLieu? {
-    guard let lieu = self.lieuEnSelection else {
+    guard let lieu = self.lieuEnAffichage else {
       return nil
     }
     return self.toutesLesDonneesImportees[lieu]
   }
   
   // Donne les services météo qui s'appliquent à une localisation donnée
-  private func sourcesPourLieu(_ lieu: String) -> [SourcePrevision] {
-    if lieu == "Montreal" {
-      return [.environnementCanada, .yrNo, .NOAA, /* utilise présentement les données de Burlington */ .openWeatherMap]
+  private func sourcesPourLieu(_ lieu: CLPlacemark) -> [SourcePrevision] {
+    let sourcesMondeEntier: [SourcePrevision] = [.yrNo, .openWeatherMap]
+    var sourcesPays: [SourcePrevision]
+    switch lieu.country {
+    case "Canada":
+      sourcesPays = [.environnementCanada, .NOAA, /* utilise présentement les données de Burlington */]
+    case "United States":
+      sourcesPays = [.NOAA]
+    default:
+      sourcesPays = []
     }
-    return []
+    return sourcesMondeEntier + sourcesPays
   }
   
   // Donne l'URL de la source de données pour la localisation donnée
   // À mettre à jour avec diverses sources, la localisation, etc.
-  private func urlPourSource(_ source: SourcePrevision, lieu: String?) -> URL? {
+  private func urlPourSource(_ source: SourcePrevision/*, lieu: String?*/) -> URL? {
     switch source {
     case .environnementCanada:
       return URL(string: "https://dd.meteo.gc.ca/citypage_weather/xml/QC/s0000635_e.xml")! // Montréal
@@ -305,6 +318,26 @@ class StateController: NSObject {
       return nil
     }
   }
+  
+  func obtenirLieuDepuisLieuUtilisateur(completion: @escaping () -> Void) {
+    if let lieu = locationManager.location {
+      lieuUtilisateur = lieu
+      lieuUtilisateur.obtenirLieu { lieu, error in
+        guard let lieu = lieu, error == nil else {
+          completion()
+          return
+        }
+        self.lieuEnAffichage = lieu
+        print(lieu.locality ?? "no locality")
+        print(lieu.subLocality ?? "no sublocality")
+        print(lieu.administrativeArea ?? "no admin area")
+        print(lieu.subAdministrativeArea ?? "no subadmin area")
+        print(lieu.country ?? "no country")
+        print(lieu.isoCountryCode ?? "no iso code")
+        completion()
+      }
+    }
+  }
 }
 
 extension StateController: CLLocationManagerDelegate {
@@ -323,5 +356,12 @@ extension StateController: CLLocationManagerDelegate {
   
   func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
     print("error:: (error)")
+  }
+}
+
+// source : https://stackoverflow.com/questions/44031257/find-city-name-and-country-from-latitude-and-longitude-in-swift
+extension CLLocation {
+  func obtenirLieu(completion: @escaping (_ lieu: CLPlacemark?, _ error: Error?) -> ()) {
+    CLGeocoder().reverseGeocodeLocation(self) { completion($0?.first, $1) }
   }
 }

@@ -34,6 +34,8 @@
 		8F854BB924CC50190066E169 /* ParseurJSONOpenWeatherMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F854BB824CC50190066E169 /* ParseurJSONOpenWeatherMap.swift */; };
 		8F8625C224E8DC3E008471DF /* SelectionUniteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8625C124E8DC3E008471DF /* SelectionUniteTableViewController.swift */; };
 		8F8625C724EC8F27008471DF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F8625C924EC8F27008471DF /* Localizable.strings */; };
+		8FA5F84726B2003E00C324BB /* SelectionLieuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA5F84626B2003E00C324BB /* SelectionLieuTableViewController.swift */; };
+		8FA5F84926B20BAD00C324BB /* RechercheLieuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA5F84826B20BAD00C324BB /* RechercheLieuTableViewController.swift */; };
 		8FBA1C272506F29000BF78F2 /* SelectionAffichageTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBA1C262506F29000BF78F2 /* SelectionAffichageTableViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +84,8 @@
 		8F8625C424EC86C7008471DF /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		8F8625C824EC8F27008471DF /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		8F8625CA24EC8F3D008471DF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8FA5F84626B2003E00C324BB /* SelectionLieuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionLieuTableViewController.swift; sourceTree = "<group>"; };
+		8FA5F84826B20BAD00C324BB /* RechercheLieuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RechercheLieuTableViewController.swift; sourceTree = "<group>"; };
 		8FBA1C262506F29000BF78F2 /* SelectionAffichageTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionAffichageTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -205,6 +209,8 @@
 				8F0D599224369DFA004D4438 /* ConditionsActuellesViewController.swift */,
 				8F0D599024369DFA004D4438 /* ListePrevisionsViewController.swift */,
 				8F04209D24BBBF2000182235 /* DetailsPrevisionViewController.swift */,
+				8FA5F84626B2003E00C324BB /* SelectionLieuTableViewController.swift */,
+				8FA5F84826B20BAD00C324BB /* RechercheLieuTableViewController.swift */,
 				8F05CA3424D7A5390003E124 /* Paramètres */,
 				8F04209F24BBBF3200182235 /* Cellules */,
 			);
@@ -343,9 +349,11 @@
 				8FBA1C272506F29000BF78F2 /* SelectionAffichageTableViewController.swift in Sources */,
 				8F5EFD3324B106C6002353B3 /* ParseurJSONYrNo.swift in Sources */,
 				8F0D598F24369DFA004D4438 /* AppDelegate.swift in Sources */,
+				8FA5F84926B20BAD00C324BB /* RechercheLieuTableViewController.swift in Sources */,
 				8F04209C24BBBEB300182235 /* ParametresTableViewController.swift in Sources */,
 				8F0D59C22440C49F004D4438 /* Prevision.swift in Sources */,
 				8F0D599124369DFA004D4438 /* ListePrevisionsViewController.swift in Sources */,
+				8FA5F84726B2003E00C324BB /* SelectionLieuTableViewController.swift in Sources */,
 				8F0D59D424AB9941004D4438 /* EnumConditions.swift in Sources */,
 				8F0D59C8248B3233004D4438 /* PrevisionSourceTableViewCell.swift in Sources */,
 				8F0D59D024A3CEDF004D4438 /* PrevisionPeriodeCollectionViewCell.swift in Sources */,
@@ -454,7 +462,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -512,7 +520,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = Rainprism;

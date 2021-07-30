@@ -9,12 +9,13 @@
 import UIKit
 import MapKit
 
-class ConditionsActuellesViewController: UIViewController {
+class ConditionsActuellesViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
   
   //MARK: Properties
   //var conditionsActuelles: Prevision!
   var stateController: StateController!
   
+  var lieuEnAffichage: CLPlacemark? // seulement pour savoir s'il a changé; on préfère utiliser directement celui dans StateController
   var sourceEnAffichage: SourcePrevision? = .environnementCanada //.openWeatherMap // à faire : mécanisme pour choisir par défaut une source
   var donneesEnAffichage: DonneesPourLieu?
   var conditionsActuelles: Prevision? {
@@ -36,25 +37,51 @@ class ConditionsActuellesViewController: UIViewController {
   @IBOutlet weak var etiquetteVisibilite: UILabel!
   @IBOutlet weak var etiquetteSource: UILabel!
   @IBOutlet weak var etiquetteHeureEmission: UILabel!
+  @IBOutlet weak var itemNavigationLieu: UINavigationItem!
+  
+  var resultSearchController: UISearchController? = nil
   
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
     //self.importeEtRechargeDonnees(forcerImportation: false)
     
+    // Location manager
     stateController.locationManager.delegate = stateController
     stateController.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
     stateController.locationManager.requestWhenInUseAuthorization()
     stateController.locationManager.requestLocation()
+    
+    // Au tout début de l'utilisation de l'app, on va chercher le lieu de l'utilisateur
+    stateController.obtenirLieuDepuisLieuUtilisateur(completion: {
+      self.metAJourLieu()
+    })
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    
+    if self.stateController.lieuEnAffichage != self.lieuEnAffichage {
+      self.metAJourLieu()
+    }
+    //self.importeEtRechargeDonnees(forcerImportation: false)
+  }
+  
+  //MARK: Chargement des données
+  
+  // Change le lieu, affiche le lieu, et réimporte les données
+  func metAJourLieu() {
+    self.lieuEnAffichage = self.stateController.lieuEnAffichage
+    guard let lieu = self.lieuEnAffichage else {
+      return
+    }
+    self.itemNavigationLieu.title = lieu.locality ?? "Unknown city"
     self.importeEtRechargeDonnees(forcerImportation: false)
   }
   
   // Appelle la recharge des données en s'assurant d'avoir des données à montrer
   func importeEtRechargeDonnees(forcerImportation: Bool) {
+//
     // Les données sont déjà dans le view controller
     if !forcerImportation, self.donneesEnAffichage != nil {
       self.rechargeDonnees()
@@ -67,7 +94,13 @@ class ConditionsActuellesViewController: UIViewController {
     // Les données ne sont pas disponibles et il faut les importer de manière asynchrone
     else {
       // Appeler la fonction du StateController, qui donnera les données du lieu actuel dans son completion handler
-      self.stateController?.importeDonneesPourLieu("Montreal") { [weak self] (donneesPourLieu) in
+      guard let lieu = self.stateController.lieuEnAffichage else {
+        return
+      }
+      print("\(stateController.lieuUtilisateur.coordinate.latitude), \(stateController.lieuUtilisateur.coordinate.longitude)")
+      print("\(lieu)")
+      
+      self.stateController?.importeDonneesPourLieu(lieu) { [weak self] (donneesPourLieu) in
         self?.donneesEnAffichage = donneesPourLieu
         DispatchQueue.main.async {
           self?.rechargeDonnees()
@@ -76,6 +109,7 @@ class ConditionsActuellesViewController: UIViewController {
     }
   }
   
+  // Place les données dans les éléments d'interface
   func rechargeDonnees() {
     if let conditionsActuelles = self.conditionsActuelles {
       self.etiquetteTemperature.text = stateController?.donneChaineTemperatureConvertie(conditionsActuelles.donneTemperature())
@@ -126,5 +160,34 @@ class ConditionsActuellesViewController: UIViewController {
     self.importeEtRechargeDonnees(forcerImportation: true)
   }
   
+  // MARK: Navigation
+  
+  // In a storyboard-based application, you will often want to do a little preparation before navigation
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    super.prepare(for: segue, sender: sender)
+    switch(segue.identifier ?? "") {
+    
+    case "MontrerSelectionLieu":
+      guard let navigationController = segue.destination as? UINavigationController,
+            let selectionLieuTableViewController = navigationController.viewControllers.first as? SelectionLieuTableViewController else {
+        fatalError("Unexpected destination: \(segue.destination)")
+      }
+      selectionLieuTableViewController.stateController = self.stateController
+      selectionLieuTableViewController.presentationController?.delegate = self;
+      
+    default:
+      break
+//      fatalError("Unexpected segue identifier: \(segue.identifier ?? "")")
+    }
+  }
+  
+  // Only called when the sheet is dismissed by DRAGGING or through the overriden dismiss() function
+  // Voir : https://stackoverflow.com/questions/56568967/detecting-sheet-was-dismissed-on-ios-13
+  func presentationControllerDidDismiss(_ presentationController: UIPresentationController)
+  {
+    if self.stateController.lieuEnAffichage != self.lieuEnAffichage {
+      self.metAJourLieu()
+    }
+  }
 }
 

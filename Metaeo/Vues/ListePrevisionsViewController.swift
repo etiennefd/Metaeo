@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MapKit
 
-class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
+class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UIAdaptivePresentationControllerDelegate {
 
   //MARK: Properties
   
@@ -18,6 +19,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
   
   var periodeEnSelection: Date!
   var sourceEnSelection: SourcePrevision!
+  var lieuEnAffichage: CLPlacemark? // seulement pour savoir s'il a changé; on préfère utiliser directement celui dans StateController
   var donneesEnAffichage: DonneesPourLieu?
   var previsionsStockees: [SourcePrevision : [Date : Prevision]]? {
     if let donneesEnAffichage = self.donneesEnAffichage {
@@ -31,6 +33,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
   var previsionsParPeriodeAffichees = [Prevision]() // dans la collection view
   @IBOutlet weak var listePrevisionsTableView: UITableView!
   @IBOutlet weak var periodesCollectionView: UICollectionView!
+  @IBOutlet weak var itemNavigationLieu: UINavigationItem!
   
   var feedbackGeneratorSelectionSource : UIImpactFeedbackGenerator? = nil
   var feedbackGeneratorSelectionPeriode : UISelectionFeedbackGenerator? = nil
@@ -52,18 +55,38 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     self.feedbackGeneratorSelectionPeriode = UISelectionFeedbackGenerator()
 
     // Charger les données du CollectionView et du TableView
-    self.importeEtRechargeDonnees(forcerImportation: false)
+    self.metAJourLieu()
+//    self.importeEtRechargeDonnees(forcerImportation: false)
+//    if let lieu = self.stateController.lieuEnAffichage {
+//      self.itemNavigationLieu.title = lieu.locality ?? "Unknown city"
+//    }
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    if stateController?.doitRechargerListePrevision ?? false {
+    
+    // Pour recharger si on a changé le lieu
+    if self.stateController.lieuEnAffichage != self.lieuEnAffichage {
+      self.metAJourLieu()
+    }
+    // Pour recharger après avoir mis à jour les unités
+    else if stateController?.doitRechargerListePrevision ?? false {
       self.rechargeDonnees()
       stateController?.doitRechargerListePrevision = false
     }
   }
   
   //MARK: Chargement des données
+  
+  // Change le lieu, affiche le lieu, et réimporte les données
+  func metAJourLieu() {
+    self.lieuEnAffichage = stateController.lieuEnAffichage
+    guard let lieu = self.lieuEnAffichage else {
+      return
+    }
+    self.itemNavigationLieu.title = lieu.locality ?? "Unknown city"
+    self.importeEtRechargeDonnees(forcerImportation: false)
+  }
   
   // Appelle la recharge des données en s'assurant d'avoir des données à montrer
   func importeEtRechargeDonnees(forcerImportation: Bool) {
@@ -79,7 +102,10 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     // Les données ne sont pas disponibles et il faut les importer de manière asynchrone
     else {
       // Appeler la fonction du StateController, qui donnera les données du lieu actuel dans son completion handler
-      self.stateController?.importeDonneesPourLieu("Montreal") { [weak self] (donneesPourLieu) in
+      guard let lieu = self.stateController.lieuEnAffichage else {
+        return
+      }
+      self.stateController?.importeDonneesPourLieu(lieu) { [weak self] (donneesPourLieu) in
         self?.donneesEnAffichage = donneesPourLieu
         DispatchQueue.main.async {
           self?.rechargeDonnees()
@@ -273,6 +299,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     super.prepare(for: segue, sender: sender)
     switch(segue.identifier ?? "") {
+    
     case "MontrerDetailsPrevision":
       guard let detailsPrevisionViewController = segue.destination as? DetailsPrevisionViewController else {
         fatalError("Unexpected destination: \(segue.destination)")
@@ -286,8 +313,27 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
       let previsionSelectionnee = self.previsionsParSourceAffichees[indexPath.row]
       detailsPrevisionViewController.previsionAffichee = previsionSelectionnee
       detailsPrevisionViewController.stateController = self.stateController
+      
+    case "MontrerSelectionLieu":
+      guard let navigationController = segue.destination as? UINavigationController,
+            let selectionLieuTableViewController = navigationController.viewControllers.first as? SelectionLieuTableViewController else {
+        fatalError("Unexpected destination: \(segue.destination)")
+      }
+      selectionLieuTableViewController.stateController = self.stateController
+      selectionLieuTableViewController.presentationController?.delegate = self;
+      
     default:
-      fatalError("Unexpected segue identifier: \(segue.identifier ?? "")")
+      break
+//      fatalError("Unexpected segue identifier: \(segue.identifier ?? "")")
+    }
+  }
+  
+  // Only called when the sheet is dismissed by DRAGGING or through the overriden dismiss() function
+  // Voir : https://stackoverflow.com/questions/56568967/detecting-sheet-was-dismissed-on-ios-13
+  func presentationControllerDidDismiss(_ presentationController: UIPresentationController)
+  {
+    if self.stateController.lieuEnAffichage != self.lieuEnAffichage {
+      self.metAJourLieu()
     }
   }
   
