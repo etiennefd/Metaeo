@@ -160,6 +160,15 @@ func degresVersPointCardinal(_ degres: Double) -> PointCardinal? {
   }
 }
 
+// Extensions
+
+extension Double {
+  func round(to places: Int) -> Double {
+    let divisor = pow(10.0, Double(places))
+    return (self * divisor).rounded() / divisor
+  }
+}
+
 // MARK: aide au débogage
 
 // Utile pour visualiser les prévisions d'un dict, car ça ne marche pas bien avec le débogueur
