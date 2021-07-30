@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 
 struct DonneesPourLieu {
+  var lieu: CLPlacemark
   var heureEmission: Date?
   // var coordonnées
   // var nom du lieu
@@ -23,6 +24,10 @@ struct DonneesPourLieu {
   var previsionsParHeure = [SourcePrevision : [Date : Prevision]]()
   var heureLeverDuSoleil: Date?
   var heureCoucherDuSoleil: Date?
+  
+  init(_ lieu: CLPlacemark) {
+    self.lieu = lieu
+  }
 }
 
 // Classe pour contrôler l'état général de l'app
@@ -132,7 +137,7 @@ class StateController: NSObject {
   
   func importeDonneesPourLieu(_ lieu: CLPlacemark, completionHandler: @escaping (DonneesPourLieu) -> Void) {
     // 1. créer la struct qui va contenir les données
-    var donneesImportees = DonneesPourLieu()
+    var donneesImportees = DonneesPourLieu(lieu)
 
     // 1.5 déterminer la localisation (ou alors mettre ça en paramètre?)
 //    guard let lieu = lieuEnAffichage else {
@@ -144,7 +149,7 @@ class StateController: NSObject {
     
     // 3. boucle pour importer les données de chaque source
     for source in sources {
-      guard let url = urlPourSource(source) else {
+      guard let url = urlPourSource(source, lieu: lieu) else {
         continue
       }
      
@@ -202,17 +207,18 @@ class StateController: NSObject {
       case .json:
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
           guard let data = data, error == nil else {
-            print(error ?? "Erreur inconnue")
+            print(error ?? "Erreur inconnue du côté client lors de l'importation de \(source)")
             //self.handleClientError(error)
             self.dispatchGroup.leave()
             return
           }
           guard let httpResponse = response as? HTTPURLResponse,
-            (200...299).contains(httpResponse.statusCode) else {
-              print(error ?? "Erreur inconnue")
-              //self.handleServerError(response)
-              self.dispatchGroup.leave()
-              return
+                (200...299).contains(httpResponse.statusCode) else {
+            print(error ?? "Erreur inconnue du côté serveur (code HTTP pas dans les 200) lors de l'importation de \(source)")
+            
+            //self.handleServerError(response)
+            self.dispatchGroup.leave()
+            return
           }
           // Parser le JSON
           guard let parseur = self.parseurJSONPourSource(source) else {
@@ -278,18 +284,37 @@ class StateController: NSObject {
   
   // Donne l'URL de la source de données pour la localisation donnée
   // À mettre à jour avec diverses sources, la localisation, etc.
-  private func urlPourSource(_ source: SourcePrevision/*, lieu: String?*/) -> URL? {
+  private func urlPourSource(_ source: SourcePrevision, lieu: CLPlacemark) -> URL? {
+    // Obtenir les coordonnées
+    guard let latitude = lieu.location?.coordinate.latitude,
+          let longitude = lieu.location?.coordinate.longitude else {
+      return nil
+    }
+    
+    // Arrondir les coordonnées à quatre décimales
+    let formatter = NumberFormatter()
+    formatter.locale = Locale(identifier: "en_US_POSIX")
+    formatter.numberStyle = NumberFormatter.Style.decimal
+    formatter.roundingMode = NumberFormatter.RoundingMode.halfUp
+    formatter.maximumFractionDigits = 4
+    let latitudeArrondie = formatter.string(from: latitude as NSNumber)!
+    let longitudeArrondie = formatter.string(from: longitude as NSNumber)!
+    
+    // Obtenir l'URL selon la source
     switch source {
     case .environnementCanada:
       return URL(string: "https://dd.meteo.gc.ca/citypage_weather/xml/QC/s0000635_e.xml")! // Montréal
 //      return URL(string: "https://dd.meteo.gc.ca/citypage_weather/xml/BC/s0000141_e.xml")! // Vancouver
     case .yrNo:
-      return URL(string: "https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=45.5088&lon=-73.5878&altitude=216")! // Montréal
+      return URL(string: "https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=\(latitudeArrondie)&lon=\(longitudeArrondie)")!
+//      return URL(string: "https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=45.5088&lon=-73.5878")! // Montréal
     case .NOAA:
-      return URL(string: "https://api.weather.gov/points/44.4759,-73.2121")! // Burlington
+      return URL(string: "https://api.weather.gov/points/\(latitudeArrondie),\(longitudeArrondie)")!
+//      return URL(string: "https://api.weather.gov/points/44.4759,-73.2121")! // Burlington
       //return URL(string: "https://api.weather.gov/points/44,-73")! //
     case .openWeatherMap:
-      return URL(string: "https://api.openweathermap.org/data/2.5/onecall?lat=45.5088&lon=-73.5878&units=metric&appid=\(cleAPIOpenWeatherMap)")! // Montréal
+      return URL(string: "https://api.openweathermap.org/data/2.5/onecall?lat=\(latitudeArrondie)&lon=\(longitudeArrondie)&units=metric&appid=\(cleAPIOpenWeatherMap)")!
+//      return URL(string: "https://api.openweathermap.org/data/2.5/onecall?lat=45.5088&lon=-73.5878&units=metric&appid=\(cleAPIOpenWeatherMap)")! // Montréal
     default:
       return nil
     }
@@ -328,12 +353,12 @@ class StateController: NSObject {
           return
         }
         self.lieuEnAffichage = lieu
-        print(lieu.locality ?? "no locality")
-        print(lieu.subLocality ?? "no sublocality")
-        print(lieu.administrativeArea ?? "no admin area")
-        print(lieu.subAdministrativeArea ?? "no subadmin area")
-        print(lieu.country ?? "no country")
-        print(lieu.isoCountryCode ?? "no iso code")
+//        print(lieu.locality ?? "no locality")
+//        print(lieu.subLocality ?? "no sublocality")
+//        print(lieu.administrativeArea ?? "no admin area")
+//        print(lieu.subAdministrativeArea ?? "no subadmin area")
+//        print(lieu.country ?? "no country")
+//        print(lieu.isoCountryCode ?? "no iso code")
         completion()
       }
     }

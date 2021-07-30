@@ -82,8 +82,8 @@ class ConditionsActuellesViewController: UIViewController, UIAdaptivePresentatio
   // Appelle la recharge des données en s'assurant d'avoir des données à montrer
   func importeEtRechargeDonnees(forcerImportation: Bool) {
 //
-    // Les données sont déjà dans le view controller
-    if !forcerImportation, self.donneesEnAffichage != nil {
+    // Les données sont déjà dans le view controller et le lieu n'a pas changé
+    if !forcerImportation, self.donneesEnAffichage != nil, self.donneesEnAffichage!.lieu == self.lieuEnAffichage {
       self.rechargeDonnees()
     }
     // Les données sont déjà disponibles dans le state controller
