@@ -11,9 +11,6 @@ import MapKit
 
 class RechercheLieuTableViewController : UITableViewController {
   
-//  var matchingItems: [MKMapItem] = [] // remplacé par searchResults
-//  var mapView: MKMapView? = nil // pas nécessaire car on n'utilise pas de carte
-  
   var stateController: StateController!
   
   var searchCompleter = MKLocalSearchCompleter()
@@ -55,61 +52,35 @@ class RechercheLieuTableViewController : UITableViewController {
     // Faire une requête à MKLocalSearch pour obtenir un Placemark
     let searchRequest = MKLocalSearch.Request(completion: completion)
     let search = MKLocalSearch(request: searchRequest)
+    
     search.start { (response, error) in
+      // Complétion de la requête :
+      
       // Changer le lieu en affichage du StateController
       self.stateController.lieuEnAffichage = response?.mapItems[0].placemark
+      
       // Fermer la vue et la vue présentatrice (SelectionLieuTableViewController)
+      // Note : dimiss est overriden dans SelectionLieuTableViewController pour appeler une fonction de mise à jour dans les ViewControllers des conditions actuelles et des prévisions
       let presentViewController = self.presentingViewController
       self.dismiss(animated: true, completion: {
         presentViewController?.dismiss(animated: true, completion: nil)
       })
-      
-//      TODO : Unwind segue to update the ConditionsActuelles or ListePrevisionsViewController
     }
   }
-  
-  //MARK: Actions
-  
   
 }
 
 // Extension pour le protocole de search bar
 extension RechercheLieuTableViewController : UISearchResultsUpdating {
+  
   func updateSearchResults(for searchController: UISearchController) {
     guard let searchBarText = searchController.searchBar.text else {
       return
     }
-//    let completion = searchResults[indexPath.row]
-//    let searchRequest = MKLocalSearch.Request(completion: completion!)
-//    let search = MKLocalSearch(request: searchRequest)
-//    search.startWithCompletionHandler { (response, error) in
-//        if error == nil {
-//            let coordinate = response?.mapItems[0].placemark.coordinate
-//        }
-//    }
-    searchCompleter.queryFragment = searchBarText
-    
-//    let request = MKLocalSearch.Request()
-//    request.naturalLanguageQuery = searchBarText
-//    request.region = MKCoordinateRegion(.world)
-//    let search = MKLocalSearch(request: request)
-//    search.start { response, _ in
-//      guard let response = response else {
-//        return
-//      }
-//      self.matchingItems = response.mapItems
-//      self.tableView.reloadData()
-//    }
+    self.searchCompleter.queryFragment = searchBarText
   }
+  
 }
-
-// Obsolète : delegate (on utilise UISearchResultsUpdating à la place)
-//extension RechercheLieuTableViewController: UISearchBarDelegate {
-//  
-//  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//    searchCompleter.queryFragment = searchText
-//  }
-//}
 
 // Extension pour le protocole d'autocomplete pour la search bar
 extension RechercheLieuTableViewController : MKLocalSearchCompleterDelegate {
@@ -117,11 +88,11 @@ extension RechercheLieuTableViewController : MKLocalSearchCompleterDelegate {
   func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
     self.searchResults = completer.results.filter { result in
       // Les villes contiennent généralement une virgule dans le titre et aucun chiffre dans le titre ni le sous-titre
-      if !result.title.contains(",")
-          || result.title.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil
-          || result.subtitle.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil {
-        return false
-      }
+//      if !result.title.contains(",")
+//          || result.title.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil
+//          || result.subtitle.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil {
+//        return false
+//      }
       return true
     }
     // Recharger la table une fois les search results trouvés
