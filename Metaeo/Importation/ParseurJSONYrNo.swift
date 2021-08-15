@@ -61,7 +61,7 @@ class ParseurJSONYrNo: ParseurJSON {
       if codeSymboleCondition != "" {
         let composants = codeSymboleCondition.components(separatedBy: "_")
         let chaineCondition = composants[0]
-        previsionHoraireEnEdition.chaineCondition = chaineCondition
+        previsionHoraireEnEdition.chaineCondition = nettoyerChaineCondition(chaineCondition)
         previsionHoraireEnEdition.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
         if previsionHoraireEnEdition.condition == nil {
           print("Incapable de parser la condition yr.no \(chaineCondition)")
@@ -122,7 +122,7 @@ class ParseurJSONYrNo: ParseurJSON {
         if codeSymboleCondition != "" {
           let composants = codeSymboleCondition.components(separatedBy: "_")
           let chaineCondition = composants[0]
-          previsionJourEnEdition!.chaineCondition = chaineCondition
+          previsionJourEnEdition!.chaineCondition = nettoyerChaineCondition(chaineCondition)
           previsionJourEnEdition!.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
           if previsionJourEnEdition!.condition == nil {
             print("Incapable de parser la condition yr.no \(chaineCondition)")
@@ -191,8 +191,8 @@ class ParseurJSONYrNo: ParseurJSON {
         if codeSymboleCondition != "" {
           let composants = codeSymboleCondition.components(separatedBy: "_")
           let chaineCondition = composants[0]
-          previsionJourEnEdition!.chaineCondition = chaineCondition
-          previsionJourEnEdition!.condition = Condition(rawValue: chaineCondition)
+          previsionJourEnEdition!.chaineCondition = nettoyerChaineCondition(chaineCondition)
+          previsionJourEnEdition!.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
           if previsionJourEnEdition!.condition == nil {
             print("Incapable de parser la condition yr.no \(chaineCondition)")
           }
@@ -258,7 +258,7 @@ class ParseurJSONYrNo: ParseurJSON {
           if codeSymboleCondition != "" {
             let composants = codeSymboleCondition.components(separatedBy: "_")
             let chaineCondition = composants[0]
-            previsionJourEnEdition!.chaineCondition = chaineCondition
+            previsionJourEnEdition!.chaineCondition = nettoyerChaineCondition(chaineCondition)
             previsionJourEnEdition!.condition = Condition(rawValue: nettoyerChaineCondition(chaineCondition))
             if previsionJourEnEdition!.condition == nil {
               print("Incapable de parser la condition yr.no \(chaineCondition)")
