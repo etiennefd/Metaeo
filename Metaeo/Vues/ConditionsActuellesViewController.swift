@@ -116,6 +116,8 @@ class ConditionsActuellesViewController: UIViewController, UIAdaptivePresentatio
       self.iconeCondition.image = conditionsActuelles.donneIcone()
       if let chaineCondition = conditionsActuelles.chaineCondition {
         self.etiquetteCondition.text = localiseChaineCondition(chaineCondition.lowercased())
+      } else {
+        self.etiquetteCondition.text = NSLocalizedString("Condition not observed", comment: "")
       }
       if let pression = conditionsActuelles.pression {
         self.etiquettePression.text = stateController?.donneChainePressionConvertie(pression)
