@@ -6,13 +6,13 @@
   Copyright © 2020 Étienne Fortier-Dubois. All rights reserved.
 */
 
-//MARK: Sources
+// MARK: Sources
 "Meteorological Service of Canada" = "Meteorological Service of Canada";
 "MET Norway" = "MET Norway";
 "National Weather Service" = "National Weather Service";
 "OpenWeatherMap" = "OpenWeatherMap";
 
-//MARK: Inclus dans l'enum Condition
+// MARK: Inclus dans l'enum Condition
 "sunny" = "Sunny";
 "cloudy" = "Cloudy";
 "mostly cloudy" = "Mostly cloudy";
@@ -314,8 +314,13 @@
 "scattered clouds" = "Scattered clouds";
 "broken clouds" = "Broken clouds";
 "overcast clouds" = "Overcast clouds";
+"periods of light snow" = "Periods of light snow";
+"freezing rain or rain" = "Freezing rain or rain";
+"rain or freezing rain" = "Rain or freezing rain";
+"freezing rain mixed with rain" = "Freezing rain mixed with rain";
+"rain or snow" = "Rain or snow";
 
-//MARK: Autres conditions reçues
+// MARK: Autres conditions reçues
 //"slight chance rain showers" = "Slight chance rain showers";
 //"mostly sunny then slight chance rain showers" = "Mostly sunny then slight chance rain showers";
 

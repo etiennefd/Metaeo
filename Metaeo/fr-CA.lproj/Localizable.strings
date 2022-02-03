@@ -314,6 +314,11 @@
 "scattered clouds" = "Partiellement nuageux";
 "broken clouds" = "Nuageux";
 "overcast clouds" = "Couvert";
+"periods of light snow" = "Faible neige intermittente";
+"freezing rain or rain" = "Pluie verglaçante ou pluie";
+"rain or freezing rain" = "Pluie ou pluie verglaçante";
+"freezing rain mixed with rain" = "Pluie verglaçante mêlée de pluie";
+"rain or snow" = "Pluie ou neige";
 
 //MARK: Autres conditions reçues
 "slight chance rain showers" = "Faible possibilité d’averses de pluie";
