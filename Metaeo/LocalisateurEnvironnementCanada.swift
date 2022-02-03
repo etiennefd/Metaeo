@@ -23,7 +23,10 @@ class LocalisateurEnvironnementCanada {
   
   var stations: [StationEnvironnementCanada] = []
   
-  init() {
+  // Concurrency
+  let dispatchGroup = DispatchGroup()
+  
+  private func obtenirStations() {
     let tache = URLSession.shared.dataTask(with: URL(string: urlStations)!) { data, response, error in
       guard let data = data, error == nil else {
         print(error ?? "Erreur avec l'url des stations d'EC")
@@ -50,12 +53,23 @@ class LocalisateurEnvironnementCanada {
         let station = StationEnvironnementCanada(code: code, nom: nom, province: province, latitude: latitude, longitude: longitude)
         self.stations.append(station)
       }
+      self.dispatchGroup.leave()
     }
     tache.resume()
   }
   
   private func trouverStationPlusPresDe(latitude: Double, longitude: Double) -> StationEnvironnementCanada {
+    // si on n'a pas encore chargé les données de stations, il faut le faire avant d'essayer de les utiliser
     if stations.count == 0 {
+      self.dispatchGroup.enter()
+      DispatchQueue.global(qos: .default).async {
+        self.obtenirStations() // le dispatchGroup.leave est à la fin de l'appel asynchrone pour obtenir les données de stations
+      }
+      self.dispatchGroup.wait()
+    }
+    // au cas où il y a eu une erreur dans l'importation des stations (implémentation pas idéale mais bon ça va empêcher un crash)
+    if stations.count == 0 {
+      print("Les stations météo n'ont pas pu être chargées. Par défaut on utilise donc Montréal.")
       return StationEnvironnementCanada(code: "s0000635", nom: "Montréal", province: "QC", latitude: 0.0, longitude: 0.0)
     }
     var stationLaPlusPres = stations[0]
