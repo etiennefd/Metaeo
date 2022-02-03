@@ -46,7 +46,7 @@ class LocalisateurEnvironnementCanada {
           continue
         }
         let latitude = Double(columns[3].replacingOccurrences(of: "N", with: ""))!
-        let longitude = Double(columns[4].replacingOccurrences(of: "W", with: ""))!
+        let longitude = -Double(columns[4].replacingOccurrences(of: "W", with: ""))! // négatif parce que c'est W (vrai pour tous les lieux au Canada)
         let station = StationEnvironnementCanada(code: code, nom: nom, province: province, latitude: latitude, longitude: longitude)
         self.stations.append(station)
       }

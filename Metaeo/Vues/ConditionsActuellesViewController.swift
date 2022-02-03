@@ -67,7 +67,7 @@ class ConditionsActuellesViewController: UIViewController, UIAdaptivePresentatio
     //self.importeEtRechargeDonnees(forcerImportation: false)
   }
   
-  //MARK: Chargement des données
+  // MARK: Chargement des données
   
   // Change le lieu, affiche le lieu, et réimporte les données
   func metAJourLieu() {
@@ -81,7 +81,7 @@ class ConditionsActuellesViewController: UIViewController, UIAdaptivePresentatio
   
   // Appelle la recharge des données en s'assurant d'avoir des données à montrer
   func importeEtRechargeDonnees(forcerImportation: Bool) {
-//
+
     // Les données sont déjà dans le view controller et le lieu n'a pas changé
     if !forcerImportation, self.donneesEnAffichage != nil, self.donneesEnAffichage!.lieu == self.lieuEnAffichage {
       self.rechargeDonnees()
