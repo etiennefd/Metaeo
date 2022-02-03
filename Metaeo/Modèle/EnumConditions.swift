@@ -9,7 +9,7 @@
 import UIKit
 
 enum Condition: String {
-  //MARK: Environnement Canada (conditions actuelles et prévisions)
+  // MARK: Environnement Canada (conditions actuelles et prévisions)
   case sunny = "sunny"
   case cloudy = "cloudy"
   case mostlyCloudy = "mostly cloudy"
@@ -28,7 +28,7 @@ enum Condition: String {
   case windy = "windy"
   case smoke = "smoke"
   
-  //MARK: Environnement Canada (conditions actuelles seulement)
+  // MARK: Environnement Canada (conditions actuelles seulement)
   case mainlySunny = "mainly sunny"
   case partlyCloudy = "partly cloudy"
   case lightRainShower = "light rain shower"
@@ -88,7 +88,7 @@ enum Condition: String {
   case thunderstormWithDustStorm = "thunderstorm with dust storm"
   case waterspout = "waterspout"
   
-  //MARK: Environnement Canada (prévisions seulement)
+  // MARK: Environnement Canada (prévisions seulement)
   case aFewClouds = "a few clouds"
   case aMixOfSunAndCloud = "a mix of sun and cloud"
   case cloudyPeriods = "cloudy periods"
@@ -162,8 +162,8 @@ enum Condition: String {
   case chanceOfLightSnow = "chance of light snow"
   case snowAndBlowingSnow = "snow and blowing snow"
   
-  //MARK: Environnement Canada (autres)
-  //Pas dans les listes officielles d'EC, mais néanmoins vues dans les XML
+  // MARK: Environnement Canada (autres)
+  // Pas dans les listes officielles d'EC, mais néanmoins vues dans les XML
   case rainshower = "rainshower"
   case chanceOfShowersRiskOfThunderstorms = "chance of showers. risk of thunderstorms"
   case chanceOfShowersRiskOfSevereThunderstorms = "chance of showers. risk of severe thunderstorms"
@@ -191,8 +191,12 @@ enum Condition: String {
   case periodsOfRainOrDrizzle = "periods of rain or drizzle"
   case chanceOfFlurriesRiskOfFreezingDrizzle = "chance of flurries. risk of freezing drizzle"
   case flurriesAtTimesHeavy = "flurries at times heavy"
+  case periodsOfLightSnow = "periods of light snow"
+  case freezingRainOrRain = "freezing rain or rain"
+  case rainOrFreezingRain = "rain or freezing rain"
+  case freezingRainMixedWithRain = "freezing rain mixed with rain"
 
-  //MARK: yr.no
+  // MARK: yr.no
   // Les cas commentés sont ceux qui sont identiques à une condition déjà définie ci-dessus
   case clearSkyYR = "clearsky"
   //case cloudyYR = "cloudy"
@@ -236,7 +240,7 @@ enum Condition: String {
   case snowShowersYR = "snowshowers"
   case snowShowersAndThunderYR = "snowshowersandthunder"
   
-  //MARK: NOAA
+  // MARK: NOAA
   // Les cas commentés sont ceux qui sont identiques à une condition déjà définie ci-dessus.
   // De plus, les conditions avec "slight chance" ou "likely" sont assimilées à celles avec "chance".
   //case sunnyNOAA = "sunny"
@@ -338,7 +342,7 @@ enum Condition: String {
   case chanceLightSnowNOAA = "chance light snow"
   case fogMistNOAA = "fog/mist"
 
-  //MARK: OpenWeatherMap
+  // MARK: OpenWeatherMap
   // Les cas commentés sont ceux qui sont identiques à une condition déjà définie ci-dessus.
   //case thunderstormWithLightRainOWM = "thunderstorm with light rain"
   //case thunderstormWithRainOWM = "thunderstorm with rain"
@@ -534,6 +538,7 @@ extension Prevision {
          .lightShowerSnowOWM:
       return self.estNuit() ? UIImage(named: "light flurries night") : UIImage(named: "light flurries")
     case .lightSnow,
+         .periodsOfLightSnow,
          .snow,
          .wetSnow,
          .flurries,
@@ -603,6 +608,9 @@ extension Prevision {
          .chanceOfFreezingRain,
          .chanceOfFreezingRainOrRain,
          .chanceOfRainOrFreezingRain,
+         .freezingRainOrRain,
+         .rainOrFreezingRain,
+         .freezingRainMixedWithRain,
          .freezingSprayNOAA,
          .rainFreezingRainNOAA,
          .chanceFreezingRainNOAA,
