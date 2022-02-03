@@ -5,6 +5,7 @@
 //  Created by Étienne Fortier-Dubois on 20-06-20.
 //  Copyright © 2020 Étienne Fortier-Dubois. All rights reserved.
 //
+// Exemple de fichier parsé : https://dd.meteo.gc.ca/citypage_weather/xml/QC/s0000049_e.xml (Saint-Constant, Québec)
 
 import Foundation
 
@@ -69,6 +70,8 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, DelegueParseurXML {
           print("Incapable de parser la condition EC \(data)")
         }
         self.previsionEnEdition.chaineCondition = data
+      case (_, "station"):
+        self.previsionEnEdition.lieu = data
       case ("forecast", "textSummary"):
         self.previsionEnEdition.detailsCondition = data
       case (_, "dewpoint"):
