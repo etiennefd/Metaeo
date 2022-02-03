@@ -134,7 +134,7 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, DelegueParseurXML {
           self.elementXMLEnEdition?.parent?.attributs["zone"] != "UTC",
           let differenceAvecUTC = self.elementXMLEnEdition?.parent?.attributs["UTCOffset"] {
           self.heureLocaleCreationXML = self.dateFormatterTimeStamp.date(from: data) ?? Date()
-          self.fuseauHoraire = TimeZone(secondsFromGMT: Int(differenceAvecUTC)! * 3600)
+          self.fuseauHoraire = TimeZone(secondsFromGMT: Int(Double(differenceAvecUTC)! * 3600))
         }
  
         // heure de l'observation des conditions actuelles

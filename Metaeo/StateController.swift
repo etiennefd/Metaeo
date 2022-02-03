@@ -41,7 +41,9 @@ class StateController: NSObject {
   // Concurrency
   let dispatchGroup = DispatchGroup()
   
+  // Spécifiques à certaines sources de données
   let cleAPIOpenWeatherMap = ProcessInfo.processInfo.environment["cleAPIOpenWeatherMap"]!
+  lazy var localisateurEC = LocalisateurEnvironnementCanada()
   
   // Données importées qui peuvent être utilisées dans les dans l'app
   var toutesLesDonneesImportees = [CLPlacemark : DonneesPourLieu]()
@@ -273,7 +275,7 @@ class StateController: NSObject {
     var sourcesPays: [SourcePrevision]
     switch lieu.country {
     case "Canada":
-      sourcesPays = [.environnementCanada, .NOAA, /* utilise présentement les données de Burlington */]
+      sourcesPays = [.environnementCanada]
     case "United States":
       sourcesPays = [.NOAA]
     default:
@@ -303,7 +305,8 @@ class StateController: NSObject {
     // Obtenir l'URL selon la source
     switch source {
     case .environnementCanada:
-      return URL(string: "https://dd.meteo.gc.ca/citypage_weather/xml/QC/s0000635_e.xml")! // Montréal
+      return URL(string: localisateurEC.obtenirURLPour(latitude: latitude, longitude: longitude))
+//      return URL(string: "https://dd.meteo.gc.ca/citypage_weather/xml/QC/s0000635_e.xml")! // Montréal
 //      return URL(string: "https://dd.meteo.gc.ca/citypage_weather/xml/BC/s0000141_e.xml")! // Vancouver
     case .yrNo:
       return URL(string: "https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=\(latitudeArrondie)&lon=\(longitudeArrondie)")!
@@ -365,6 +368,7 @@ class StateController: NSObject {
   }
 }
 
+// Extension pour déterminer la localisation de l'utilisateur
 extension StateController: CLLocationManagerDelegate {
   
   func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -381,12 +385,5 @@ extension StateController: CLLocationManagerDelegate {
   
   func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
     print("error:: (error)")
-  }
-}
-
-// source : https://stackoverflow.com/questions/44031257/find-city-name-and-country-from-latitude-and-longitude-in-swift
-extension CLLocation {
-  func obtenirLieu(completion: @escaping (_ lieu: CLPlacemark?, _ error: Error?) -> ()) {
-    CLGeocoder().reverseGeocodeLocation(self) { completion($0?.first, $1) }
   }
 }

@@ -37,6 +37,8 @@
 		8FA5F84726B2003E00C324BB /* SelectionLieuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA5F84626B2003E00C324BB /* SelectionLieuTableViewController.swift */; };
 		8FA5F84926B20BAD00C324BB /* RechercheLieuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA5F84826B20BAD00C324BB /* RechercheLieuTableViewController.swift */; };
 		8FBA1C272506F29000BF78F2 /* SelectionAffichageTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBA1C262506F29000BF78F2 /* SelectionAffichageTableViewController.swift */; };
+		8FC749F526B4B1360053F0EC /* UnitesDeMesure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC749F426B4B1350053F0EC /* UnitesDeMesure.swift */; };
+		8FC749F726B4B24A0053F0EC /* LocalisateurEnvironnementCanada.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC749F626B4B24A0053F0EC /* LocalisateurEnvironnementCanada.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +89,8 @@
 		8FA5F84626B2003E00C324BB /* SelectionLieuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionLieuTableViewController.swift; sourceTree = "<group>"; };
 		8FA5F84826B20BAD00C324BB /* RechercheLieuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RechercheLieuTableViewController.swift; sourceTree = "<group>"; };
 		8FBA1C262506F29000BF78F2 /* SelectionAffichageTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionAffichageTableViewController.swift; sourceTree = "<group>"; };
+		8FC749F426B4B1350053F0EC /* UnitesDeMesure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitesDeMesure.swift; sourceTree = "<group>"; };
+		8FC749F626B4B24A0053F0EC /* LocalisateurEnvironnementCanada.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalisateurEnvironnementCanada.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +175,8 @@
 				8F0D598E24369DFA004D4438 /* AppDelegate.swift */,
 				8F0420A624C276A600182235 /* StateController.swift */,
 				8F0D59B4243E91FD004D4438 /* Utilitaires.swift */,
+				8FC749F426B4B1350053F0EC /* UnitesDeMesure.swift */,
+				8FC749F626B4B24A0053F0EC /* LocalisateurEnvironnementCanada.swift */,
 				8F0D59CE24A3C78B004D4438 /* Importation */,
 				8F0D59B8243F6D14004D4438 /* Modèles */,
 				8F0D59CD24A3C76A004D4438 /* Vues */,
@@ -339,12 +345,14 @@
 				8F0D59CA249E654F004D4438 /* DelegueParseurXMLEnvironnementCanada.swift in Sources */,
 				8F0D599324369DFA004D4438 /* ConditionsActuellesViewController.swift in Sources */,
 				8F0420A324C1081E00182235 /* ProtocolesParseurs.swift in Sources */,
+				8FC749F526B4B1360053F0EC /* UnitesDeMesure.swift in Sources */,
 				8F095A6524B0FE1B000AC650 /* SwiftyJSON.swift in Sources */,
 				8F04209E24BBBF2000182235 /* DetailsPrevisionViewController.swift in Sources */,
 				8F0D59B5243E91FD004D4438 /* Utilitaires.swift in Sources */,
 				8F854BB924CC50190066E169 /* ParseurJSONOpenWeatherMap.swift in Sources */,
 				8F0420A124C0FF7800182235 /* ParseurJSONNOAA.swift in Sources */,
 				8F8625C224E8DC3E008471DF /* SelectionUniteTableViewController.swift in Sources */,
+				8FC749F726B4B24A0053F0EC /* LocalisateurEnvironnementCanada.swift in Sources */,
 				8F0420A724C276A600182235 /* StateController.swift in Sources */,
 				8FBA1C272506F29000BF78F2 /* SelectionAffichageTableViewController.swift in Sources */,
 				8F5EFD3324B106C6002353B3 /* ParseurJSONYrNo.swift in Sources */,
