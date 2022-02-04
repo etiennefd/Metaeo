@@ -91,6 +91,7 @@
 		8FBA1C262506F29000BF78F2 /* SelectionAffichageTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionAffichageTableViewController.swift; sourceTree = "<group>"; };
 		8FC749F426B4B1350053F0EC /* UnitesDeMesure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitesDeMesure.swift; sourceTree = "<group>"; };
 		8FC749F626B4B24A0053F0EC /* LocalisateurEnvironnementCanada.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalisateurEnvironnementCanada.swift; sourceTree = "<group>"; };
+		8FDA9EB327ADDDF0007FB861 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -392,6 +393,7 @@
 			children = (
 				8F0D599524369DFA004D4438 /* Base */,
 				8F8625C324EC86C7008471DF /* fr-CA */,
+				8FDA9EB327ADDDF0007FB861 /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

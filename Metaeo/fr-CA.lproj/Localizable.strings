@@ -330,3 +330,8 @@
 // MARK: Mots utilisés par la NOAA que j'ai enlevés
 " then " = " puis ";
 "slight " = "Faible ";
+
+// MARK: Interface
+"Last updated at:" = "Dernière mise à jour à";
+"Observed at:" = "Lieu d'observation :";
+"Source:" = "Source :";

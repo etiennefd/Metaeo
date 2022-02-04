@@ -1,9 +1,12 @@
 
-/* Class = "UILabel"; text = "Indice UV"; ObjectID = "3i3-kk-0Tj"; */
-"3i3-kk-0Tj.text" = "Indice UV";
+/* Class = "UIBarButtonItem"; title = "Done"; ObjectID = "0XA-UW-gdT"; */
+"0XA-UW-gdT.title" = "Done";
 
-/* Class = "UILabel"; text = "Conditions observed at"; ObjectID = "47U-sh-ryL"; */
-"47U-sh-ryL.text" = "Conditions observed at";
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "1rs-tl-lqn"; */
+"1rs-tl-lqn.title" = "Item";
+
+/* Class = "UILabel"; text = "Last updated at "; ObjectID = "47U-sh-ryL"; */
+"47U-sh-ryL.text" = "Last updated at ";
 
 /* Class = "UILabel"; text = "Lundi"; ObjectID = "5z1-2o-vYG"; */
 "5z1-2o-vYG.text" = "Lundi";
@@ -18,28 +21,28 @@
 "7j2-az-wHw.text" = "99 km/h NNO";
 
 /* Class = "UITabBarItem"; title = "SETTINGS"; ObjectID = "83f-bP-UeR"; */
-"83f-bP-UeR.title" = "PARAMÈTRES";
-
-/* Class = "UINavigationItem"; title = "Forecasts"; ObjectID = "8b6-9h-4J2"; */
-"8b6-9h-4J2.title" = "Prévisions";
+"83f-bP-UeR.title" = "SETTINGS";
 
 /* Class = "UILabel"; text = "Condition"; ObjectID = "BPU-3h-YFR"; */
 "BPU-3h-YFR.text" = "Condition";
 
+/* Class = "UITableViewController"; title = "Dark mode"; ObjectID = "BSV-FW-Lbr"; */
+"BSV-FW-Lbr.title" = "Dark mode";
+
 /* Class = "UINavigationItem"; title = "Temperature"; ObjectID = "CuR-KJ-N5r"; */
-"CuR-KJ-N5r.title" = "Température";
+"CuR-KJ-N5r.title" = "Temperature";
 
 /* Class = "UITableViewSection"; headerTitle = "Units"; ObjectID = "D5t-zZ-87c"; */
-"D5t-zZ-87c.headerTitle" = "Unités";
+"D5t-zZ-87c.headerTitle" = "Units";
 
 /* Class = "UILabel"; text = "99 km"; ObjectID = "DeI-hF-8uN"; */
 "DeI-hF-8uN.text" = "99 km";
 
-/* Class = "UITabBarItem"; title = "SETTINGS"; ObjectID = "Df7-Fj-NgO"; */
-"Df7-Fj-NgO.title" = "PARAMÈTRES";
+/* Class = "UITabBarItem"; title = "Settings"; ObjectID = "Df7-Fj-NgO"; */
+"Df7-Fj-NgO.title" = "Settings";
 
 /* Class = "UINavigationItem"; title = "Wind speed"; ObjectID = "Dk0-Zf-OJM"; */
-"Dk0-Zf-OJM.title" = "Vitesse du vent";
+"Dk0-Zf-OJM.title" = "Wind speed";
 
 /* Class = "UILabel"; text = "99 °C"; ObjectID = "Evw-qn-JZT"; */
 "Evw-qn-JZT.text" = "99 °C";
@@ -47,38 +50,50 @@
 /* Class = "UILabel"; text = "Kilopascals (kPa)"; ObjectID = "FBS-Jp-JuA"; */
 "FBS-Jp-JuA.text" = "Kilopascals (kPa)";
 
+/* Class = "UILabel"; text = "Title"; ObjectID = "FJn-fq-uaA"; */
+"FJn-fq-uaA.text" = "Title";
+
 /* Class = "UILabel"; text = "Kilometers per hour (km/h)"; ObjectID = "Fuw-CQ-iPH"; */
-"Fuw-CQ-iPH.text" = "Kilomètres à l'heure (km/h)";
+"Fuw-CQ-iPH.text" = "Kilometers per hour (km/h)";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "G3g-8g-Lr3"; */
+"G3g-8g-Lr3.title" = "Item";
 
 /* Class = "UISegmentedControl"; GSn-NK-cHT.segmentTitles[0] = "7 days"; ObjectID = "GSn-NK-cHT"; */
-"GSn-NK-cHT.segmentTitles[0]" = "7 jours";
+"GSn-NK-cHT.segmentTitles[0]" = "7 days";
 
 /* Class = "UISegmentedControl"; GSn-NK-cHT.segmentTitles[1] = "24 hours"; ObjectID = "GSn-NK-cHT"; */
-"GSn-NK-cHT.segmentTitles[1]" = "24 heures";
+"GSn-NK-cHT.segmentTitles[1]" = "24 hours";
 
-/* Class = "UILabel"; text = "24 hours"; ObjectID = "HfY-ez-Afx"; */
-"HfY-ez-Afx.text" = "24 heures";
+/* Class = "UILabel"; text = "Montreal"; ObjectID = "HBG-hd-MXB"; */
+"HBG-hd-MXB.text" = "Montreal";
 
 /* Class = "UITableViewController"; title = "Temperature"; ObjectID = "Ije-kb-jq9"; */
-"Ije-kb-jq9.title" = "Température";
+"Ije-kb-jq9.title" = "Temperature";
 
 /* Class = "UITableViewController"; title = "Wind speed"; ObjectID = "Jdy-XJ-akc"; */
-"Jdy-XJ-akc.title" = "Vitesse du vent";
+"Jdy-XJ-akc.title" = "Wind speed";
 
 /* Class = "UILabel"; text = "kPa"; ObjectID = "K16-XX-kUJ"; */
 "K16-XX-kUJ.text" = "kPa";
 
+/* Class = "UILabel"; text = "Observed at "; ObjectID = "K50-AP-IhQ"; */
+"K50-AP-IhQ.text" = "Observed at ";
+
+/* Class = "UILabel"; text = "Auto"; ObjectID = "KRT-dN-MwI"; */
+"KRT-dN-MwI.text" = "Auto";
+
 /* Class = "UILabel"; text = "Feels like"; ObjectID = "KdY-iw-Rc5"; */
-"KdY-iw-Rc5.text" = "Ressenti de";
+"KdY-iw-Rc5.text" = "Feels like";
 
 /* Class = "UINavigationItem"; title = "Settings"; ObjectID = "Kn8-g6-gCV"; */
 "Kn8-g6-gCV.title" = "Settings";
 
 /* Class = "UILabel"; text = "Millimeters of mercury (mmHg)"; ObjectID = "L22-Uf-mBP"; */
-"L22-Uf-mBP.text" = "Millimètres de mercure (mmHg)";
+"L22-Uf-mBP.text" = "Millimeters of mercury (mmHg)";
 
 /* Class = "UILabel"; text = "Source: "; ObjectID = "LgZ-4Z-KPQ"; */
-"LgZ-4Z-KPQ.text" = "Source : ";
+"LgZ-4Z-KPQ.text" = "Source: ";
 
 /* Class = "UILabel"; text = "Standard atmospheres (atm)"; ObjectID = "Mpw-Qd-qTs"; */
 "Mpw-Qd-qTs.text" = "Standard atmospheres (atm)";
@@ -87,82 +102,97 @@
 "Muc-Og-PbU.text" = "Kelvin (K)";
 
 /* Class = "UILabel"; text = "Wind speed"; ObjectID = "OB1-bL-xbT"; */
-"OB1-bL-xbT.text" = "Vitesse du vent";
+"OB1-bL-xbT.text" = "Wind speed";
 
 /* Class = "UITableViewSection"; headerTitle = "Display"; ObjectID = "ODL-wH-HkM"; */
-"ODL-wH-HkM.headerTitle" = "Affichage";
+"ODL-wH-HkM.headerTitle" = "Display";
 
 /* Class = "UILabel"; text = "Forecast issued at"; ObjectID = "OTc-hP-27v"; */
-"OTc-hP-27v.text" = "Prévision émise à";
+"OTc-hP-27v.text" = "Forecast issued at";
 
 /* Class = "UILabel"; text = "Pounds per square inch (psi)"; ObjectID = "QRe-Gq-pg8"; */
-"QRe-Gq-pg8.text" = "Livre par pouce carré (psi)";
+"QRe-Gq-pg8.text" = "Pounds per square inch (psi)";
+
+/* Class = "UILabel"; text = "Current conditions in"; ObjectID = "QST-pL-fcl"; */
+"QST-pL-fcl.text" = "Current conditions in";
 
 /* Class = "UILabel"; text = "degrés"; ObjectID = "Qa9-hu-zkw"; */
 "Qa9-hu-zkw.text" = "degrés";
 
 /* Class = "UILabel"; text = "Inches of mercury (inHg)"; ObjectID = "R2Y-3g-Vqe"; */
-"R2Y-3g-Vqe.text" = "Pouces de mercure (inHg)";
+"R2Y-3g-Vqe.text" = "Inches of mercury (inHg)";
 
 /* Class = "UILabel"; text = "Fahrenheit (°F)"; ObjectID = "R6Q-0i-Fod"; */
 "R6Q-0i-Fod.text" = "Fahrenheit (°F)";
 
-/* Class = "UILabel"; text = "Off"; ObjectID = "RPT-46-b48"; */
-"RPT-46-b48.text" = "Désactivé";
+/* Class = "UILabel"; text = "Auto"; ObjectID = "RPT-46-b48"; */
+"RPT-46-b48.text" = "Auto";
 
 /* Class = "UILabel"; text = "Beaufort scale"; ObjectID = "RcM-0V-x6B"; */
-"RcM-0V-x6B.text" = "Échelle de Beaufort";
+"RcM-0V-x6B.text" = "Beaufort scale";
 
 /* Class = "UILabel"; text = "Knots (kn)"; ObjectID = "SSG-UP-Oac"; */
-"SSG-UP-Oac.text" = "Nœuds (kn)";
+"SSG-UP-Oac.text" = "Knots (kn)";
 
 /* Class = "UILabel"; text = "Miles per hour (mph)"; ObjectID = "TSl-oa-dcr"; */
-"TSl-oa-dcr.text" = "Mile à l'heure (mph)";
+"TSl-oa-dcr.text" = "Miles per hour (mph)";
 
-/* Class = "UILabel"; text = "Vent"; ObjectID = "XLG-fM-34f"; */
-"XLG-fM-34f.text" = "Vent";
+/* Class = "UILabel"; text = "Title"; ObjectID = "Tgu-K4-Xbb"; */
+"Tgu-K4-Xbb.text" = "Title";
+
+/* Class = "UILabel"; text = "Wind"; ObjectID = "XLG-fM-34f"; */
+"XLG-fM-34f.text" = "Wind";
 
 /* Class = "UILabel"; text = "99 %"; ObjectID = "Xjq-fR-gyf"; */
 "Xjq-fR-gyf.text" = "99 %";
 
 /* Class = "UILabel"; text = "Meters per second (m/s)"; ObjectID = "Xxt-bl-BaQ"; */
-"Xxt-bl-BaQ.text" = "Mètres par seconde (m/s)";
+"Xxt-bl-BaQ.text" = "Meters per second (m/s)";
 
 /* Class = "UILabel"; text = "Forecast for Wednesday night in Montreal"; ObjectID = "YCk-oU-rRM"; */
-"YCk-oU-rRM.text" = "Prévision pour mercredi soir à Montréal";
+"YCk-oU-rRM.text" = "Forecast for Wednesday night in Montreal";
 
 /* Class = "UINavigationItem"; title = "Distance"; ObjectID = "Z0D-Oj-Yqo"; */
 "Z0D-Oj-Yqo.title" = "Distance";
 
+/* Class = "UILabel"; text = "Off"; ObjectID = "Zzt-Rd-O5p"; */
+"Zzt-Rd-O5p.text" = "Off";
+
 /* Class = "UILabel"; text = "Label"; ObjectID = "a1E-yw-8W1"; */
 "a1E-yw-8W1.text" = "Label";
 
-/* Class = "UITabBarItem"; title = "FORECASTS"; ObjectID = "acW-dT-cKf"; */
-"acW-dT-cKf.title" = "PRÉVISIONS";
+/* Class = "UITabBarItem"; title = "Forecasts"; ObjectID = "acW-dT-cKf"; */
+"acW-dT-cKf.title" = "Forecasts";
+
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "asv-lp-NSU"; */
+"asv-lp-NSU.text" = "Subtitle";
 
 /* Class = "UILabel"; text = "Feet per second (ft/s)"; ObjectID = "b6C-EL-zES"; */
-"b6C-EL-zES.text" = "Pieds par seconde (pi/s)";
+"b6C-EL-zES.text" = "Feet per second (ft/s)";
 
-/* Class = "UITabBarItem"; title = "CURRENT"; ObjectID = "cPa-gy-q4n"; */
-"cPa-gy-q4n.title" = "ACTUEL";
+/* Class = "UITabBarItem"; title = "Current"; ObjectID = "cPa-gy-q4n"; */
+"cPa-gy-q4n.title" = "Current";
 
 /* Class = "UILabel"; text = "Hectopascals (hPa)"; ObjectID = "cRU-Ud-EKx"; */
 "cRU-Ud-EKx.text" = "Hectopascals (hPa)";
 
-/* Class = "UILabel"; text = "Humidité"; ObjectID = "cbp-hz-LGx"; */
-"cbp-hz-LGx.text" = "Humidité";
+/* Class = "UILabel"; text = "Humidity"; ObjectID = "cbp-hz-LGx"; */
+"cbp-hz-LGx.text" = "Humidity";
 
 /* Class = "UILabel"; text = "Chance of precipitation: "; ObjectID = "dFh-Yj-O0t"; */
-"dFh-Yj-O0t.text" = "Probabilité de précipitation : ";
+"dFh-Yj-O0t.text" = "Chance of precipitation: ";
+
+/* Class = "UILabel"; text = "Celsius (°C)"; ObjectID = "dxW-a0-lK0"; */
+"dxW-a0-lK0.text" = "Celsius (°C)";
 
 /* Class = "UILabel"; text = "999 km/h"; ObjectID = "f0o-RH-Zg3"; */
 "f0o-RH-Zg3.text" = "999 km/h";
 
-/* Class = "UILabel"; text = "Pressure"; ObjectID = "hKN-gi-eiY"; */
-"hKN-gi-eiY.text" = "Pression";
+/* Class = "UILabel"; text = "Quebec, Canada"; ObjectID = "gv7-Fe-tOf"; */
+"gv7-Fe-tOf.text" = "Quebec, Canada";
 
-/* Class = "UILabel"; text = "Time format"; ObjectID = "hzi-wK-ne7"; */
-"hzi-wK-ne7.text" = "Format des heures";
+/* Class = "UILabel"; text = "Pressure"; ObjectID = "hKN-gi-eiY"; */
+"hKN-gi-eiY.text" = "Pressure";
 
 /* Class = "UILabel"; text = "km"; ObjectID = "i58-Q4-Jef"; */
 "i58-Q4-Jef.text" = "km";
@@ -170,14 +200,14 @@
 /* Class = "UILabel"; text = "Environnement Canada"; ObjectID = "iYu-fa-Hn9"; */
 "iYu-fa-Hn9.text" = "Environnement Canada";
 
-/* Class = "UILabel"; text = "Pression"; ObjectID = "jAX-Gx-Bah"; */
-"jAX-Gx-Bah.text" = "Pression";
-
-/* Class = "UILabel"; text = "9 (élevé)"; ObjectID = "lNe-Cp-bNq"; */
-"lNe-Cp-bNq.text" = "9 (élevé)";
+/* Class = "UILabel"; text = "Pressure"; ObjectID = "jAX-Gx-Bah"; */
+"jAX-Gx-Bah.text" = "Pressure";
 
 /* Class = "UILabel"; text = "Dark mode"; ObjectID = "n8M-gV-lB7"; */
 "n8M-gV-lB7.text" = "Dark mode";
+
+/* Class = "UINavigationItem"; title = "Dark mode"; ObjectID = "nsb-5t-1Ds"; */
+"nsb-5t-1Ds.title" = "Dark mode";
 
 /* Class = "UINavigationItem"; title = "Pressure"; ObjectID = "oFH-uI-Wy9"; */
 "oFH-uI-Wy9.title" = "Pressure";
@@ -185,59 +215,62 @@
 /* Class = "UILabel"; text = "9,9 °C"; ObjectID = "oQe-Ze-qIN"; */
 "oQe-Ze-qIN.text" = "9,9 °C";
 
-/* Class = "UILabel"; text = "Visibilité"; ObjectID = "oSf-Z6-aIF"; */
-"oSf-Z6-aIF.text" = "Visibilité";
+/* Class = "UILabel"; text = "Visibility"; ObjectID = "oSf-Z6-aIF"; */
+"oSf-Z6-aIF.text" = "Visibility";
 
 /* Class = "UILabel"; text = "Millibars (mb)"; ObjectID = "pRX-39-rCX"; */
 "pRX-39-rCX.text" = "Millibars (mb)";
 
-/* Class = "UILabel"; text = "999,9 kPa, à la hausse"; ObjectID = "pWd-I4-egV"; */
+/* Class = "UILabel"; text = "999,9 kPa ↑"; ObjectID = "pWd-I4-egV"; */
 "pWd-I4-egV.text" = "999,9 kPa ↑";
 
-/* Class = "UIButton"; normalTitle = "Recharger les données"; ObjectID = "peO-iF-dT6"; */
-"peO-iF-dT6.normalTitle" = "Recharger";
+/* Class = "UIButton"; normalTitle = "Reload"; ObjectID = "peO-iF-dT6"; */
+"peO-iF-dT6.normalTitle" = "Reload";
 
 /* Class = "UILabel"; text = "99 °C"; ObjectID = "qIJ-gf-wLG"; */
 "qIJ-gf-wLG.text" = "99 °C";
 
 /* Class = "UITableViewController"; title = "Pressure"; ObjectID = "qZH-t2-rtX"; */
-"qZH-t2-rtX.title" = "Pression";
+"qZH-t2-rtX.title" = "Pressure";
 
 /* Class = "UITableViewSection"; headerTitle = "Info"; ObjectID = "qsx-7O-zlk"; */
 "qsx-7O-zlk.headerTitle" = "Info";
 
-/* Class = "UILabel"; text = "99 °C"; ObjectID = "rHI-aw-4BD"; */
-"rHI-aw-4BD.text" = "99 °C";
+/* Class = "UILabel"; text = "-99 °C"; ObjectID = "rHI-aw-4BD"; */
+"rHI-aw-4BD.text" = "-99 °C";
 
 /* Class = "UILabel"; text = "Miles (mi)"; ObjectID = "sHV-ZZ-LmS"; */
 "sHV-ZZ-LmS.text" = "Miles (mi)";
 
 /* Class = "UILabel"; text = "Wind: "; ObjectID = "sKH-Iv-onX"; */
-"sKH-Iv-onX.text" = "Vent : ";
+"sKH-Iv-onX.text" = "Wind: ";
 
-/* Class = "UILabel"; text = "Rafales"; ObjectID = "uOJ-rH-6VX"; */
-"uOJ-rH-6VX.text" = "Rafales";
+/* Class = "UILabel"; text = "Wind gusts"; ObjectID = "uOJ-rH-6VX"; */
+"uOJ-rH-6VX.text" = "Wind gusts";
 
-/* Class = "UILabel"; text = "Ensoleillé"; ObjectID = "v2L-m8-uXx"; */
-"v2L-m8-uXx.text" = "Ensoleillé";
+/* Class = "UILabel"; text = "Light rainshower"; ObjectID = "v2L-m8-uXx"; */
+"v2L-m8-uXx.text" = "Light rainshower";
+
+/* Class = "UILabel"; text = "On"; ObjectID = "wD5-Hl-VWn"; */
+"wD5-Hl-VWn.text" = "On";
 
 /* Class = "UILabel"; text = "Temperature"; ObjectID = "wtr-qT-U4a"; */
-"wtr-qT-U4a.text" = "Température";
+"wtr-qT-U4a.text" = "Temperature";
 
-/* Class = "UILabel"; text = "Source:"; ObjectID = "x93-8e-MUD"; */
-"x93-8e-MUD.text" = "Source :";
+/* Class = "UILabel"; text = "Source: "; ObjectID = "x93-8e-MUD"; */
+"x93-8e-MUD.text" = "Source: ";
 
 /* Class = "UILabel"; text = "Distance"; ObjectID = "xkX-UI-JzR"; */
 "xkX-UI-JzR.text" = "Distance";
 
-/* Class = "UILabel"; text = "Point de rosée"; ObjectID = "y6W-xZ-H0N"; */
-"y6W-xZ-H0N.text" = "Point de rosée";
+/* Class = "UILabel"; text = "Dew point"; ObjectID = "y6W-xZ-H0N"; */
+"y6W-xZ-H0N.text" = "Dew point";
 
 /* Class = "UITableViewController"; title = "Distance"; ObjectID = "ySl-TW-ssH"; */
 "ySl-TW-ssH.title" = "Distance";
 
-/* Class = "UILabel"; text = "Montréal"; ObjectID = "ytM-dJ-21J"; */
-"ytM-dJ-21J.text" = "Montréal";
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "yhf-0l-TTt"; */
+"yhf-0l-TTt.text" = "Subtitle";
 
 /* Class = "UILabel"; text = "UV index: "; ObjectID = "zaw-os-zgz"; */
-"zaw-os-zgz.text" = "Index UV : ";
+"zaw-os-zgz.text" = "UV index: ";

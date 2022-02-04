@@ -39,6 +39,8 @@ class ConditionsActuellesViewController: UIViewController, UIAdaptivePresentatio
   @IBOutlet weak var etiquetteHeureObservation: UILabel!
   @IBOutlet weak var etiquetteLieuObservation: UILabel!
   @IBOutlet weak var itemNavigationLieu: UINavigationItem!
+  @IBOutlet weak var etiquetteVille: UILabel!
+  @IBOutlet weak var etiquetteRegionPays: UILabel!
   
   var resultSearchController: UISearchController? = nil
   
@@ -76,7 +78,12 @@ class ConditionsActuellesViewController: UIViewController, UIAdaptivePresentatio
     guard let lieu = self.lieuEnAffichage else {
       return
     }
-    self.itemNavigationLieu.title = lieu.name ?? "Unknown locality" // à déterminer : utiliser le name ou la locality?
+    //self.itemNavigationLieu.title = lieu.name ?? "Unknown locality"
+    self.etiquetteVille.text = lieu.locality ?? "Unknown locality"
+    // à déterminer : utiliser le name ou la locality?
+    let region = (lieu.administrativeArea != nil) ? "\(lieu.administrativeArea!), " : ""
+    let regionPays = region + (lieu.country ?? "")
+    self.etiquetteRegionPays.text = regionPays
     self.importeEtRechargeDonnees(forcerImportation: false)
   }
   
@@ -152,9 +159,10 @@ class ConditionsActuellesViewController: UIViewController, UIAdaptivePresentatio
         self.etiquetteVisibilite.text = stateController?.donneChaineDistanceConvertie(visibilite)
       }
       // À faire : localiser "Source", "Conditions observed at", etc.
-      self.etiquetteSource.text = "Source: \(conditionsActuelles.source.localizedString)"
-      self.etiquetteHeureObservation.text = "Last updated at \(conditionsActuelles.donneChaineHeure())"
-      self.etiquetteLieuObservation.text = "Conditions observed at \(conditionsActuelles.lieu ?? "unknown location")"
+      
+      self.etiquetteHeureObservation.text = "\(NSLocalizedString("Last updated at:", comment: "")) \(conditionsActuelles.donneChaineHeure())"
+      self.etiquetteLieuObservation.text = "\(NSLocalizedString("Observed at:", comment: "")) \(conditionsActuelles.lieu ?? "unknown location")"
+      self.etiquetteSource.text = "\(NSLocalizedString("Source:", comment: "")) \(conditionsActuelles.source.localizedString)"
     }
   }
   
