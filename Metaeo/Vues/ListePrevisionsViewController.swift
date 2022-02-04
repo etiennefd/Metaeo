@@ -123,7 +123,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     // choisir la 1re cellule dans chaque vue
     //    self.periodeEnSelection = self.previsionsStockees.values.first?.keys.sorted().first
     
-    self.periodeEnSelection = previsionsStockees[.environnementCanada]?.keys.sorted().first
+    self.periodeEnSelection = previsionsStockees[.yrNo]?.keys.sorted().first
     self.sourceEnSelection = previsionsStockees.keys.first
     
     self.rechargeDonneesTableView()
