@@ -319,6 +319,9 @@
 "rain or freezing rain" = "Rain or freezing rain";
 "freezing rain mixed with rain" = "Freezing rain mixed with rain";
 "rain or snow" = "Rain or snow";
+"light snow and blowing snow" = "Light Snow and Blowing Snow";
+"rain or drizzle" = "Rain or drizzle";
+"chance of rain or drizzle" = "Chance of rain or drizzle";
 
 // MARK: Autres conditions reçues
 //"slight chance rain showers" = "Slight chance rain showers";

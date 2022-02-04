@@ -319,6 +319,9 @@
 "rain or freezing rain" = "Pluie ou pluie verglaçante";
 "freezing rain mixed with rain" = "Pluie verglaçante mêlée de pluie";
 "rain or snow" = "Pluie ou neige";
+"light snow and blowing snow" = "Neige faible et poudrerie élevée";
+"rain or drizzle" = "Pluie ou bruine";
+"chance of rain or drizzle" = "Possibilité de pluie ou bruine";
 
 //MARK: Autres conditions reçues
 "slight chance rain showers" = "Faible possibilité d’averses de pluie";
