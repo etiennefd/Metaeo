@@ -133,8 +133,8 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     self.periodeEnSelection = previsionsStockees[.yrNo]?.keys.sorted().first
     self.sourceEnSelection = previsionsStockees.keys.first
     
-    self.rechargeDonneesTableView()
     self.rechargeDonneesCollectionView()
+    self.rechargeDonneesTableView()
     
     if self.previsionsParPeriodeAffichees.count > 0 {
       self.periodesCollectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .left)
@@ -176,9 +176,6 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     
     previsionsParPeriodeAffichees.removeAll()
     
-    // temporaire (à remplacer par une sélection de l'utilisateur, et décider quoi utiliser par défaut) :
-    self.periodeEnSelection = previsionsStockees.values.first?.first?.value.donneHeure()
-    
     // remplir le tableau des prévisions à afficher
     for (source, previsionsParPeriode) in previsionsStockees {
       // remplir le tableau des prévisions par période selon la source choisie (collection view)
@@ -196,21 +193,25 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
           if (prevision.type == .horaire && date < maintenant)
             || (prevision.type == .horaire && date > dans24h)
             || (prevision.type == .quotidien && date > dans6Jours) {
-//            || (prevision.type == .quotidien && date < maintenant && (composantHeureMaintenant == 5 || composantHeureMaintenant == 17) { // incorporé dans la diff de 11h plus bas
+//            || (prevision.type == .quotidien && date < maintenant && (composantHeureMaintenant == 5 || composantHeureMaintenant == 17) { // incorporé dans la diff de 11h (maintenant 9h) plus bas
             continue
           }
           // Éviter d'afficher les prévisions trop vieilles, par exemple celles de 6h s'il est passé 18h.
-          // De plus, s'il est passé 5h/17h, on est trop proche de 6h/18h pour afficher le 18h/6h précédent, d'où la différence de 11h.
+          // De plus, s'il est passé 3h/15h, on est trop proche de 6h/18h pour afficher le 18h/6h précédent, d'où la différence de 9h plutôt que 12
+          // (avant je mettais le seuil à 5h/17h et donc une différence de 11h)
           if prevision.type == .quotidien, date < maintenant,
             let differenceHeures = Calendar.current.dateComponents([.hour], from: date, to: maintenant).hour,
-            differenceHeures >= 11 {
+            differenceHeures >= 9 {
             continue
           }
           previsionsParPeriodeAffichees.append(prevision)
         }
       }
     }
+    // trier par heure
     previsionsParPeriodeAffichees.sort(by: { $0.heureDebut < $1.heureDebut })
+    // sélectionner la première prévision
+    self.periodeEnSelection = previsionsParPeriodeAffichees.first?.donneHeure()
     
     // recharger les données
     self.periodesCollectionView.reloadData()
