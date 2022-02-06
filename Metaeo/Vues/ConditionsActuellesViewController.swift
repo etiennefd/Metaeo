@@ -78,8 +78,8 @@ class ConditionsActuellesViewController: UIViewController, UIAdaptivePresentatio
     guard let lieu = self.lieuEnAffichage else {
       return
     }
-    //self.itemNavigationLieu.title = lieu.name ?? "Unknown locality"
-    self.etiquetteVille.text = lieu.locality ?? "Unknown locality"
+    //self.itemNavigationLieu.title = lieu.name ?? NSLocalizedString("Unknown locality", comment: "")
+    self.etiquetteVille.text = lieu.locality ?? NSLocalizedString("Unknown locality", comment: "")
     // à déterminer : utiliser le name ou la locality?
     let region = (lieu.administrativeArea != nil) ? "\(lieu.administrativeArea!), " : ""
     let regionPays = region + (lieu.country ?? "")
@@ -130,17 +130,21 @@ class ConditionsActuellesViewController: UIViewController, UIAdaptivePresentatio
       if let pression = conditionsActuelles.pression {
         self.etiquettePression.text = stateController?.donneChainePressionConvertie(pression)
         if let tendancePression = conditionsActuelles.tendancePression {
-          self.etiquettePression.text?.append(", \(tendancePression)")
+          self.etiquettePression.text?.append(" \(tendancePression.fleche)")
         }
       }
       if let vitesseVent = conditionsActuelles.donneVitesseVent() {
         self.etiquetteVent.text = stateController?.donneChaineVitesseConvertie(vitesseVent)
+        if let directionVent = conditionsActuelles.directionVent {
+          self.etiquetteVent.text?.append(" \(directionVent.localizedString)")
+        }
       }
       if let vitesseRafales = conditionsActuelles.vitesseRafales {
-        self.etiquetteRafales.isHidden = false
+        //self.etiquetteRafales.isHidden = false
         self.etiquetteRafales.text = stateController?.donneChaineVitesseConvertie(vitesseRafales)
       } else {
-        self.etiquetteRafales.isHidden = true
+        //self.etiquetteRafales.isHidden = true
+        self.etiquetteRafales.text = NSLocalizedString("no", comment: "")
       }
       if let humidite = conditionsActuelles.humidite {
         self.etiquetteHumidite.text = "\(Int(humidite.rounded())) %"
@@ -161,7 +165,7 @@ class ConditionsActuellesViewController: UIViewController, UIAdaptivePresentatio
       // À faire : localiser "Source", "Conditions observed at", etc.
       
       self.etiquetteHeureObservation.text = "\(NSLocalizedString("Last updated at:", comment: "")) \(conditionsActuelles.donneChaineHeure())"
-      self.etiquetteLieuObservation.text = "\(NSLocalizedString("Observed at:", comment: "")) \(conditionsActuelles.lieu ?? "unknown location")"
+      self.etiquetteLieuObservation.text = "\(NSLocalizedString("Observed at:", comment: "")) \(conditionsActuelles.lieu ?? NSLocalizedString("Unknown location", comment: ""))"
       self.etiquetteSource.text = "\(NSLocalizedString("Source:", comment: "")) \(conditionsActuelles.source.localizedString)"
     }
   }

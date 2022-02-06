@@ -322,6 +322,8 @@
 "light snow and blowing snow" = "Light Snow and Blowing Snow";
 "rain or drizzle" = "Rain or drizzle";
 "chance of rain or drizzle" = "Chance of rain or drizzle";
+"chance of rain showers or flurries" = "Chance of rain showers or flurries";
+"a few flurries. risk of freezing rain" = "A few flurries. Risk of freezing rain";
 
 // MARK: Autres conditions reçues
 //"slight chance rain showers" = "Slight chance rain showers";
@@ -335,3 +337,4 @@
 "Last updated at:" = "Last updated at:";
 "Observed at:" = "Observed at:";
 "Source:" = "Source:";
+" night" = " night";

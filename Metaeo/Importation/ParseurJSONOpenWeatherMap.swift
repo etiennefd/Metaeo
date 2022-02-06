@@ -142,7 +142,7 @@ class ParseurJSONOpenWeatherMap: ParseurJSON {
       previsionNuit.heureDebut = Calendar.current.date(bySettingHour: 18, minute: 0, second: 0, of: heureObjetPrevision)
       let chaineJourDeLaSemaine = joursDeLaSemaine[calendrierLocal.component(.weekday, from: heureObjetPrevision) - 1]
       previsionJour.chainePeriode = chaineJourDeLaSemaine
-      previsionNuit.chainePeriode = chaineJourDeLaSemaine + " night"
+      previsionNuit.chainePeriode = chaineJourDeLaSemaine + NSLocalizedString(" night", comment: "")
       let heureLeverDuSoleil = Date(timeIntervalSince1970: objetDaily["sunrise"].doubleValue)
       let heureCoucherDuSoleil = Date(timeIntervalSince1970: objetDaily["sunset"].doubleValue)
       previsionJour.heureLeverDuSoleil = heureLeverDuSoleil

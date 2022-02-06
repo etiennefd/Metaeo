@@ -101,7 +101,7 @@ class ParseurJSONYrNo: ParseurJSON {
 
         var chaineJourDeLaSemaine = joursDeLaSemaine[calendrierLocal.component(.weekday, from: heurePrevision) - 1]
         if (intHeureLocaleActuelle > 18 || intHeureLocaleActuelle < 4) {
-          chaineJourDeLaSemaine = chaineJourDeLaSemaine + " night"
+          chaineJourDeLaSemaine = chaineJourDeLaSemaine + NSLocalizedString(" night", comment: "")
         }
         previsionJourEnEdition!.chainePeriode = chaineJourDeLaSemaine
         // il faudrait une fonction pour changer le jour en today/tonight si c'est pertinent
@@ -178,7 +178,7 @@ class ParseurJSONYrNo: ParseurJSON {
         
         var chaineJourDeLaSemaine = joursDeLaSemaine[calendrierLocal.component(.weekday, from: heurePrevision) - 1]
         if intHeureLocalePrevision == 18 {
-          chaineJourDeLaSemaine = chaineJourDeLaSemaine + " night"
+          chaineJourDeLaSemaine = chaineJourDeLaSemaine + NSLocalizedString(" night", comment: "")
         }
         previsionJourEnEdition!.chainePeriode = chaineJourDeLaSemaine
         
@@ -245,7 +245,7 @@ class ParseurJSONYrNo: ParseurJSON {
           
           var chaineJourDeLaSemaine = joursDeLaSemaine[calendrierLocal.component(.weekday, from: heurePrevision) - 1]
           if intHeureLocalePrevision >= 18 {
-            chaineJourDeLaSemaine = chaineJourDeLaSemaine + " night"
+            chaineJourDeLaSemaine = chaineJourDeLaSemaine + NSLocalizedString(" night", comment: "")
           }
           previsionJourEnEdition!.chainePeriode = chaineJourDeLaSemaine
           

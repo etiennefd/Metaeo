@@ -322,9 +322,11 @@
 "light snow and blowing snow" = "Neige faible et poudrerie élevée";
 "rain or drizzle" = "Pluie ou bruine";
 "chance of rain or drizzle" = "Possibilité de pluie ou bruine";
+"chance of rain showers or flurries" = "Possibilité d'averses de pluie ou de neige";
+"a few flurries. risk of freezing rain" = "Quelques averses de neige. Risque de pluie verglaçante";
 
 //MARK: Autres conditions reçues
-"slight chance rain showers" = "Faible possibilité d’averses de pluie";
+//"slight chance rain showers" = "Faible possibilité d’averses de pluie";
 //"mostly sunny then slight chance rain showers" = "Mostly sunny then slight chance rain showers";
 
 // MARK: Mots utilisés par la NOAA que j'ai enlevés
@@ -335,3 +337,4 @@
 "Last updated at:" = "Dernière mise à jour à";
 "Observed at:" = "Lieu d'observation :";
 "Source:" = "Source :";
+" night" = " soir";

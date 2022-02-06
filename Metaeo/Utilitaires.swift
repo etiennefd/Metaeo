@@ -17,10 +17,22 @@ enum TypePrevision {
 
 enum PointCardinal: String {
   case N, NNE, NE, ENE, E, ESE, SE, SSE, S, SSW, SW, WSW, W, WNW, NW, NNW
+  
+  var localizedString: String {
+    return NSLocalizedString(self.rawValue, comment: "")
+  }
 }
 
 enum TendancePression: String {
   case falling, rising, steady
+
+  var fleche: String {
+    switch self {
+    case .falling: return "↓"
+    case .rising: return "↑"
+    case .steady: return "→"
+    }
+  }
 }
 
 enum FormatDonnees {

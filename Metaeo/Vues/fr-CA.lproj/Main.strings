@@ -98,6 +98,9 @@
 /* Class = "UILabel"; text = "Pounds per square inch (psi)"; ObjectID = "QRe-Gq-pg8"; */
 "QRe-Gq-pg8.text" = "Livre par pouce carré (psi)";
 
+/* Class = "UILabel"; text = "Current conditions in"; ObjectID = "QST-pL-fcl"; */
+"QST-pL-fcl.text" = "Conditions actuelles à";
+
 /* Class = "UILabel"; text = "degrés"; ObjectID = "Qa9-hu-zkw"; */
 "Qa9-hu-zkw.text" = "degrés";
 

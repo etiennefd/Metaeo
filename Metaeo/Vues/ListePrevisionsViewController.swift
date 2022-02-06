@@ -34,6 +34,8 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
   @IBOutlet weak var listePrevisionsTableView: UITableView!
   @IBOutlet weak var periodesCollectionView: UICollectionView!
   @IBOutlet weak var itemNavigationLieu: UINavigationItem!
+  @IBOutlet weak var etiquetteVille: UILabel!
+  @IBOutlet weak var etiquetteRegionPays: UILabel!
   
   var feedbackGeneratorSelectionSource : UIImpactFeedbackGenerator? = nil
   var feedbackGeneratorSelectionPeriode : UISelectionFeedbackGenerator? = nil
@@ -84,7 +86,12 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     guard let lieu = self.lieuEnAffichage else {
       return
     }
-    self.itemNavigationLieu.title = lieu.locality ?? "Unknown city"
+    //self.itemNavigationLieu.title = lieu.name ?? "Unknown locality"
+    self.etiquetteVille.text = lieu.locality ?? "Unknown locality"
+    // à déterminer : utiliser le name ou la locality?
+    let region = (lieu.administrativeArea != nil) ? "\(lieu.administrativeArea!), " : ""
+    let regionPays = region + (lieu.country ?? "")
+    self.etiquetteRegionPays.text = regionPays
     self.importeEtRechargeDonnees(forcerImportation: false)
   }
   

@@ -198,6 +198,7 @@ enum Condition: String {
   case rainOrDrizzle = "rain or drizzle"
   case periodsOfRainOrDrizzle = "periods of rain or drizzle"
   case chanceOfRainOrDrizzle = "chance of rain or drizzle"
+  case aFewFlurriesRiskOfFreezingRain = "a few flurries. risk of freezing rain"
 
   // MARK: yr.no
   // Les cas commentés sont ceux qui sont identiques à une condition déjà définie ci-dessus
@@ -530,9 +531,7 @@ extension Prevision {
     // MARK: Neige et glace
       
     case .lightFlurries,
-         .aFewFlurries,
          .chanceOfFlurries,
-         .aFewWetFlurries,
          .chanceOfLightSnow,
          .lightSnowshower,
          .lightSnowShowersYR,
@@ -549,7 +548,10 @@ extension Prevision {
          .snow,
          .wetSnow,
          .flurries,
+         .aFewFlurries,
+         .aFewFlurriesRiskOfFreezingRain,
          .wetFlurries,
+         .aFewWetFlurries,
          .chanceOfSnow,
          .periodsOfSnow,
          .lightSnowYR,
@@ -568,11 +570,7 @@ extension Prevision {
          .heavySnowYR,
          .heavyShowerSnowOWM:
       return UIImage(named: "heavy snow")
-    case .lightRainShowerAndFlurries,
-         .aFewRainShowersOrFlurries,
-         .aFewFlurriesOrShowers,
-         .aFewFlurriesOrRainShowers,
-         .chanceOfFlurriesOrRainShowers,
+    case .chanceOfFlurriesOrRainShowers,
          .chanceOfRainShowersOrFlurries,
          .chanceOfSnowOrRain,
          .chanceOfFlurriesRiskOfFreezingDrizzle,
@@ -587,6 +585,10 @@ extension Prevision {
     case .rainAndFlurries,
          .rainShowersAndFlurries,
          .rainAndSnow,
+         .lightRainShowerAndFlurries,
+         .aFewRainShowersOrFlurries,
+         .aFewFlurriesOrShowers,
+         .aFewFlurriesOrRainShowers,
          .lightRainAndSnow,
          .heavyRainShowerAndFlurries,
          .heavyRainAndSnow,

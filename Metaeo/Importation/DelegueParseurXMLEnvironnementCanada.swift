@@ -71,7 +71,11 @@ class DelegueParseurXMLEnvironnementCanada: NSObject, DelegueParseurXML {
         }
         self.previsionEnEdition.chaineCondition = data
       case (_, "station"):
-        self.previsionEnEdition.lieu = data
+        if self.previsionEnEdition.lieu != nil {
+          self.previsionEnEdition.lieu += data // hack pour régler "Montréal-Trudeau int'l airport", qui coupe en deux avant l'accent...
+        } else {
+          self.previsionEnEdition.lieu = data
+        }
       case ("forecast", "textSummary"):
         self.previsionEnEdition.detailsCondition = data
       case (_, "dewpoint"):
