@@ -151,7 +151,10 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     previsionsParSourceAffichees.removeAll()
     self.sourceEnSelection = previsionsStockees.keys.first
     
-    for (_, previsionsParPeriode) in previsionsStockees {
+    for source in self.donneesEnAffichage!.ordreSources {
+      guard let previsionsParPeriode = previsionsStockees[source] else {
+        continue
+      }
       
       // Pour déboguer en imprimant les prévisions, décommenter ceci :
       //printPrevisionsParPeriode(previsionsParPeriode)
@@ -242,7 +245,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     return cellule
   }
   
-  // Réordonner
+  // MARK: Réordonner
 
   func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
     return true
@@ -252,6 +255,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     let itemToMove = previsionsParSourceAffichees[sourceIndexPath.row]
     previsionsParSourceAffichees.remove(at: sourceIndexPath.row)
     previsionsParSourceAffichees.insert(itemToMove, at: destinationIndexPath.row)
+    donneesEnAffichage?.ordreSources = previsionsParSourceAffichees.map({ $0.source })
   }
   
   // enlève le bouton supprimer pendant l'édition de la table
@@ -264,7 +268,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     return false
   }
 
-  //MARK: UICollectionViewDataSource
+  // MARK: UICollectionViewDataSource
 
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return self.previsionsParPeriodeAffichees.count

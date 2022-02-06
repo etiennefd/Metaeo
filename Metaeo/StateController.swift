@@ -25,6 +25,8 @@ struct DonneesPourLieu {
   var heureLeverDuSoleil: Date?
   var heureCoucherDuSoleil: Date?
   
+  var ordreSources: [SourcePrevision]! // sauvegarde l'ordre des sources lorsque changé par l'utilisateur
+
   init(_ lieu: CLPlacemark) {
     self.lieu = lieu
   }
@@ -148,6 +150,7 @@ class StateController: NSObject {
     
     // 2. obtenir les services météo pertinents pour cette localisation
     let sources = sourcesPourLieu(lieu)
+    donneesImportees.ordreSources = sources // ordre d'affichage. Par défaut, selon la fonction sourcesPourLieu (source spécifique au pays en premier)
     
     // 3. boucle pour importer les données de chaque source
     for source in sources {
@@ -271,7 +274,7 @@ class StateController: NSObject {
   
   // Donne les services météo qui s'appliquent à une localisation donnée
   private func sourcesPourLieu(_ lieu: CLPlacemark) -> [SourcePrevision] {
-    let sourcesMondeEntier: [SourcePrevision] = [.yrNo, .openWeatherMap]
+    let sourcesMondeEntier: [SourcePrevision] = [.yrNo, .openWeatherMap] // mettre en ordre alphabétique
     var sourcesPays: [SourcePrevision]
     switch lieu.country {
     case "Canada":
@@ -281,7 +284,7 @@ class StateController: NSObject {
     default:
       sourcesPays = []
     }
-    return sourcesMondeEntier + sourcesPays
+    return sourcesPays + sourcesMondeEntier
   }
   
   // Donne l'URL de la source de données pour la localisation donnée
