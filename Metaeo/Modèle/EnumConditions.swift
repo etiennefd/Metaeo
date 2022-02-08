@@ -199,6 +199,7 @@ enum Condition: String {
   case periodsOfRainOrDrizzle = "periods of rain or drizzle"
   case chanceOfRainOrDrizzle = "chance of rain or drizzle"
   case aFewFlurriesRiskOfFreezingRain = "a few flurries. risk of freezing rain"
+  case chanceOfDrizzle = "chance of drizzle"
 
   // MARK: yr.no
   // Les cas commentés sont ceux qui sont identiques à une condition déjà définie ci-dessus
@@ -522,6 +523,7 @@ extension Prevision {
          .possibilityOfDrizzle,
          .possibilityOfDrizzleMixedWithFreezingDrizzle,
          .periodsOfDrizzle,
+         .chanceOfDrizzle,
          .chanceDrizzleNOAA,
          .lightIntensityDrizzleOWM,
          .heavyIntensityDrizzleOWM,

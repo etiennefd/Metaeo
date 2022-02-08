@@ -151,6 +151,7 @@ class StateController: NSObject {
     // 2. obtenir les services météo pertinents pour cette localisation
     let sources = sourcesPourLieu(lieu)
     donneesImportees.ordreSources = sources // ordre d'affichage. Par défaut, selon la fonction sourcesPourLieu (source spécifique au pays en premier)
+    // TODO: sauvegarder l'ordre choisi par l'utilisateur; ne pas changer l'ordre si on change de lieu et que c'est les mêmes sources
     
     // 3. boucle pour importer les données de chaque source
     for source in sources {
