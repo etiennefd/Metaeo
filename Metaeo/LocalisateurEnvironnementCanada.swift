@@ -37,7 +37,7 @@ class LocalisateurEnvironnementCanada {
       rows.removeFirst() // "Site Names,,,,"
       rows.removeFirst() // "Codes,English Names,Province Codes,Latitude,Longitude"
       for row in rows {
-        print(row)
+        //print(row)
         let columns = row.components(separatedBy: ",")
         if columns.count != 5 {
           continue

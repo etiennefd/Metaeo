@@ -34,8 +34,8 @@ class RechercheLieuTableViewController : UITableViewController {
     let cell = tableView.dequeueReusableCell(withIdentifier: "CelluleResultatRechercheLieu")!
     let searchResult = searchResults[indexPath.row]
     cell.textLabel?.text = searchResult.title
-    print(searchResult.title)
-    print(searchResult.subtitle)
+//    print(searchResult.title)
+//    print(searchResult.subtitle)
     cell.detailTextLabel?.text = searchResult.subtitle
     return cell
   }

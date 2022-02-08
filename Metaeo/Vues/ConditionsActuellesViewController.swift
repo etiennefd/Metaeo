@@ -105,8 +105,8 @@ class ConditionsActuellesViewController: UIViewController, UIAdaptivePresentatio
       guard let lieu = self.stateController.lieuEnAffichage else {
         return
       }
-      print("\(stateController.lieuUtilisateur.coordinate.latitude), \(stateController.lieuUtilisateur.coordinate.longitude)")
-      print("\(lieu)")
+      //print("\(stateController.lieuUtilisateur.coordinate.latitude), \(stateController.lieuUtilisateur.coordinate.longitude)")
+      //print("\(lieu)")
       
       self.stateController?.importeDonneesPourLieu(lieu) { [weak self] (donneesPourLieu) in
         self?.donneesEnAffichage = donneesPourLieu

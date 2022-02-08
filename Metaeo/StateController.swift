@@ -277,10 +277,10 @@ class StateController: NSObject {
   private func sourcesPourLieu(_ lieu: CLPlacemark) -> [SourcePrevision] {
     let sourcesMondeEntier: [SourcePrevision] = [.yrNo, .openWeatherMap] // mettre en ordre alphabétique
     var sourcesPays: [SourcePrevision]
-    switch lieu.country {
-    case "Canada":
+    switch lieu.isoCountryCode {
+    case "CA":
       sourcesPays = [.environnementCanada]
-    case "United States":
+    case "US":
       sourcesPays = [.NOAA]
     default:
       sourcesPays = []
@@ -383,7 +383,7 @@ extension StateController: CLLocationManagerDelegate {
   
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     if let location = locations.first {
-      print("location: \(location)")
+      //print("location: \(location)")
     }
   }
   
