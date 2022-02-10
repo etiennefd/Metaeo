@@ -10,7 +10,7 @@ import UIKit
 
 struct Prevision: CustomDebugStringConvertible {
   
-  //MARK: Propriétés
+  // MARK: Propriétés
   
   var type: TypePrevision!
   
@@ -63,7 +63,7 @@ struct Prevision: CustomDebugStringConvertible {
   
   var dateFormatterPrevisionHoraire = DateFormatter()
   
-  //MARK: Initialisation
+  // MARK: Initialisation
   
   init() {
     // Date Formatter
@@ -72,7 +72,7 @@ struct Prevision: CustomDebugStringConvertible {
     dateFormatterPrevisionHoraire.locale = Locale.current // à faire : s'assurer que l'heure affichée corresponde au fuseau horaire du lieu, pas de l'utilisateur
   }
   
-  //MARK: Getters
+  // MARK: Getters
   
   func donneTemperature() -> Measurement<UnitTemperature>? {
     return self.temperature ?? (self.estNuit() ? self.temperatureMin : self.temperatureMax)
@@ -100,7 +100,7 @@ struct Prevision: CustomDebugStringConvertible {
     if self.type == .horaire {
       return self.donneChaineHeure()
     } else {
-      return self.chainePeriode
+      return NSLocalizedString(self.chainePeriode ?? "Unknown time", comment: "")
     }
   }
   
@@ -199,7 +199,7 @@ struct Prevision: CustomDebugStringConvertible {
     return false
   }
   
-  //MARK: Description
+  // MARK: Description
 
   var debugDescription: String {
     //return "Prévision pour \(lieu ?? "[erreur lieu]") à \(heureDebut ?? Date()) : \(temperature ?? temperatureMax ?? temperatureMin ?? -999) °C. "
