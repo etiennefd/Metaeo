@@ -11,6 +11,7 @@ import Foundation
 class ParseurJSONYrNo: ParseurJSON {
   
   func parseJSON(_ json: JSON, completionHandler: @escaping (Prevision?, [Date : Prevision]?, [Date : Prevision]?) -> Void) {
+    var conditionsActuelles: Prevision! = nil
     var previsionsParHeure = [Date : Prevision]()
     var previsionsParJour = [Date : Prevision]()
     
@@ -72,6 +73,12 @@ class ParseurJSONYrNo: ParseurJSON {
       
       // Ajouter la prévision horaire
       previsionsParHeure[heurePrevision] = previsionHoraireEnEdition
+      
+      // La première prévision horaire dans la liste sera les conditions actuelles (on suppose que ça va toujours commencer par le time point le plus proche)
+      if conditionsActuelles == nil {
+        conditionsActuelles = previsionHoraireEnEdition
+        conditionsActuelles.type = .actuel
+      }
       
       // Pour les prévisions par jour, c'est un peu plus compliqué
       
@@ -299,7 +306,7 @@ class ParseurJSONYrNo: ParseurJSON {
       }
     }
     
-    completionHandler(nil, previsionsParJour, previsionsParHeure)
+    completionHandler(conditionsActuelles, previsionsParJour, previsionsParHeure)
   }
 }
 
