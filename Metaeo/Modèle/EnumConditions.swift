@@ -200,6 +200,8 @@ enum Condition: String {
   case chanceOfRainOrDrizzle = "chance of rain or drizzle"
   case aFewFlurriesRiskOfFreezingRain = "a few flurries. risk of freezing rain"
   case chanceOfDrizzle = "chance of drizzle"
+  case rainAndFog = "rain and fog"
+  case rainShowersOrFlurries = "rain showers or flurries"
 
   // MARK: yr.no
   // Les cas commentés sont ceux qui sont identiques à une condition déjà définie ci-dessus
@@ -248,6 +250,7 @@ enum Condition: String {
   // MARK: NOAA
   // Les cas commentés sont ceux qui sont identiques à une condition déjà définie ci-dessus.
   // De plus, les conditions avec "slight chance" ou "likely" sont assimilées à celles avec "chance".
+  // Même chose avec "scattered" qui est inclus dans "isolated"
   //case sunnyNOAA = "sunny"
   case mostlySunnyNOAA = "mostly sunny"
   case partlySunnyNOAA = "partly sunny"
@@ -346,6 +349,9 @@ enum Condition: String {
   case chanceRainAndSnowNOAA = "chance rain and snow"
   case chanceLightSnowNOAA = "chance light snow"
   case fogMistNOAA = "fog/mist"
+  case isolatedSnowShowersNOAA = "isolated snow showers"
+  case chanceVeryLightSnowNOAA = "chance very light snow"
+  case snowAndFogNOAA = "snow and fog"
 
   // MARK: OpenWeatherMap
   // Les cas commentés sont ceux qui sont identiques à une condition déjà définie ci-dessus.
@@ -485,6 +491,7 @@ extension Prevision {
          .rain,
          .rainAndDrizzle,
          .rainOrDrizzle,
+         .rainAndFog,
          .periodsOfRainOrDrizzle,
          .chanceOfRainOrDrizzle,
          .showers,
@@ -540,6 +547,7 @@ extension Prevision {
          .snowShowersYR,
          .heavySnowShowersYR,
          .snowShowersNOAA,
+         .isolatedSnowShowersNOAA,
          .chanceSnowShowersNOAA,
          .chanceFlurriesNOAA,
          .chanceLightSnowNOAA,
@@ -558,6 +566,8 @@ extension Prevision {
          .periodsOfSnow,
          .lightSnowYR,
          .chanceSnowNOAA,
+         .chanceVeryLightSnowNOAA,
+         .snowAndFogNOAA,
          .showerSnowOWM:
       return UIImage(named: "snow")
     case .heavySnow,
@@ -588,6 +598,7 @@ extension Prevision {
          .rainShowersAndFlurries,
          .rainAndSnow,
          .lightRainShowerAndFlurries,
+         .rainShowersOrFlurries,
          .aFewRainShowersOrFlurries,
          .aFewFlurriesOrShowers,
          .aFewFlurriesOrRainShowers,
