@@ -11,6 +11,7 @@ import Foundation
 class ParseurJSONNOAA: ParseurJSON {
   
   let dateFormatter = DateFormatter()
+  let dispatchGroup = DispatchGroup() // pour s'assurer que le parseur retourne uniquement une fois que tout a été parsé.
   
   func parseJSON(_ json: JSON, completionHandler: @escaping (Prevision?, [Date : Prevision]?, [Date : Prevision]?) -> Void) {
     
@@ -24,23 +25,20 @@ class ParseurJSONNOAA: ParseurJSON {
     let urlForecastHourly = json["properties"]["forecastHourly"].stringValue
     let urlStations = json["properties"]["observationStations"].stringValue
     
-    let dispatchGroup = DispatchGroup()
-    // il faut que cette fonction retourne uniquement une fois que tout a été parsé.
-    
     // 1. Importer le JSON des prévisions par jour (ex. https://api.weather.gov/gridpoints/LWX/96,70/forecast)
     dispatchGroup.enter()
     let taskForecast = URLSession.shared.dataTask(with: URL(string: urlForecast)!) { data, response, error in
       guard let data = data, error == nil else {
         print(error ?? "Erreur inconnue du côté client lors de l'importation des prévisions par jour de la NOAA")
         //self.handleClientError(error)
-        dispatchGroup.leave()
+        self.dispatchGroup.leave()
         return
       }
       guard let httpResponse = response as? HTTPURLResponse,
         (200...299).contains(httpResponse.statusCode) else {
           print(error ?? "Erreur inconnue du côté serveur (code HTTP pas dans les 200) lors de l'importation des prévisions par jour de la NOAA")
           //self.handleServerError(response)
-          dispatchGroup.leave()
+          self.dispatchGroup.leave()
           return
       }
       // Parser le JSON
@@ -50,24 +48,24 @@ class ParseurJSONNOAA: ParseurJSON {
       } catch {
         print("Erreur de parsage JSON pour les prévisions par jour de la NOAA")
       }
-      dispatchGroup.leave()
+      self.dispatchGroup.leave()
     }
     taskForecast.resume()
     
     // 2. Importer le JSON des prévisions par heure (ex. https://api.weather.gov/gridpoints/LWX/96,70/forecast/hourly)
-    dispatchGroup.enter()
+    self.dispatchGroup.enter()
     let taskForecastHourly = URLSession.shared.dataTask(with: URL(string: urlForecastHourly)!) { data, response, error in
       guard let data = data, error == nil else {
         print(error ?? "Erreur inconnue du côté client lors de l'importation des prévisions horaires de la NOAA")
         //self.handleClientError(error)
-        dispatchGroup.leave()
+        self.dispatchGroup.leave()
         return
       }
       guard let httpResponse = response as? HTTPURLResponse,
         (200...299).contains(httpResponse.statusCode) else {
           print(error ?? "Erreur inconnue du côté serveur (code HTTP pas dans les 200) lors de l'importation des prévisions horaires de la NOAA")
           //self.handleServerError(response)
-          dispatchGroup.leave()
+          self.dispatchGroup.leave()
           return
       }
       // Parser le JSON
@@ -77,7 +75,7 @@ class ParseurJSONNOAA: ParseurJSON {
       } catch {
         print("Erreur de parsage JSON pour les prévisions horaires de la NOAA")
       }
-      dispatchGroup.leave()
+      self.dispatchGroup.leave()
     }
     taskForecastHourly.resume()
     
@@ -88,14 +86,14 @@ class ParseurJSONNOAA: ParseurJSON {
       guard let data = data, error == nil else {
         print(error ?? "Erreur inconnue du côté client lors de l'importation des stations de la NOAA")
         //self.handleClientError(error)
-        dispatchGroup.leave()
+        self.dispatchGroup.leave()
         return
       }
       guard let httpResponse = response as? HTTPURLResponse,
         (200...299).contains(httpResponse.statusCode) else {
           print(error ?? "Erreur inconnue du côté serveur (code HTTP pas dans les 200) lors de l'importation des stations de la NOAA")
           //self.handleServerError(response)
-          dispatchGroup.leave()
+          self.dispatchGroup.leave()
           return
       }
       // Parser le JSON
@@ -104,19 +102,19 @@ class ParseurJSONNOAA: ParseurJSON {
         let urlObservations = self.parseJSONStations(json)
         
         // 4. À l'intérieur du completion handler de la tâche des stations, faire la tâche des observations
-        dispatchGroup.enter()
+        self.dispatchGroup.enter()
         let taskObservations = URLSession.shared.dataTask(with: URL(string: urlObservations)!) { data, response, error in
           guard let data = data, error == nil else {
             print(error ?? "Erreur inconnue du côté client lors de l'importation des observations de la NOAA")
             //self.handleClientError(error)
-            dispatchGroup.leave()
+            self.dispatchGroup.leave()
             return
           }
           guard let httpResponse = response as? HTTPURLResponse,
             (200...299).contains(httpResponse.statusCode) else {
               print(error ?? "Erreur inconnue du côté serveur (code HTTP pas dans les 200) lors de l'importation des observations de la NOAA")
               //self.handleServerError(response)
-              dispatchGroup.leave()
+              self.dispatchGroup.leave()
               return
           }
           // Parser le JSON
@@ -126,18 +124,18 @@ class ParseurJSONNOAA: ParseurJSON {
           } catch {
             print("Erreur de parsage JSON pour les observations de la NOAA")
           }
-          dispatchGroup.leave()
+          self.dispatchGroup.leave()
         }
         taskObservations.resume()
       } catch {
         print("Erreur de parsage JSON pour les stations de la NOAA")
       }
-      dispatchGroup.leave()
+      self.dispatchGroup.leave()
     }
     taskStations.resume()
 
     // Appeler le completionHandler une fois que toutes les tâches ont été complétées
-    dispatchGroup.notify(queue: .main) {
+    self.dispatchGroup.notify(queue: .main) {
       completionHandler(conditionsActuelles, previsionsParJour, previsionsParHeure)
     }
   }
@@ -263,6 +261,7 @@ class ParseurJSONNOAA: ParseurJSON {
     var conditionsActuelles = Prevision()
     conditionsActuelles.type = .actuel
     conditionsActuelles.source = .NOAA
+//    conditionsActuelles.lieu = 
     
     let objetPrevision = json["properties"]
 
