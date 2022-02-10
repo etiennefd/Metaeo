@@ -237,6 +237,13 @@ class StateController: NSObject {
               // Mettre à jour les données à afficher
               if let conditionsActuelles = conditionsActuelles {
                 donneesImportees.conditionsActuelles[source] = conditionsActuelles
+                // Certaines conditions actuelles incluent le lever et coucher du soleil. Il en faut au moins une.
+                if let heureLeverDuSoleil = conditionsActuelles.heureLeverDuSoleil, donneesImportees.heureLeverDuSoleil == nil {
+                  donneesImportees.heureLeverDuSoleil = heureLeverDuSoleil
+                }
+                if let heureCoucherDuSoleil = conditionsActuelles.heureCoucherDuSoleil, donneesImportees.heureCoucherDuSoleil == nil {
+                  donneesImportees.heureCoucherDuSoleil = heureCoucherDuSoleil
+                }
               }
               if let previsionsParJour = previsionsParJour {
                 donneesImportees.previsionsParJour[source] = previsionsParJour
@@ -244,7 +251,6 @@ class StateController: NSObject {
               if let previsionsParHeure = previsionsParHeure {
                 donneesImportees.previsionsParHeure[source] = previsionsParHeure
               }
-              // coucher de soleil, etc.?
               self.dispatchGroup.leave()
             }
           } catch {
@@ -261,6 +267,42 @@ class StateController: NSObject {
     }
     // 4. appeler le completionHandler avec la struct de données complétée, mais seulement après que toutes les tâches du dispatchGroup sont finies
     self.dispatchGroup.notify(queue: .main) {
+      
+      // À la fin des importations, si on a des heures de coucher et lever (et normalement on en a), on les ajoute à toutes les prévisions qui n'en ont pas déjà
+      if let heureLeverDuSoleil = donneesImportees.heureLeverDuSoleil, let heureCoucherDuSoleil = donneesImportees.heureCoucherDuSoleil {
+        for (source, var prevision) in donneesImportees.conditionsActuelles {
+          if prevision.heureLeverDuSoleil == nil {
+            prevision.heureLeverDuSoleil = heureLeverDuSoleil
+          }
+          if prevision.heureCoucherDuSoleil == nil {
+            prevision.heureCoucherDuSoleil = heureCoucherDuSoleil
+          }
+          donneesImportees.conditionsActuelles[source] = prevision
+        }
+        for (source, datePrevision) in donneesImportees.previsionsParJour {
+          for (date, var prevision) in datePrevision {
+            if prevision.heureLeverDuSoleil == nil {
+              prevision.heureLeverDuSoleil = heureLeverDuSoleil
+            }
+            if prevision.heureCoucherDuSoleil == nil {
+              prevision.heureCoucherDuSoleil = heureCoucherDuSoleil
+            }
+            donneesImportees.previsionsParJour[source]![date] = prevision
+          }
+        }
+        for (source, datePrevision) in donneesImportees.previsionsParHeure {
+          for (date, var prevision) in datePrevision {
+            if prevision.heureLeverDuSoleil == nil {
+              prevision.heureLeverDuSoleil = heureLeverDuSoleil
+            }
+            if prevision.heureCoucherDuSoleil == nil {
+              prevision.heureCoucherDuSoleil = heureCoucherDuSoleil
+            }
+            donneesImportees.previsionsParHeure[source]![date] = prevision
+          }
+        }
+      }
+      
       self.toutesLesDonneesImportees[lieu] = donneesImportees
       completionHandler(donneesImportees)
     }
@@ -321,7 +363,7 @@ class StateController: NSObject {
       //return URL(string: "https://api.weather.gov/points/44,-73")! //
     case .openWeatherMap:
       return URL(string: "https://api.openweathermap.org/data/2.5/onecall?lat=\(latitudeArrondie)&lon=\(longitudeArrondie)&units=metric&appid=\(cleAPIOpenWeatherMap)")!
-//      return URL(string: "https://api.openweathermap.org/data/2.5/onecall?lat=45.5088&lon=-73.5878&units=metric&appid=\(cleAPIOpenWeatherMap)")! // Montréal
+//      return URL(string: "https://api.openweathermap.org/data/2.5/onecall?lat=45.5088&lon=-73.5878&units=metric&appid=e71025163053c7a0920b4dc66baba55a")! // Montréal
     default:
       return nil
     }
