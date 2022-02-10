@@ -325,6 +325,11 @@
 "chance of rain showers or flurries" = "Possibilité d'averses de pluie ou de neige";
 "a few flurries. risk of freezing rain" = "Quelques averses de neige. Risque de pluie verglaçante";
 "chance of drizzle" = "Possibilité de bruine";
+"rain and fog" = "Pluie et brouillard";
+"isolated snow showers" = "Averses de neige isolées";
+"chance very light snow" = "Possibilité de neige très légère";
+"snow and fog" = "Neige et brouillard";
+"rain showers or flurries" = "Averses de pluie ou de neige";
 
 //MARK: Autres conditions reçues
 //"slight chance rain showers" = "Faible possibilité d’averses de pluie";
@@ -339,3 +344,17 @@
 "Observed at:" = "Lieu d'observation :";
 "Source:" = "Source :";
 " night" = " soir";
+"Monday" = "lundi";
+"Monday night" = "lundi soir";
+"Tuesday" = "mardi";
+"Tuesday night" = "mardi soir";
+"Wednesday" = "mercredi";
+"Wednesday night" = "mercredi soir";
+"Thursday" = "jeudi";
+"Thursday night" = "jeudi soir";
+"Friday" = "vendredi";
+"Friday night" = "vendredi soir";
+"Saturday" = "samedi";
+"Saturday night" = "samedi soir";
+"Sunday" = "dimanche";
+"Sunday night" = "dimanche soir";

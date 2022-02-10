@@ -325,6 +325,11 @@
 "chance of rain showers or flurries" = "Chance of rain showers or flurries";
 "a few flurries. risk of freezing rain" = "A few flurries. Risk of freezing rain";
 "chance of drizzle" = "Chance of drizzle";
+"rain and fog" = "Rain and fog";
+"isolated snow showers" = "Isolated snow showers";
+"chance very light snow" = "Chance very light snow";
+"snow and fog" = "Snow and fog";
+"rain showers or flurries" = "Rain showers or flurries";
 
 // MARK: Autres conditions reçues
 //"slight chance rain showers" = "Slight chance rain showers";
@@ -339,3 +344,17 @@
 "Observed at:" = "Observed at:";
 "Source:" = "Source:";
 " night" = " night";
+"Monday" = "Monday";
+"Monday night" = "Monday night";
+"Tuesday" = "Tuesday";
+"Tuesday night" = "Tuesday night";
+"Wednesday" = "Wednesday";
+"Wednesday night" = "Wednesday night";
+"Thursday" = "Thursday";
+"Thursday night" = "Thursday night";
+"Friday" = "Friday";
+"Friday night" = "Friday night";
+"Saturday" = "Saturday";
+"Saturday night" = "Saturday night";
+"Sunday" = "Sunday";
+"Sunday night" = "Sunday night";
