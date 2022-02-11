@@ -19,7 +19,7 @@
 "rain" = "Pluie";
 "freezing rain" = "Pluie verglaçante";
 "flurries" = "Averses de neige";
-"light snow" = "Faible neige";
+"light snow" = "Neige faible";
 "snow" = "Neige";
 "fog" = "Brouillard";
 "fog patches" = "Bancs de brouillard";
@@ -120,6 +120,7 @@
 "chance of rain or freezing rain" = "Possibilité de pluie ou de pluie verglaçante";
 "a few rain showers or flurries" = "Quelques averses de pluie ou de neige";
 "periods of rain or snow" = "Pluie intermittente ou neige intermittente";
+"periods of snow or rain" = "Neige intermittente ou pluie intermittente";
 "a few rain showers or wet flurries" = "Quelques averses de pluie ou de neige fondante";
 "snow mixed with rain" = "Neige mêlée de pluie";
 "chance of snow mixed with freezing rain" = "Possibilité de neige mêlée de pluie verglaçante";
@@ -158,7 +159,7 @@
 "not available" = "Non disponible";
 "a few flurries or showers" = "Quelques averses de neige ou de pluie";
 "chance of snow or rain" = "Possibilité de neige ou de pluie";
-"chance of light snow" = "Possibilité de faible neige";
+"chance of light snow" = "Possibilité de neige faible";
 "snow and blowing snow" = "Neige et poudrerie";
 "rainshower" = "Averse de pluie";
 "chance of showers. risk of thunderstorms" = "Possibilité d’averses. Risque d’orages";
