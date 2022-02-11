@@ -118,8 +118,9 @@ class ParseurJSONOpenWeatherMap: ParseurJSON {
     
     // Prévisions par jour
     
-    let calendrierLocal = Calendar.current
+    var calendrierLocal = Calendar.current
     //calendar.timeZone = timeZone du lieu de la prévision
+    calendrierLocal.locale = Locale(identifier: "en_US")
     let joursDeLaSemaine = calendrierLocal.weekdaySymbols
     
     let dailyForecasts = json["daily"].arrayValue

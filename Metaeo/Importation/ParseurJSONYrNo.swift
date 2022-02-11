@@ -83,7 +83,8 @@ class ParseurJSONYrNo: ParseurJSON {
       // Pour les prévisions par jour, c'est un peu plus compliqué
       
       let heureActuelle = Date()
-      let calendrierLocal = Calendar.current
+      var calendrierLocal = Calendar.current
+      calendrierLocal.locale = Locale(identifier: "en_US")
       //calendar.timeZone = timeZone du lieu de la prévision
       let intHeureLocalePrevision = calendrierLocal.component(.hour, from: heurePrevision)
       let intHeureLocaleActuelle = calendrierLocal.component(.hour, from: heureActuelle)
@@ -108,7 +109,7 @@ class ParseurJSONYrNo: ParseurJSON {
 
         var chaineJourDeLaSemaine = joursDeLaSemaine[calendrierLocal.component(.weekday, from: heurePrevision) - 1]
         if (intHeureLocaleActuelle > 18 || intHeureLocaleActuelle < 4) {
-          chaineJourDeLaSemaine = chaineJourDeLaSemaine + "night"
+          chaineJourDeLaSemaine = chaineJourDeLaSemaine + " night" //problème : on veut les jours de la semaine en anglais mais ils sont localisés
         }
         previsionJourEnEdition!.chainePeriode = chaineJourDeLaSemaine
         // il faudrait une fonction pour changer le jour en today/tonight si c'est pertinent
