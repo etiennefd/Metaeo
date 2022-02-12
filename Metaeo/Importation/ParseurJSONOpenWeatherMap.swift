@@ -75,7 +75,7 @@ class ParseurJSONOpenWeatherMap: ParseurJSON {
       previsionHoraire.heureDebut = heurePrevision
       previsionHoraire.heureLeverDuSoleil = heureLeverDuSoleil
       previsionHoraire.heureCoucherDuSoleil = heureCoucherDuSoleil
-      if let temperature = objetCurrent["temp"].double {
+      if let temperature = objetHourly["temp"].double {
         previsionHoraire.temperature = Measurement(value: temperature, unit: UnitTemperature.celsius)
       }
       if let temperatureRessentie = objetHourly["feels_like"].double {
