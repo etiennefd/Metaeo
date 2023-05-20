@@ -183,6 +183,7 @@ enum Condition: String {
   case thunderstormWithHeavyRainshowers = "thunderstorm with heavy rainshowers"
   case periodsOfDrizzle = "periods of drizzle"
   case lightSnowshower = "light snowshower"
+  case lightSnowshowers = "light snowshowers"
   case periodsOfSnowOrRain = "periods of snow or rain"
   case chanceOfRainShowersOrFlurries = "chance of rain showers or flurries"
   case rainOrSnow = "rain or snow"
@@ -202,6 +203,8 @@ enum Condition: String {
   case chanceOfDrizzle = "chance of drizzle"
   case rainAndFog = "rain and fog"
   case rainShowersOrFlurries = "rain showers or flurries"
+  case showersAtTimesHeavy = "showers at times heavy"
+  case showersAtTimesHeavyRiskOfThunderstorms = "showers at times heavy. risk of thunderstorms"
 
   // MARK: yr.no
   // Les cas commentés sont ceux qui sont identiques à une condition déjà définie ci-dessus
@@ -417,6 +420,7 @@ enum Condition: String {
 extension Prevision {
   func donneIcone() -> UIImage? {
     guard let condition = self.condition else {
+      // idée : utiliser un algo simple pour aller chercher une image probablement pertinente (genre nuage de pluie si la chaine inclut "rain")
       return UIImage(named: "na")
     }
     switch condition {
@@ -450,7 +454,7 @@ extension Prevision {
          .brokenCloudsOWM:
       return self.estNuit() ? UIImage(named: "mostly cloudy night") : UIImage(named: "mostly cloudy day")
     case .cloudyWithSunnyPeriods:
-      return UIImage(named: "mostly cloudy")
+      return UIImage(named: "mostly cloudy day")
     case .cloudy,
          .overcast,
          .overcastCloudsOWM:
@@ -514,6 +518,7 @@ extension Prevision {
          .heavyRainShower,
          .heavyRainAndDrizzle,
          .rainAtTimesHeavy,
+         .showersAtTimesHeavy,
          .heavyRainYR,
          .heavyIntensityDrizzleRainOWM,
          .heavyShowerRainAndDrizzleOWM,
@@ -543,6 +548,7 @@ extension Prevision {
          .chanceOfFlurries,
          .chanceOfLightSnow,
          .lightSnowshower,
+         .lightSnowshowers,
          .lightSnowShowersYR,
          .snowShowersYR,
          .heavySnowShowersYR,
@@ -706,6 +712,7 @@ extension Prevision {
          .rainOrThundershowers,
          .rainRiskOfThunderstorms,
          .rainAtTimesHeavyRiskOfThunderstorms,
+         .showersAtTimesHeavyRiskOfThunderstorms,
          .lightRainAndThunderYR,
          .rainAndThunderYR,
          .heavyRainAndThunderYR,
