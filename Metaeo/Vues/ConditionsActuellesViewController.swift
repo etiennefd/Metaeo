@@ -147,7 +147,7 @@ class ConditionsActuellesViewController: UIViewController, UIAdaptivePresentatio
         self.etiquetteRafales.text = NSLocalizedString("no", comment: "")
       }
       if let humidite = conditionsActuelles.humidite {
-        self.etiquetteHumidite.text = "\(Int(humidite.rounded())) %"
+        self.etiquetteHumidite.text = "\(Int(humidite.rounded()))%"
       }
       if let pointDeRosee = conditionsActuelles.pointDeRosee {
         self.etiquettePointDeRosee.text = stateController?.donneChaineTemperatureConvertie(pointDeRosee)
