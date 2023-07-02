@@ -34,6 +34,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
   @IBOutlet weak var listePrevisionsTableView: UITableView!
   @IBOutlet weak var periodesCollectionView: UICollectionView!
   @IBOutlet weak var itemNavigationLieu: UINavigationItem!
+  @IBOutlet weak var etiquettePrevisionPour: UILabel!
   @IBOutlet weak var etiquetteVille: UILabel!
   @IBOutlet weak var etiquetteRegionPays: UILabel!
   
@@ -130,6 +131,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     // choisir la 1re cellule dans chaque vue
     //    self.periodeEnSelection = self.previsionsStockees.values.first?.keys.sorted().first
     
+    // Sélectionner la première entrée dans la liste triée pour avoir la période et la source actuelles
     self.periodeEnSelection = previsionsStockees[.yrNo]?.keys.sorted().first
     self.sourceEnSelection = previsionsStockees.keys.first
     
@@ -215,6 +217,12 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     
     // recharger les données
     self.periodesCollectionView.reloadData()
+    
+    if let descriptionPeriode = previsionsParPeriodeAffichees.first!.donneChainePeriode() {
+      self.etiquettePrevisionPour.text = "Forecasts for \(descriptionPeriode) in"
+    } else {
+      self.etiquettePrevisionPour.text = "Forecasts for"
+    }
   }
   
   //MARK: UITableViewDataSource
@@ -303,6 +311,11 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     self.periodeEnSelection = previsionSelectionnee.heureDebut
     self.rechargeDonneesTableView()
     self.feedbackGeneratorSelectionPeriode?.selectionChanged()
+    if let descriptionPeriode = previsionSelectionnee.donneChainePeriode() {
+      self.etiquettePrevisionPour.text = "Forecasts for \(descriptionPeriode) in"
+    } else {
+      self.etiquettePrevisionPour.text = "Forecasts for"
+    }
   }
   
   // MARK: Navigation
