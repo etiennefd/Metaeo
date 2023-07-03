@@ -331,6 +331,8 @@
 "chance very light snow" = "Possibilité de neige très légère";
 "snow and fog" = "Neige et brouillard";
 "rain showers or flurries" = "Averses de pluie ou de neige";
+"showers at times heavy" = "Averses parfois fortes";
+"showers at times heavy. risk of thunderstorms" = "Averses parfois fortes avec risque d'un orage";
 
 //MARK: Autres conditions reçues
 //"slight chance rain showers" = "Faible possibilité d’averses de pluie";

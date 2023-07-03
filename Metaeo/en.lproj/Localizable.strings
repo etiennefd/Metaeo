@@ -331,6 +331,8 @@
 "chance very light snow" = "Chance very light snow";
 "snow and fog" = "Snow and fog";
 "rain showers or flurries" = "Rain showers or flurries";
+"showers at times heavy" = "Showers at times heavy";
+"showers at times heavy. risk of thunderstorms" = "Showers at times heavy. Risk of thunderstorms";
 
 // MARK: Autres conditions reçues
 //"slight chance rain showers" = "Slight chance rain showers";
