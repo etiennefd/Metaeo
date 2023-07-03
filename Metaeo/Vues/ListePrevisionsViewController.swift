@@ -63,6 +63,8 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
 //    if let lieu = self.stateController.lieuEnAffichage {
 //      self.itemNavigationLieu.title = lieu.locality ?? "Unknown city"
 //    }
+    
+    self.configureRefreshControl()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -404,6 +406,23 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     }
   }
   
+  
+  // MARK: Scroll view
+  
+  func configureRefreshControl () {
+    // Add the refresh control to your UIScrollView object.
+    self.listePrevisionsTableView.refreshControl = UIRefreshControl()
+    self.listePrevisionsTableView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+  }
+  
+  @objc func handleRefreshControl() {
+    // Update your content…
+    self.importeEtRechargeDonnees(forcerImportation: true)
+    // Dismiss the refresh control.
+    DispatchQueue.main.async {
+      self.listePrevisionsTableView.refreshControl?.endRefreshing()
+    }
+  }
   
 }
 
