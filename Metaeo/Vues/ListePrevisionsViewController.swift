@@ -135,7 +135,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     
     // Sélectionner la première entrée dans la liste triée pour avoir la période et la source actuelles
     self.periodeEnSelection = previsionsStockees[.yrNo]?.keys.sorted().first
-    self.sourceEnSelection = previsionsStockees.keys.first
+    self.sourceEnSelection = self.donneesEnAffichage?.ordreSources.first
     
     self.rechargeDonneesCollectionView()
     self.rechargeDonneesTableView()
