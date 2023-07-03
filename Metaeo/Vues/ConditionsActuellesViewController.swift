@@ -214,7 +214,7 @@ class ConditionsActuellesViewController: UIViewController, UIAdaptivePresentatio
   
   @objc func handleRefreshControl() {
     // Update your content…
-    self.importeEtRechargeDonnees(forcerImportation: true)
+    self.importeEtRechargeDonnees(forcerImportation: false)
     // Dismiss the refresh control.
     DispatchQueue.main.async {
       self.scrollView.refreshControl?.endRefreshing()
