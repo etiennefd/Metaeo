@@ -164,7 +164,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
       //printPrevisionsParPeriode(previsionsParPeriode)
       
       // remplir le tableau des prévisions par source selon la période choisie (table view)
-      if let previsionPourPeriodeEnSelection = previsionsParPeriode[self.periodeEnSelection] {
+      if let previsionPourPeriodeEnSelection = previsionsParPeriode[self.periodeEnSelection] { //ceci peut échouer si periodeEnSelection est vide
         previsionsParSourceAffichees.append(previsionPourPeriodeEnSelection)
       }
     }
@@ -215,7 +215,7 @@ class ListePrevisionsViewController: UIViewController, UITableViewDelegate, UITa
     // trier par heure
     previsionsParPeriodeAffichees.sort(by: { $0.heureDebut < $1.heureDebut })
     // sélectionner la première prévision
-    self.periodeEnSelection = previsionsParPeriodeAffichees.first?.donneHeure()
+    self.periodeEnSelection = previsionsParPeriodeAffichees.first?.donneHeure() //TODO: s'assurer que ceci n'est pas nil
     
     // recharger les données
     self.periodesCollectionView.reloadData()

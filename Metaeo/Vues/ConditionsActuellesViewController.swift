@@ -16,7 +16,8 @@ class ConditionsActuellesViewController: UIViewController, UIAdaptivePresentatio
   var stateController: StateController!
   
   var lieuEnAffichage: CLPlacemark? // seulement pour savoir s'il a changé; on préfère utiliser directement celui dans StateController
-  var sourceEnAffichage: SourcePrevision? = .environnementCanada //.openWeatherMap // à faire : mécanisme pour choisir par défaut une source
+  var sourceEnAffichage: SourcePrevision? = .environnementCanada // à faire : mécanisme pour choisir par défaut une source
+    //TODO: c'est ici qu'il faut régler quelque chose pour présenter les données ailleurs qu'au Canada. En fait il faut que j'ajoute un collectionview (ou un tableview?) avec toutes les sources potentielles et que je sélectionne le premier dans la liste par défaut
   var donneesEnAffichage: DonneesPourLieu?
   var conditionsActuelles: Prevision? {
     if let donneesEnAffichage = self.donneesEnAffichage, let sourceEnAffichage = self.sourceEnAffichage {

@@ -58,6 +58,7 @@ class LocalisateurEnvironnementCanada {
     tache.resume()
   }
   
+  // TODO: aussi obtenir la 2e station et choisir celle-ci si jamais la 1re a "Condition not observed"
   private func trouverStationPlusPresDe(latitude: Double, longitude: Double) -> StationEnvironnementCanada {
     // si on n'a pas encore chargé les données de stations, il faut le faire avant d'essayer de les utiliser
     if stations.count == 0 {
