@@ -422,26 +422,13 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="peO-iF-dT6">
-                                                <rect key="frame" x="225" y="8" width="50" height="34"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="uq0-He-z4T"/>
-                                                </constraints>
-                                                <state key="normal" title="Reload"/>
-                                                <connections>
-                                                    <action selector="reimporterDonnees:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="blp-BJ-W4g"/>
-                                                </connections>
-                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstItem="lNV-lQ-QIs" firstAttribute="trailing" secondItem="dY6-g9-jq3" secondAttribute="trailing" id="0iR-Sb-vE1"/>
-                                            <constraint firstItem="peO-iF-dT6" firstAttribute="top" secondItem="EjY-fM-u8z" secondAttribute="topMargin" id="2TP-dS-78i"/>
-                                            <constraint firstItem="dY6-g9-jq3" firstAttribute="top" secondItem="peO-iF-dT6" secondAttribute="bottom" constant="26" id="3TV-HA-MgJ"/>
                                             <constraint firstAttribute="bottom" secondItem="dY6-g9-jq3" secondAttribute="bottom" id="BcK-v5-CJe"/>
                                             <constraint firstItem="aSx-f4-jGe" firstAttribute="leading" secondItem="EjY-fM-u8z" secondAttribute="leading" id="Njm-Y7-YTo"/>
                                             <constraint firstItem="lNV-lQ-QIs" firstAttribute="centerY" secondItem="EjY-fM-u8z" secondAttribute="centerY" id="Ocf-sW-2IA"/>
-                                            <constraint firstAttribute="trailing" secondItem="peO-iF-dT6" secondAttribute="trailing" constant="99" id="X79-03-pDo"/>
                                             <constraint firstItem="aSx-f4-jGe" firstAttribute="top" secondItem="EjY-fM-u8z" secondAttribute="top" id="gQf-Nk-Jkr"/>
                                             <constraint firstItem="aSx-f4-jGe" firstAttribute="leading" secondItem="dY6-g9-jq3" secondAttribute="leading" id="hL6-f4-QM9"/>
                                             <constraint firstItem="lNV-lQ-QIs" firstAttribute="top" secondItem="aSx-f4-jGe" secondAttribute="bottom" constant="1" id="oDi-Wb-EMF"/>
@@ -745,6 +732,7 @@
                         <outlet property="etiquetteVisibilite" destination="DeI-hF-8uN" id="M0b-sL-0dQ"/>
                         <outlet property="iconeCondition" destination="Lr5-Ss-eoD" id="g3w-dJ-DKX"/>
                         <outlet property="itemNavigationLieu" destination="ZSp-dt-M9s" id="FOk-tW-nhY"/>
+                        <outlet property="scrollView" destination="H6A-eE-YRM" id="obX-sR-mPE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>

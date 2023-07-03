@@ -41,6 +41,7 @@ class ConditionsActuellesViewController: UIViewController, UIAdaptivePresentatio
   @IBOutlet weak var itemNavigationLieu: UINavigationItem!
   @IBOutlet weak var etiquetteVille: UILabel!
   @IBOutlet weak var etiquetteRegionPays: UILabel!
+  @IBOutlet weak var scrollView: UIScrollView!
   
   var resultSearchController: UISearchController? = nil
   
@@ -59,6 +60,9 @@ class ConditionsActuellesViewController: UIViewController, UIAdaptivePresentatio
     stateController.obtenirLieuDepuisLieuUtilisateur(completion: {
       self.metAJourLieu()
     })
+    
+    // Configurer le refresh control du scroll view (quand on défile vers le haut)
+    self.configureRefreshControl()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -170,13 +174,6 @@ class ConditionsActuellesViewController: UIViewController, UIAdaptivePresentatio
     }
   }
   
-  //MARK: Actions
-  
-  @IBAction func reimporterDonnees(_ sender: Any) {
-//    ImportateurPrevisions.global.importePrevisions()
-    self.importeEtRechargeDonnees(forcerImportation: true)
-  }
-  
   // MARK: Navigation
   
   // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -204,6 +201,23 @@ class ConditionsActuellesViewController: UIViewController, UIAdaptivePresentatio
   {
     if self.stateController.lieuEnAffichage != self.lieuEnAffichage {
       self.metAJourLieu()
+    }
+  }
+  
+  // MARK: Scroll view
+  
+  func configureRefreshControl () {
+    // Add the refresh control to your UIScrollView object.
+    self.scrollView.refreshControl = UIRefreshControl()
+    self.scrollView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+  }
+  
+  @objc func handleRefreshControl() {
+    // Update your content…
+    self.importeEtRechargeDonnees(forcerImportation: true)
+    // Dismiss the refresh control.
+    DispatchQueue.main.async {
+      self.scrollView.refreshControl?.endRefreshing()
     }
   }
 }
